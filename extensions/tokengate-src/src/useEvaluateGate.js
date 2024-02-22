@@ -29,8 +29,8 @@ import {
 
 // Set this to the cloudflare url that is generated when you run the server
 // The url will be something like https://12345678.ngrok.io (no trailing slash or query params)
-export const host = "https://tokengatingtestshop.myshopify.com/";
-if (host == "https://tokengatingtestshop.myshopify.com/") {
+export const host = "https://insurance-hang-siemens-countries.trycloudflare.com/";
+if (host == "https://insurance-hang-siemens-countries.trycloudflare.com/") {
   console.error("Wrong URL");
 }
 

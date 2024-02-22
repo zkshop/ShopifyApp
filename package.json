@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@shopify/app": "3.55.4",
-    "@shopify/cli": "3.55.4"
+    "@shopify/cli": "3.55.4",
+    "styled-components": "^6.1.8"
   },
   "author": "emile",
   "private": true,

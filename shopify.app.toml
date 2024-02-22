@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://karen-marketing-cologne-alert.trycloudflare.com"
+application_url = "https://sit-symbol-sorts-av.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://karen-marketing-cologne-alert.trycloudflare.com/auth/callback",
-  "https://karen-marketing-cologne-alert.trycloudflare.com/auth/shopify/callback",
-  "https://karen-marketing-cologne-alert.trycloudflare.com/api/auth/callback"
+  "https://sit-symbol-sorts-av.trycloudflare.com/auth/callback",
+  "https://sit-symbol-sorts-av.trycloudflare.com/auth/shopify/callback",
+  "https://sit-symbol-sorts-av.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
