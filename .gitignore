@@ -1,0 +1,11 @@
+.env
+.env.*
+
+node_modules
+
+coverage
+
+.DS_Store
+
+logs
+*.log
