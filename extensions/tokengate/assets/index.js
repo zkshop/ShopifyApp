@@ -18124,7 +18124,7 @@ const gateContextClient = getGateContextClient({
     }
   }
 });
-const host = "https://tokengatingtestshop.myshopify.com/";
+const host = "https://insurance-hang-siemens-countries.trycloudflare.com/";
 {
   console.error("Wrong URL");
 }

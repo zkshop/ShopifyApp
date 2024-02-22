@@ -1,9 +1,9 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
-name = "oui-app"
-handle = "oui-app"
-application_url = "https://sit-symbol-sorts-av.trycloudflare.com"
+name = "sorcel"
+handle = "sorcel"
+application_url = "https://gang-assessed-solar-viruses.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://sit-symbol-sorts-av.trycloudflare.com/auth/callback",
-  "https://sit-symbol-sorts-av.trycloudflare.com/auth/shopify/callback",
-  "https://sit-symbol-sorts-av.trycloudflare.com/api/auth/callback"
+  "https://gang-assessed-solar-viruses.trycloudflare.com/auth/callback",
+  "https://gang-assessed-solar-viruses.trycloudflare.com/auth/shopify/callback",
+  "https://gang-assessed-solar-viruses.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
