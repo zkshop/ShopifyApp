@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://alexandria-handy-snap-gamma.trycloudflare.com"
+application_url = "https://lucia-aluminium-modems-buildings.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://alexandria-handy-snap-gamma.trycloudflare.com/auth/callback",
-  "https://alexandria-handy-snap-gamma.trycloudflare.com/auth/shopify/callback",
-  "https://alexandria-handy-snap-gamma.trycloudflare.com/api/auth/callback"
+  "https://lucia-aluminium-modems-buildings.trycloudflare.com/auth/callback",
+  "https://lucia-aluminium-modems-buildings.trycloudflare.com/auth/shopify/callback",
+  "https://lucia-aluminium-modems-buildings.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -3,13 +3,6 @@ import shopify from "../shopify.js";
 import { myAppMetafieldNamespace, myHandle } from "./constants.js";
 import { createAutomaticDiscount } from "./create-discount.js";
 
-// import { Network, Alchemy } from "alchemy-sdk";
-
-// const settings = {
-//     apiKey: "x97VSdTdeVeFEUpCDRH1ENsSyi5PYPIP",
-//     network: Network.MATIC_MAINNET,
-// };
-
 const CREATE_GATE_CONFIGURATION_MUTATION = `
   mutation createGateConfiguration($name: String!, $requirements: String!, $reaction: String!) {
     gateConfigurationCreate(input: {
@@ -141,13 +134,6 @@ export default async function createGate({
   productGids,
 }) {
   const client = new shopify.api.clients.Graphql({ session });
-  
-  // const alchemy = new Alchemy(settings);
-  
-  // const image = alchemy.nft.getNftMetadata(
-  //   segment,
-  //   "8"
-  // );
 
   const segmentConditions = segment.map((address) => {
     return {
