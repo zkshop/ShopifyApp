@@ -26,9 +26,6 @@ import {
     },
   });
 
-
-// Set this to the cloudflare url that is generated when you run the server
-// The url will be something like https://12345678.ngrok.io (no trailing slash or query params)
 export const host = "https://insurance-hang-siemens-countries.trycloudflare.com/";
 if (host == "YOUR_TUNNEL_URL") {
   console.error("Wrong URL");
@@ -81,7 +78,6 @@ export const useEvaluateGate = () => {
   };
 };
 
-// This function also present in App.jsx
 const getGate = () => window.myAppGates?.[0] || {}
 
 function getShopDomain() {

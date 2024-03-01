@@ -9,6 +9,8 @@ const web3 = new Web3();
 //////////////////////////////////////////////
 //  CHANGE ALL OF THIS TO XUMM AND ALCHEMY  //
 //////////////////////////////////////////////
+//  ALSO ADD DOTENV TO HANDLE SECRETS/KEYS  //
+//////////////////////////////////////////////
 
 export function configurePublicApi(app) {
   // this should be limited to app domains that have your app installed
