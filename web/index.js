@@ -9,6 +9,7 @@ import shopify from "./shopify.js";
 import createGate from "./api/create-gate.js";
 import retrieveGates from "./api/retrieve-gates.js";
 import deleteGate from "./api/delete-gate.js";
+//have to set up dotenv
 
 import PrivacyWebhookHandlers from "./privacy.js";
 
