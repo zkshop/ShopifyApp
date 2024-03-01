@@ -132,7 +132,7 @@ export default function CreateTokengate() {
                       <Heading>Configuration</Heading>
                       <TextField
                         name="name"
-                        label="Name"
+                        label="Name of the gate"
                         type="text"
                         {...fields.name}
                         autoComplete="off"

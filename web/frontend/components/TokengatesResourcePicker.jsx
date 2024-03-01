@@ -129,6 +129,8 @@ export const TokengatesResourcePicker = ({ products }) => {
         open={isResourcePickerOpen}
         onCancel={handleTogglePicker}
         onSelection={handleProductSelection}
+        showVariants={true}
+        selectMultiple={true}
       />
     </Card>
   );
