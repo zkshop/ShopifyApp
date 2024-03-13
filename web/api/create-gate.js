@@ -140,7 +140,7 @@ export default async function createGate({
       name: name,
       conditionsDescription: "Any token",
       contractAddress: address,
-      imageUrl: "https://tokengatingtestshop.myshopify.com/cdn/shop/products/Main_b13ad453-477c-4ed1-9b43-81f3345adfd6.jpg?v=1707469771&width=1646",
+      imageUrl: "https://placekitten.com/g/200/200",
     };
   });
 
