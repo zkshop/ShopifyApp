@@ -132,6 +132,8 @@ export default async function createGate({
   discount,
   segment,
   productGids,
+  issuer,
+  taxon,
 }) {
   const client = new shopify.api.clients.Graphql({ session });
 
@@ -140,6 +142,8 @@ export default async function createGate({
       name: name,
       conditionsDescription: "Any token",
       contractAddress: address,
+      issuer: issuer,
+      taxon: taxon,
       imageUrl: "https://placekitten.com/g/200/200",
     };
   });

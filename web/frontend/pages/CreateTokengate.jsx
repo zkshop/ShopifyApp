@@ -37,6 +37,14 @@ export default function CreateTokengate() {
       value: undefined,
       validates: (segment) => !segment && "Segment cannot be empty",
     }),
+    issuer: useField({
+      value: undefined,
+      validates: (issuer) => !issuer && "Issuer cannot be empty",
+    }),
+    taxon: useField({
+      value: undefined,
+      validates: (taxon) => !taxon && "Taxon cannot be empty",
+    }),
     products: useField([]),
     exclusiveContent: useField(false),
   };
@@ -44,7 +52,7 @@ export default function CreateTokengate() {
   const { fields, submit, submitting, dirty, reset, makeClean } = useForm({
     fields: fieldsDefinition,
     onSubmit: async (formData) => {
-      const { discountType, discount, name, products, segment, exclusiveContent } = formData;
+      const { discountType, discount, name, products, segment, issuer, taxon, exclusiveContent } = formData;
 
       const productGids = products.map((product) => product.id);
 
@@ -52,6 +60,8 @@ export default function CreateTokengate() {
         name,
         productGids,
         segment: segment.split(","),
+        issuer,
+        taxon,
         exclusiveContent,
       };
       
@@ -181,15 +191,35 @@ export default function CreateTokengate() {
                       )}
                     </Stack>
                   </LegacyCard.Section>
-                  <LegacyCard.Section title="SEGMENT">
+                  <LegacyCard.Section title="XRP SEGMENT">
                     <TextField
                       name="segment"
                       helpText="Comma separated list of contract addresses"
                       type="text"
-                      placeholder="0x123, 0x456, 0x789"
+                      placeholder="0008.."
                       {...fields.segment}
                       autoComplete="off"
                     />
+                    <Stack distribution="fillEvenly">
+                      <Stack.Item>
+                        <TextField
+                          name="issuer"
+                          label="Issuer"
+                          type="text"
+                          {...fields.issuer}
+                          autoComplete="off"
+                        />
+                      </Stack.Item>
+                      <Stack.Item>
+                        <TextField
+                          name="taxon"
+                          label="Taxon"
+                          type="text"
+                          {...fields.taxon}
+                          autoComplete="off"
+                        />
+                      </Stack.Item>
+                    </Stack>
                   </LegacyCard.Section>
                 </LegacyCard>
               </Layout.Section>

@@ -37,6 +37,8 @@ export function TokengatesList() {
     { title: "Gate" },
     { title: "Perk" },
     { title: "Segment" },
+    { title: "Issuer" },
+    { title: "Taxon" },
     { title: "Products" },
     { title: "" },
   ];
@@ -49,9 +51,22 @@ export function TokengatesList() {
 
       if (!requirements?.value || !reaction?.value) return;
 
-      const segment = (JSON.parse(requirements.value)?.conditions || [])
-        .map((condition) => condition.contractAddress)
+
+      //segment and issuer cut but either hover to see full or icon to copy
+      const segmentConditions = JSON.parse(requirements.value)?.conditions || [];
+      const segment = segmentConditions
+        .map((condition) => {
+          const contractAddress = condition.contractAddress;
+          return contractAddress.length > 20 ? `${contractAddress.substring(0, 10)}...${contractAddress.substring(contractAddress.length - 10)}` : contractAddress;
+        })
         .join(", ");
+      const issuer = segmentConditions
+        .map((condition) => {
+          const issuerContract = condition.issuer;
+          return issuerContract.length > 10 ? `${issuerContract.substring(0, 6)}...${issuerContract.substring(issuerContract.length - 5)}` : issuerContract;
+        })
+        .join(", ");
+      const taxon = segmentConditions.map((condition) => condition.taxon).join(", ");
 
       const perkType = JSON.parse(reaction.value)?.type ?? "—";
 
@@ -62,6 +77,8 @@ export function TokengatesList() {
           <IndexTable.Cell>{name}</IndexTable.Cell>
           <IndexTable.Cell>{perkTypeName[`${perkType}`]}</IndexTable.Cell>
           <IndexTable.Cell>{segment}</IndexTable.Cell>
+          <IndexTable.Cell>{issuer}</IndexTable.Cell>
+          <IndexTable.Cell>{taxon}</IndexTable.Cell>
           <IndexTable.Cell>{numProducts}</IndexTable.Cell>
           <IndexTable.Cell>
             <Button onClick={() => deleteGate(id)}>Delete</Button>
