@@ -163,8 +163,8 @@ const _App = () => {
           {/* {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />} */}
           {isOwner ? <p style={{ color: 'green' }}>gate unlocked<br />add the product to your cart to see the discount</p> : <p style={{ color: 'red' }}>gate locked</p>}
           <button onClick={handleConnectWallet}>{wallet.address === null ? 'Connect your XRP wallet' : 'Disconnect your XRP wallet'}</button>
-          <button onClick={callGetNfts}>Get NFTs</button>
-          <button onClick={callGetNft}>Get NFT</button>
+          {/* <button onClick={callGetNfts}>Get NFTs</button> */}
+          {/* <button onClick={callGetNft}>Get NFT</button> */}
         </div>
       </div>
   );
