@@ -63,7 +63,7 @@ export function TokengatesList() {
       const issuer = segmentConditions
         .map((condition) => {
           const issuerContract = condition.issuer;
-          return issuerContract.length > 10 ? `${issuerContract.substring(0, 6)}...${issuerContract.substring(issuerContract.length - 5)}` : issuerContract;
+          return issuerContract.length > 10 ? `${issuerContract.substring(0, 5)}...${issuerContract.substring(issuerContract.length - 5)}` : issuerContract;
         })
         .join(", ");
       const taxon = segmentConditions.map((condition) => condition.taxon).join(", ");

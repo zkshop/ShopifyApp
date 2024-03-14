@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://patio-kenny-film-gc.trycloudflare.com"
+application_url = "https://ours-href-stood-rotary.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://patio-kenny-film-gc.trycloudflare.com/auth/callback",
-  "https://patio-kenny-film-gc.trycloudflare.com/auth/shopify/callback",
-  "https://patio-kenny-film-gc.trycloudflare.com/api/auth/callback"
+  "https://ours-href-stood-rotary.trycloudflare.com/auth/callback",
+  "https://ours-href-stood-rotary.trycloudflare.com/auth/shopify/callback",
+  "https://ours-href-stood-rotary.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
