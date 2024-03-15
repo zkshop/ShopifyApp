@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://carlo-freeze-sciences-which.trycloudflare.com"
+application_url = "https://mt-principal-rugby-paypal.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://carlo-freeze-sciences-which.trycloudflare.com/auth/callback",
-  "https://carlo-freeze-sciences-which.trycloudflare.com/auth/shopify/callback",
-  "https://carlo-freeze-sciences-which.trycloudflare.com/api/auth/callback"
+  "https://mt-principal-rugby-paypal.trycloudflare.com/auth/callback",
+  "https://mt-principal-rugby-paypal.trycloudflare.com/auth/shopify/callback",
+  "https://mt-principal-rugby-paypal.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

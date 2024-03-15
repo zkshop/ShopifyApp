@@ -87,7 +87,11 @@ export function TokengatesList() {
                 >
                 📋
               </span>
-              <span> {segment}</span>
+              <span
+                title={segmentFull}
+                style={{ cursor: "default" }}
+                > {segment}
+              </span>
             </div>
           </IndexTable.Cell>
           <IndexTable.Cell>
@@ -101,7 +105,11 @@ export function TokengatesList() {
                 >
                 📋
               </span>
-              <span> {issuer}</span>
+              <span
+                title={issuerFull}
+                style={{ cursor: "default" }}
+                > {issuer}
+              </span>
             </div>
           </IndexTable.Cell>
           <IndexTable.Cell>
@@ -115,7 +123,11 @@ export function TokengatesList() {
                 >
                 📋
               </span>
-              <span> {taxon}</span>
+              <span
+                title={taxon}
+                style={{ cursor: "default" }}
+                > {taxon}
+              </span>
             </div>
           </IndexTable.Cell>
           <IndexTable.Cell>{numProducts}</IndexTable.Cell>
