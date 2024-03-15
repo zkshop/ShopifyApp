@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Button, Card, IndexTable, Stack } from "@shopify/polaris";
+import { Button, Card, IndexTable, Stack, Text } from "@shopify/polaris";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
 export function TokengatesList() {
@@ -51,8 +51,6 @@ export function TokengatesList() {
 
       if (!requirements?.value || !reaction?.value) return;
 
-
-      //segment and issuer cut but either hover to see full or icon to copy
       const segmentConditions = JSON.parse(requirements.value)?.conditions || [];
       const segment = segmentConditions
         .map((condition) => {
@@ -60,12 +58,14 @@ export function TokengatesList() {
           return contractAddress.length > 20 ? `${contractAddress.substring(0, 10)}...${contractAddress.substring(contractAddress.length - 10)}` : contractAddress;
         })
         .join(", ");
+      const segmentFull = segmentConditions.map((condition) => condition.contractAddress).join(", ");
       const issuer = segmentConditions
         .map((condition) => {
           const issuerContract = condition.issuer;
           return issuerContract.length > 10 ? `${issuerContract.substring(0, 5)}...${issuerContract.substring(issuerContract.length - 5)}` : issuerContract;
         })
         .join(", ");
+      const issuerFull = segmentConditions.map((condition) => condition.issuer).join(", ");
       const taxon = segmentConditions.map((condition) => condition.taxon).join(", ");
 
       const perkType = JSON.parse(reaction.value)?.type ?? "—";
@@ -76,9 +76,48 @@ export function TokengatesList() {
         <IndexTable.Row id={id} key={id} position={index}>
           <IndexTable.Cell>{name}</IndexTable.Cell>
           <IndexTable.Cell>{perkTypeName[`${perkType}`]}</IndexTable.Cell>
-          <IndexTable.Cell>{segment}</IndexTable.Cell>
-          <IndexTable.Cell>{issuer}</IndexTable.Cell>
-          <IndexTable.Cell>{taxon}</IndexTable.Cell>
+          <IndexTable.Cell>
+            <div>
+              <span
+                title="copy the segment"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigator.clipboard.writeText(segmentFull);
+                }}
+                >
+                📋
+              </span>
+              <span> {segment}</span>
+            </div>
+          </IndexTable.Cell>
+          <IndexTable.Cell>
+            <div>
+              <span
+                title="copy the issuer"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigator.clipboard.writeText(issuerFull);
+                }}
+                >
+                📋
+              </span>
+              <span> {issuer}</span>
+            </div>
+          </IndexTable.Cell>
+          <IndexTable.Cell>
+            <div>
+              <span
+                title="copy the taxon"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigator.clipboard.writeText(taxon);
+                }}
+                >
+                📋
+              </span>
+              <span> {taxon}</span>
+            </div>
+          </IndexTable.Cell>
           <IndexTable.Cell>{numProducts}</IndexTable.Cell>
           <IndexTable.Cell>
             <Button onClick={() => deleteGate(id)}>Delete</Button>

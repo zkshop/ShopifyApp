@@ -149,7 +149,6 @@ const _App = () => {
         {/*
         <Tokengate
           isConnected={Boolean(wallet)}
-          connectedButton={false}
           connectButton={<ConnectButton />}
           isLoading={false}
           requirements={requirements}

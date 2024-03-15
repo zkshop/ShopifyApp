@@ -10,5 +10,5 @@ const container = document.getElementById("tokengating-example-app");
 if (container.dataset.product_gated === 'true') {
     ReactDOM.createRoot(container).render(<App />);
 } else {
-    container.innerHTML = 'This product is not gated.';
+    container.innerHTML = 'This product is not gated.'; //change to empty in the end
 }

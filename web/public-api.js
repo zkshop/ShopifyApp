@@ -7,7 +7,7 @@ import { getContractAddressesFromGate } from "./api/gates.js";
 const web3 = new Web3();
 
 //////////////////////////////////////////////
-//  CHANGE ALL OF THIS TO XUMM AND ALCHEMY  //
+//  CHANGE ALL OF THIS TO XUMM AND BITHOMP  //
 //////////////////////////////////////////////
 //  ALSO ADD DOTENV TO HANDLE SECRETS/KEYS  //
 //////////////////////////////////////////////
@@ -69,6 +69,7 @@ function getHmac(payload) {
   };
 }
 
+// change all this to bithomp
 function retrieveUnlockingTokens(address, contractAddresses) {
   // tchange to Alchemy
   return Promise.resolve([
