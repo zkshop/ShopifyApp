@@ -54,7 +54,6 @@ const _App = () => {
     };
   };
 
-  // also check before true if the ID is correct
   const handleNftSearchOwner = async () => {
     if (wallet.address == null) {
       setIsOwner(false);
@@ -151,13 +150,39 @@ const _App = () => {
   };
   
     useEffect(() => {
-      callGetNft();
+      callGetNfts();
     }, []);
   
-  const callGetNfts = async () => {
-    const nftsData = await XRPNftsReader().getNfts();
-    console.log("nftsData", nftsData);
-  };
+    const callGetNfts = async () => {
+      const nftsData = await XRPNftsReader().getNfts();
+      // console.log("nftsData", nftsData);
+    
+      if (nftsData.nfts.length > 0) {
+        let currentIndex = 0;
+    
+        const cycleImages = () => {
+          const selectedNft = nftsData.nfts[currentIndex];
+          if (selectedNft && selectedNft.url) {
+            if (selectedNft.metadata && selectedNft.metadata.image && selectedNft.metadata.image.startsWith('ipfs://')) {
+              setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image.slice(7)}`);
+            } else if (selectedNft.metadata && selectedNft.metadata.image_url) {
+              setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image_url.slice(12)}`);
+            } else {
+              setNftImage(null);
+            }
+          } else {
+            setNftImage(null);
+          }    
+          currentIndex = (currentIndex + 1) % nftsData.nfts.length;
+        };
+    
+        cycleImages(); // Set the initial image
+    
+        setInterval(cycleImages, 5000);
+      } else {
+        setNftImage(null);
+      }
+    };
 
   return (
     <div>
@@ -177,7 +202,7 @@ const _App = () => {
           {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
           {isOwner ? <p style={{ color: 'green' }}>gate unlocked<br />add the product to your cart to see the discount</p> : <p style={{ color: 'red' }}>gate locked</p>}
           <button onClick={handleConnectWallet}>{wallet.address === null ? 'Connect your XRP wallet' : 'Disconnect your XRP wallet'}</button>
-          {/* <button onClick={callGetNfts}>Get NFTs</button> */}
+          <button onClick={callGetNfts}>Get NFTs</button>
         </div>
       </div>
   );
