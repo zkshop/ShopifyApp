@@ -21,7 +21,7 @@ const _App = () => {
   const [nftImage, setNftImage] = useState(null);
   const [isOwner, setIsOwner] = useState(null);
 
-  const { isLocked, unlockingTokens, evaluateGate, gateEvaluation } = useEvaluateGate();
+  // const { isLocked, unlockingTokens, evaluateGate, gateEvaluation } = useEvaluateGate();
 
   const { requirements, reaction } = getGate();
 
@@ -54,6 +54,32 @@ const _App = () => {
     };
   };
 
+  // also check before true if the ID is correct
+  const handleNftSearchOwner = async () => {
+    if (wallet.address == null) {
+      setIsOwner(false);
+      return;
+    }
+    const client = XRPNftReaderClient();
+    const nfts = await client.getWalletNfts(wallet.address, identifiers);
+    if (nfts.length <= 0)
+      setIsOwner(false);
+    else
+      setIsOwner(true);
+  }
+
+  useEffect(() => {
+    handleNftSearchOwner();
+  }, [wallet]);
+
+  const handleConnectWallet = () => {
+    if (wallet.address === null) {
+      setWallet({ address: "rLLAmbFhd44wWfUbYmLSfd4qeTH4WAtTUo" });
+    } else {
+      setWallet({ address: null });
+    }
+  };
+
   const XRPNftReader = () => {
     return {
       getNft: async () => {
@@ -75,6 +101,33 @@ const _App = () => {
     };
   };
 
+  // get image of gate on loading
+  // 2 bithomp calls, can be optimized with better plan
+    const callGetNft = async () => {
+      const nftData = await XRPNftReader().getNft();
+      // console.log("nftData", nftData);
+      const nftIdentifiers = {
+        issuer: nftData.issuer,
+        nftokenTaxon: nftData.nftokenTaxon,
+      };
+      const nftWallet = nftData.owner;
+      const client = XRPNftReaderClient();
+      const nfts = await client.getWalletNfts(nftWallet, nftIdentifiers);
+      // console.log("nfts", nfts);
+      const selectedNft = nfts.find(nft => nft.nftokenID === requirements.conditions[0].contractAddress);
+      if (selectedNft && selectedNft.url) {
+        if (selectedNft.metadata && selectedNft.metadata.image && selectedNft.metadata.image.startsWith('ipfs://')) {
+          setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image.slice(7)}`);
+        } else if (selectedNft.metadata && selectedNft.metadata.image_url) {
+          setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image_url.slice(12)}`);
+        } else {
+          setNftImage(null);
+        }
+      } else {
+        setNftImage(null);
+      }
+    };
+
   const XRPNftsReader = () => {
     return {
       getNfts: async () => {
@@ -93,55 +146,17 @@ const _App = () => {
             return data;
           });
           return nft;
-      },
-    };
+        },
+      };
   };
-
-  const callGetNft = async () => {
-    const nftData = await XRPNftReader().getNft();
-    console.log("nftData", nftData);
-  };
-
+  
+    useEffect(() => {
+      callGetNft();
+    }, []);
+  
   const callGetNfts = async () => {
     const nftsData = await XRPNftsReader().getNfts();
     console.log("nftsData", nftsData);
-  };
-
-  //get image if user has the nft => has to change to get image without wallet to get the image at start
-  const handleNftSearch = async () => {
-    if (wallet.address == null) {
-      setIsOwner(false);
-      return;
-    }
-    const client = XRPNftReaderClient();
-    const nfts = await client.getWalletNfts(wallet.address, identifiers);
-    if (nfts.length <= 0)
-      setIsOwner(false);
-    else
-      setIsOwner(true);
-    if (nfts.length > 0 && nfts[0].url) {
-      if (nfts[0].metadata && nfts[0].metadata.image && nfts[0].metadata.image.startsWith('ipfs://')) {
-        setNftImage(`https://cloudflare-ipfs.com/ipfs/${nfts[0].metadata.image.slice(7)}`);
-      } else if (nfts[0].metadata && nfts[0].metadata.image_url) {
-        setNftImage(`https://cloudflare-ipfs.com/ipfs/${nfts[0].metadata.image_url.slice(12)}`);
-      } else {
-        setNftImage(null);
-      }
-    } else {
-      setNftImage(null);
-    }
-  };
-
-  useEffect(() => {
-    handleNftSearch();
-  }, [wallet]);
-
-  const handleConnectWallet = () => {
-    if (wallet.address === null) {
-      setWallet({ address: "rLLAmbFhd44wWfUbYmLSfd4qeTH4WAtTUo" });
-    } else {
-      setWallet({ address: null });
-    }
   };
 
   return (
@@ -159,11 +174,10 @@ const _App = () => {
         */}
         <div>
           <h2>{requirements.conditions[0].name} discount for {reaction.discount.value}{reaction.discount.type === 'percentage' ? '%' : '$'}</h2>
-          {/* {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />} */}
+          {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
           {isOwner ? <p style={{ color: 'green' }}>gate unlocked<br />add the product to your cart to see the discount</p> : <p style={{ color: 'red' }}>gate locked</p>}
           <button onClick={handleConnectWallet}>{wallet.address === null ? 'Connect your XRP wallet' : 'Disconnect your XRP wallet'}</button>
           {/* <button onClick={callGetNfts}>Get NFTs</button> */}
-          {/* <button onClick={callGetNft}>Get NFT</button> */}
         </div>
       </div>
   );
