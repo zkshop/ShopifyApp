@@ -51,7 +51,7 @@ app.get("/api/gates", async (_req, res) => {
 });
 
 app.post("/api/gates", async (req, res) => {
-  const { name, discountType, discount, segment, productGids, issuer, taxon } = req.body;
+  const { name, discountType, discount, productGids, issuer, taxon } = req.body;
 
   try {
     await createGate({
@@ -59,7 +59,6 @@ app.post("/api/gates", async (req, res) => {
       name,
       discountType,
       discount,
-      segment,
       productGids,
       issuer,
       taxon,

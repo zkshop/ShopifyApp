@@ -130,23 +130,19 @@ export default async function createGate({
   name,
   discountType,
   discount,
-  segment,
   productGids,
   issuer,
   taxon,
 }) {
   const client = new shopify.api.clients.Graphql({ session });
 
-  const segmentConditions = segment.map((address) => {
-    return {
-      name: name,
-      conditionsDescription: "Any token",
-      contractAddress: address,
-      issuer: issuer,
-      taxon: taxon,
-      imageUrl: "https://placekitten.com/g/200/200",
-    };
-  });
+  const segmentConditions = {
+    name: name,
+    conditionsDescription: "Any token",
+    issuer: issuer,
+    taxon: taxon,
+    imageUrl: "https://placekitten.com/g/200/200",
+  };
 
   const gateConfigurationRequirements = {
     logic: "ANY",

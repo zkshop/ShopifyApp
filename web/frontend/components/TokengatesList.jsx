@@ -36,7 +36,6 @@ export function TokengatesList() {
   const tableHeadings = [
     { title: "Gate" },
     { title: "Perk" },
-    { title: "Segment" },
     { title: "Issuer" },
     { title: "Taxon" },
     { title: "Products" },
@@ -52,17 +51,10 @@ export function TokengatesList() {
       if (!requirements?.value || !reaction?.value) return;
 
       const segmentConditions = JSON.parse(requirements.value)?.conditions || [];
-      const segment = segmentConditions
-        .map((condition) => {
-          const contractAddress = condition.contractAddress;
-          return contractAddress.length > 20 ? `${contractAddress.substring(0, 10)}...${contractAddress.substring(contractAddress.length - 10)}` : contractAddress;
-        })
-        .join(", ");
-      const segmentFull = segmentConditions.map((condition) => condition.contractAddress).join(", ");
       const issuer = segmentConditions
         .map((condition) => {
           const issuerContract = condition.issuer;
-          return issuerContract.length > 10 ? `${issuerContract.substring(0, 5)}...${issuerContract.substring(issuerContract.length - 5)}` : issuerContract;
+          return issuerContract.length > 14 ? `${issuerContract.substring(0, 7)}...${issuerContract.substring(issuerContract.length - 7)}` : issuerContract;
         })
         .join(", ");
       const issuerFull = segmentConditions.map((condition) => condition.issuer).join(", ");
@@ -76,24 +68,6 @@ export function TokengatesList() {
         <IndexTable.Row id={id} key={id} position={index}>
           <IndexTable.Cell>{name}</IndexTable.Cell>
           <IndexTable.Cell>{perkTypeName[`${perkType}`]}</IndexTable.Cell>
-          <IndexTable.Cell>
-            <div>
-              <span
-                title="copy the segment"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  navigator.clipboard.writeText(segmentFull);
-                }}
-                >
-                📋
-              </span>
-              <span
-                title={segmentFull}
-                style={{ cursor: "default" }}
-                > {segment}
-              </span>
-            </div>
-          </IndexTable.Cell>
           <IndexTable.Cell>
             <div>
               <span
@@ -162,3 +136,4 @@ export function TokengatesList() {
     </Card>
   );
 }
+

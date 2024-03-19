@@ -79,54 +79,6 @@ const _App = () => {
     }
   };
 
-  const XRPNftReader = () => {
-    return {
-      getNft: async () => {
-        const params = {
-          uri: true,
-        };
-        const nft = await axios
-          .get(`https://bithomp.com/api/v2/nft/${requirements.conditions[0].contractAddress}`, {
-            params,
-            headers: {
-              'x-bithomp-token': '131c5def-d154-4a4c-9dea-59afc1eb0a7d',
-            },
-          })
-          .then(({ data }) => {
-            return data;
-          });
-          return nft;
-      },
-    };
-  };
-
-  // get image of gate on loading
-  // 2 bithomp calls, can be optimized with better plan
-    const callGetNft = async () => {
-      const nftData = await XRPNftReader().getNft();
-      // console.log("nftData", nftData);
-      const nftIdentifiers = {
-        issuer: nftData.issuer,
-        nftokenTaxon: nftData.nftokenTaxon,
-      };
-      const nftWallet = nftData.owner;
-      const client = XRPNftReaderClient();
-      const nfts = await client.getWalletNfts(nftWallet, nftIdentifiers);
-      // console.log("nfts", nfts);
-      const selectedNft = nfts.find(nft => nft.nftokenID === requirements.conditions[0].contractAddress);
-      if (selectedNft && selectedNft.url) {
-        if (selectedNft.metadata && selectedNft.metadata.image && selectedNft.metadata.image.startsWith('ipfs://')) {
-          setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image.slice(7)}`);
-        } else if (selectedNft.metadata && selectedNft.metadata.image_url) {
-          setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image_url.slice(12)}`);
-        } else {
-          setNftImage(null);
-        }
-      } else {
-        setNftImage(null);
-      }
-    };
-
   const XRPNftsReader = () => {
     return {
       getNfts: async () => {
@@ -155,7 +107,6 @@ const _App = () => {
   
     const callGetNfts = async () => {
       const nftsData = await XRPNftsReader().getNfts();
-      // console.log("nftsData", nftsData);
     
       if (nftsData.nfts.length > 0) {
         let currentIndex = 0;
@@ -176,7 +127,7 @@ const _App = () => {
           currentIndex = (currentIndex + 1) % nftsData.nfts.length;
         };
     
-        cycleImages(); // Set the initial image
+        cycleImages();
     
         setInterval(cycleImages, 5000);
       } else {
@@ -202,7 +153,7 @@ const _App = () => {
           {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
           {isOwner ? <p style={{ color: 'green' }}>gate unlocked<br />add the product to your cart to see the discount</p> : <p style={{ color: 'red' }}>gate locked</p>}
           <button onClick={handleConnectWallet}>{wallet.address === null ? 'Connect your XRP wallet' : 'Disconnect your XRP wallet'}</button>
-          <button onClick={callGetNfts}>Get NFTs</button>
+          {/* <button onClick={callGetNfts}>Get NFTs</button> */}
         </div>
       </div>
   );

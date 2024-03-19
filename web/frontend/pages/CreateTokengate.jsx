@@ -33,10 +33,10 @@ export default function CreateTokengate() {
       value: undefined,
       validates: (discount) => !fields.exclusiveContent.value && !discount && "Discount cannot be empty",
     }),
-    segment: useField({
-      value: undefined,
-      validates: (segment) => !segment && "Segment cannot be empty",
-    }),
+    // segment: useField({
+    //   value: undefined,
+    //   validates: (segment) => !segment && "Segment cannot be empty",
+    // }),
     issuer: useField({
       value: undefined,
       validates: (issuer) => !issuer && "Issuer cannot be empty",
@@ -52,14 +52,14 @@ export default function CreateTokengate() {
   const { fields, submit, submitting, dirty, reset, makeClean } = useForm({
     fields: fieldsDefinition,
     onSubmit: async (formData) => {
-      const { discountType, discount, name, products, segment, issuer, taxon, exclusiveContent } = formData;
+      const { discountType, discount, name, products, issuer, taxon, exclusiveContent } = formData;
 
       const productGids = products.map((product) => product.id);
 
       const body = {
         name,
         productGids,
-        segment: segment.split(","),
+        // segment: segment.split(","),
         issuer,
         taxon,
         exclusiveContent,
@@ -192,14 +192,13 @@ export default function CreateTokengate() {
                     </Stack>
                   </LegacyCard.Section>
                   <LegacyCard.Section title="XRP SEGMENT">
-                    <TextField
+                    {/* <TextField
                       name="segment"
-                      helpText="Comma separated list of contract addresses"
+                      label="Segment"
                       type="text"
-                      placeholder="0008.."
                       {...fields.segment}
                       autoComplete="off"
-                    />
+                    /> */}
                     <Stack distribution="fillEvenly">
                       <Stack.Item>
                         <TextField
@@ -243,4 +242,5 @@ export default function CreateTokengate() {
     </Page>
   );
 }
+
 
