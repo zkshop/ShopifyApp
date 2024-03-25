@@ -11,7 +11,19 @@ import { publicProvider } from "wagmi/providers/public";
 import { useEvaluateGate } from './useEvaluateGate';
 import axios from 'axios';
 
+import Client from 'shopify-buy';
+
+function getShopDomain() {
+  return window.Shopify.shop;
+}
+
 const _App = () => {
+  // const client = Client.buildClient({
+  //   domain: getShopDomain(),
+  //   // storefrontAccessToken: 'your-storefront-access-token'
+  // });
+  // console.log("client", client);
+
   // const { wallet } = useConnectWallet({
   //   onConnect: (wallet) => {
   //     evaluateGate(wallet);
@@ -73,7 +85,7 @@ const _App = () => {
 
   const handleConnectWallet = () => {
     if (wallet.address === null) {
-      setWallet({ address: "rLLAmbFhd44wWfUbYmLSfd4qeTH4WAtTUo" });
+      setWallet({ address: "rLLAmbFhd44wWfUbYmLSfd4qeTH4WAtTUo" }); // rV4o9Gmbj2DgoULL8RuAMB3644kLdoXKX 
     } else {
       setWallet({ address: null });
     }
@@ -135,6 +147,15 @@ const _App = () => {
       }
     };
 
+  useEffect(() => {
+    const buttons = document.querySelectorAll('.shopify-payment-button__button--unbranded, .product-form__submit');
+    if (buttons) {
+      buttons.forEach(button => {
+        button.disabled = !isOwner;
+      });
+    }
+  }, [isOwner]);
+
   return (
     <div>
         {/*
@@ -149,11 +170,10 @@ const _App = () => {
         />
         */}
         <div>
-          <h2>{requirements.conditions[0].name} discount for {reaction.discount.value}{reaction.discount.type === 'percentage' ? '%' : '$'}</h2>
+          <h2>{requirements.conditions[0].name} gate</h2>
           {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
-          {isOwner ? <p style={{ color: 'green' }}>gate unlocked<br />add the product to your cart to see the discount</p> : <p style={{ color: 'red' }}>gate locked</p>}
-          <button onClick={handleConnectWallet}>{wallet.address === null ? 'Connect your XRP wallet' : 'Disconnect your XRP wallet'}</button>
-          {/* <button onClick={callGetNfts}>Get NFTs</button> */}
+          {isOwner ? <p style={{ color: 'green' }}>gate unlocked</p> : <p style={{ color: 'red' }}>gate locked</p>}
+          <button onClick={handleConnectWallet}>{wallet.address === null ? 'Unlock' : 'Lock'}</button>
         </div>
       </div>
   );
