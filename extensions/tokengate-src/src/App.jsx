@@ -169,11 +169,17 @@ const _App = () => {
           unlockingTokens={unlockingTokens}
         />
         */}
-        <div>
-          <h2>{requirements.conditions[0].name} gate</h2>
-          {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
-          {isOwner ? <p style={{ color: 'green' }}>gate unlocked</p> : <p style={{ color: 'red' }}>gate locked</p>}
-          <button onClick={handleConnectWallet}>{wallet.address === null ? 'Unlock' : 'Lock'}</button>
+        <div style={{border: '1px solid #ccc', borderRadius: '10px', padding: '10px', margin: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
+          <div style={{display: 'flex', alignItems: 'center', marginBottom: '5px', marginLeft: '10px', flexDirection: 'column'}}>
+            <h2 style={{marginBottom: '5px', marginTop: '0'}}>{requirements.conditions[0].name}</h2>
+            <div>
+              {isOwner ? <h3 style={{ color: 'green', marginTop: '5px' }}>gate unlocked</h3> : <h3 style={{ color: 'red', marginTop: '5px' }}>gate locked</h3>}
+            </div>
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center', marginTop: '5px', width: '90%'}}>
+            <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: '#007bff', color: '#fff', border: 'none', width: '100%'}} onClick={handleConnectWallet}>{wallet.address === null ? 'Unlock' : 'Lock'}</button>
+          </div>
+          {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%', position: 'absolute', top: '-10px', right: '-10px' }} />}
         </div>
       </div>
   );

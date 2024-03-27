@@ -8,6 +8,7 @@
     "dependencies": {
         "@shopify/connect-wallet": "^3.0.1",
         "@shopify/gate-context-client": "^1.0.1",
+        "@shopify/polaris": "^12.22.1",
         "@shopify/tokengate": "^1.1.2",
         "axios": "^1.6.7",
         "polaris": "^1.2.1",
