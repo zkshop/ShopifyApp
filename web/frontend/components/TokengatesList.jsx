@@ -35,7 +35,6 @@ export function TokengatesList() {
 
   const tableHeadings = [
     { title: "Gate" },
-    { title: "Perk" },
     { title: "Issuer" },
     { title: "Taxon" },
     { title: "Products" },
@@ -51,6 +50,9 @@ export function TokengatesList() {
       if (!requirements?.value || !reaction?.value) return;
 
       const segmentConditions = JSON.parse(requirements.value)?.conditions || [];
+      if (!Array.isArray(segmentConditions)) return;
+
+      console.log(segmentConditions);
       const issuer = segmentConditions
         .map((condition) => {
           const issuerContract = condition.issuer;
@@ -60,14 +62,11 @@ export function TokengatesList() {
       const issuerFull = segmentConditions.map((condition) => condition.issuer).join(", ");
       const taxon = segmentConditions.map((condition) => condition.taxon).join(", ");
 
-      const perkType = JSON.parse(reaction.value)?.type ?? "—";
-
       const numProducts = subjectBindings?.nodes?.length ?? "—";
 
       return (
         <IndexTable.Row id={id} key={id} position={index}>
           <IndexTable.Cell>{name}</IndexTable.Cell>
-          <IndexTable.Cell>{perkTypeName[`${perkType}`]}</IndexTable.Cell>
           <IndexTable.Cell>
             <div>
               <span
@@ -136,4 +135,3 @@ export function TokengatesList() {
     </Card>
   );
 }
-

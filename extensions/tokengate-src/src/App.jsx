@@ -177,7 +177,7 @@ const _App = () => {
             </div>
           </div>
           <div style={{display: 'flex', justifyContent: 'center', marginTop: '5px', width: '90%'}}>
-            <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: '#007bff', color: '#fff', border: 'none', width: '100%'}} onClick={handleConnectWallet}>{wallet.address === null ? 'Unlock' : 'Lock'}</button>
+            <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: '#007bff', color: '#fff', border: 'none', width: '100%', cursor: 'pointer', transition: 'background-color 0.3s ease-in-out'}} onClick={handleConnectWallet}>{wallet.address === null ? 'Unlock' : 'Lock'}</button>
           </div>
           {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%', position: 'absolute', top: '-10px', right: '-10px' }} />}
         </div>
