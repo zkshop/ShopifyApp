@@ -28,11 +28,6 @@ export function TokengatesList() {
     [fetch, refetchGates]
   );
 
-  const perkTypeName = Object.freeze({
-    discount: "Discount",
-    exclusive: "Exclusive",
-  });
-
   const tableHeadings = [
     { title: "Gate" },
     { title: "Issuer" },
@@ -45,22 +40,19 @@ export function TokengatesList() {
     if (!gatesData?.response) return;
 
     return gatesData.response.map((gate, index) => {
+      console.log("gate", gate);
       const { id, name, requirements, reaction, subjectBindings } = gate;
 
-      if (!requirements?.value || !reaction?.value) return;
+      console.log("Requirements value: ", requirements.value);
+      console.log("Reaction value: ", reaction.value);
+      if (!requirements.value || !reaction.value) {
+        return;
+      }
+      
+      const requirementsValue = JSON.parse(requirements.value);
 
-      const segmentConditions = JSON.parse(requirements.value)?.conditions || [];
-      if (!Array.isArray(segmentConditions)) return;
-
-      console.log(segmentConditions);
-      const issuer = segmentConditions
-        .map((condition) => {
-          const issuerContract = condition.issuer;
-          return issuerContract.length > 14 ? `${issuerContract.substring(0, 7)}...${issuerContract.substring(issuerContract.length - 7)}` : issuerContract;
-        })
-        .join(", ");
-      const issuerFull = segmentConditions.map((condition) => condition.issuer).join(", ");
-      const taxon = segmentConditions.map((condition) => condition.taxon).join(", ");
+      const issuer = requirementsValue.conditions.issuer;
+      const taxon = requirementsValue.conditions.taxon;
 
       const numProducts = subjectBindings?.nodes?.length ?? "—";
 
@@ -73,13 +65,13 @@ export function TokengatesList() {
                 title="copy the issuer"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  navigator.clipboard.writeText(issuerFull);
+                  navigator.clipboard.writeText(issuer);
                 }}
                 >
                 📋
               </span>
               <span
-                title={issuerFull}
+                title={issuer}
                 style={{ cursor: "default" }}
                 > {issuer}
               </span>

@@ -28,11 +28,11 @@ export default function CreateTokengate() {
       value: undefined,
       validates: (name) => !name && "Name cannot be empty",
     }),
-    discountType: useField("percentage"),
-    discount: useField({
-      value: undefined,
-      validates: (discount) => !fields.exclusiveContent.value && !discount && "Discount cannot be empty",
-    }),
+    // discountType: useField("percentage"),
+    // discount: useField({
+    //   value: undefined,
+    //   validates: (discount) => !fields.exclusiveContent.value && !discount && "Discount cannot be empty",
+    // }),
     // segment: useField({
     //   value: undefined,
     //   validates: (segment) => !segment && "Segment cannot be empty",
@@ -52,7 +52,7 @@ export default function CreateTokengate() {
   const { fields, submit, submitting, dirty, reset, makeClean } = useForm({
     fields: fieldsDefinition,
     onSubmit: async (formData) => {
-      const { discountType, discount, name, products, issuer, taxon, exclusiveContent } = formData;
+      const { name, products, issuer, taxon, exclusiveContent } = formData;
 
       const productGids = products.map((product) => product.id);
 
@@ -65,10 +65,10 @@ export default function CreateTokengate() {
         exclusiveContent,
       };
       
-      if (!exclusiveContent) {
-        body.discountType = discountType;
-        body.discount = discount;
-      }
+      // if (!exclusiveContent) {
+      //   body.discountType = discountType;
+      //   body.discount = discount;
+      // }
 
       const response = await fetch("/api/gates", {
         method: "POST",
@@ -91,16 +91,16 @@ export default function CreateTokengate() {
     },
   });
 
-  const handleDiscountTypeButtonClick = useCallback((type) => {
-    if (type === "exclusiveContent") {
-      fields.exclusiveContent.onChange(true);
-      fields.discountType.onChange("");
-      fields.discount.onChange("");
-    } else {
-      fields.exclusiveContent.onChange(false);
-      fields.discountType.onChange(type);
-    }
-  }, [fields.discountType, fields.exclusiveContent]);  
+  // const handleDiscountTypeButtonClick = useCallback((type) => {
+  //   if (type === "exclusiveContent") {
+  //     fields.exclusiveContent.onChange(true);
+  //     fields.discountType.onChange("");
+  //     fields.discount.onChange("");
+  //   } else {
+  //     fields.exclusiveContent.onChange(false);
+  //     fields.discountType.onChange(type);
+  //   }
+  // }, [fields.discountType, fields.exclusiveContent]);  
 
   const toastMarkup = toastProps.content && (
     <Toast {...toastProps} onDismiss={() => setToastProps({ content: null })} />
@@ -148,48 +148,6 @@ export default function CreateTokengate() {
                         autoComplete="off"
                       />
                     </TextContainer>
-                  </LegacyCard.Section>
-                  <LegacyCard.Section title="DISCOUNT PERK">
-                    <Stack>
-                      <Stack.Item>
-                      <ButtonGroup segmented>
-                        <Button
-                          pressed={fields.discountType.value === "percentage" && !fields.exclusiveContent.value}
-                          onClick={() => handleDiscountTypeButtonClick("percentage")}
-                        >
-                          Percentage
-                        </Button>
-                        <Button
-                          pressed={fields.discountType.value === "amount" && !fields.exclusiveContent.value}
-                          onClick={() => handleDiscountTypeButtonClick("amount")}
-                        >
-                          Fixed Amount
-                        </Button>
-                        <Button
-                          pressed={fields.exclusiveContent.value}
-                          onClick={() => handleDiscountTypeButtonClick("exclusiveContent")}
-                        >
-                          Exclusive Content
-                        </Button>
-                      </ButtonGroup>
-                      </Stack.Item>
-                      {!fields.exclusiveContent.value && (
-                        <Stack.Item fill>
-                          <TextField
-                            name="discount"
-                            type="number"
-                            {...fields.discount}
-                            autoComplete="off"
-                            suffix={
-                              fields.discountType.value === "percentage"
-                                ? "%"
-                                : ""
-                            }
-                            fullWidth
-                          />
-                        </Stack.Item>
-                      )}
-                    </Stack>
                   </LegacyCard.Section>
                   <LegacyCard.Section title="XRP SEGMENT">
                     {/* <TextField

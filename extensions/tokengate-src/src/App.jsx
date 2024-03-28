@@ -38,8 +38,8 @@ const _App = () => {
   const { requirements, reaction } = getGate();
 
   const identifiers = {
-    issuer: requirements.conditions[0].issuer,
-    nftokenTaxon: requirements.conditions[0].taxon,
+    issuer: requirements?.conditions?.[0]?.issuer,
+    nftokenTaxon: requirements?.conditions?.[0]?.taxon,
   };
 
   const XRPNftReaderClient = () => {
@@ -171,7 +171,7 @@ const _App = () => {
         */}
         <div style={{border: '1px solid #ccc', borderRadius: '10px', padding: '10px', margin: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '5px', marginLeft: '10px', flexDirection: 'column'}}>
-            <h2 style={{marginBottom: '5px', marginTop: '0'}}>{requirements.conditions[0].name}</h2>
+            <h2 style={{marginBottom: '5px', marginTop: '0'}}>{requirements?.conditions?.[0]?.name}</h2>
             <div>
               {isOwner ? <h3 style={{ color: 'green', marginTop: '5px' }}>gate unlocked</h3> : <h3 style={{ color: 'red', marginTop: '5px' }}>gate locked</h3>}
             </div>
@@ -195,7 +195,20 @@ export const App = () => {
   );
 };
 
-const getGate = () => window.myAppGates?.[0] || {};
+const getGate = () => {
+  const gate = window.myAppGates?.[0];
+  console.log("gate", gate);
+  if (gate) {
+    const { requirements } = gate;
+    if (requirements) {
+      const { conditions } = requirements;
+      if (conditions && conditions.length > 0) {
+        return gate;
+      }
+    }
+  }
+  return {};
+};
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],

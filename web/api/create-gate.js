@@ -128,8 +128,6 @@ query retrieveProducts ($queryString: String!, $first: Int!){
 export default async function createGate({
   session,
   name,
-  discountType,
-  discount,
   productGids,
   issuer,
   taxon,
@@ -138,24 +136,17 @@ export default async function createGate({
 
   const segmentConditions = {
     name: name,
-    conditionsDescription: "Any token",
     issuer: issuer,
     taxon: taxon,
-    imageUrl: "https://placekitten.com/g/200/200",
   };
 
   const gateConfigurationRequirements = {
-    logic: "ANY",
     conditions: segmentConditions,
   };
 
   const gateConfigurationReaction = {
     name: name,
-    type: discount === undefined ? "exclusive" : "discount",
-    discount: discount === undefined ? undefined : {
-      type: discountType,
-      value: discount,
-    },
+    type: "exclusive",
   };
 
   try {
