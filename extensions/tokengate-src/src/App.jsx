@@ -13,6 +13,7 @@ function getShopDomain() {
 
 const _App = () => {
   const [wallet, setWallet] = useState({ address: null });
+  
   const [nftImage, setNftImage] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
 
@@ -66,7 +67,7 @@ const _App = () => {
 
   const handleConnectWallet = () => {
     if (wallet.address === null) {
-      setWallet({ address: "rLLAmbFhd44wWfUbYmLSfd4qeTH4WAtTUo" }); // rV4o9Gmbj2DgoULL8RuAMB3644kLdoXKX 
+      setWallet({ address: "rLLAmbFhd44wWfUbYmLSfd4qeTH4WAtTUo" });
     } else {
       setWallet({ address: null });
     }
