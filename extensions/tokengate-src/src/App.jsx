@@ -1,45 +1,26 @@
 import { useEffect, useState } from "react";
-import { Tokengate } from "@shopify/tokengate";
 import {
   buildConnectors,
-  ConnectButton,
   ConnectWalletProvider,
-  useConnectWallet,
 } from "@shopify/connect-wallet";
 import { configureChains, createConfig, mainnet, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import { useEvaluateGate } from './useEvaluateGate';
 import axios from 'axios';
-
-import Client from 'shopify-buy';
 
 function getShopDomain() {
   return window.Shopify.shop;
 }
 
 const _App = () => {
-  // const client = Client.buildClient({
-  //   domain: getShopDomain(),
-  //   // storefrontAccessToken: 'your-storefront-access-token'
-  // });
-  // console.log("client", client);
-
-  // const { wallet } = useConnectWallet({
-  //   onConnect: (wallet) => {
-  //     evaluateGate(wallet);
-  //   },
-  // });
   const [wallet, setWallet] = useState({ address: null });
   const [nftImage, setNftImage] = useState(null);
-  const [isOwner, setIsOwner] = useState(null);
-
-  // const { isLocked, unlockingTokens, evaluateGate, gateEvaluation } = useEvaluateGate();
+  const [isOwner, setIsOwner] = useState(false);
 
   const { requirements, reaction } = getGate();
 
   const identifiers = {
-    issuer: requirements?.conditions?.[0]?.issuer,
-    nftokenTaxon: requirements?.conditions?.[0]?.taxon,
+    issuer: requirements?.conditions?.issuer,
+    nftokenTaxon: requirements?.conditions?.taxon,
   };
 
   const XRPNftReaderClient = () => {
@@ -158,17 +139,6 @@ const _App = () => {
 
   return (
     <div>
-        {/*
-        <Tokengate
-          isConnected={Boolean(wallet)}
-          connectButton={<ConnectButton />}
-          isLoading={false}
-          requirements={requirements}
-          reaction={reaction}
-          isLocked={isLocked}
-          unlockingTokens={unlockingTokens}
-        />
-        */}
         <div style={{border: '1px solid #ccc', borderRadius: '10px', padding: '10px', margin: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '5px', marginLeft: '10px', flexDirection: 'column'}}>
             <h2 style={{marginBottom: '5px', marginTop: '0'}}>{requirements?.conditions?.[0]?.name}</h2>
@@ -195,20 +165,7 @@ export const App = () => {
   );
 };
 
-const getGate = () => {
-  const gate = window.myAppGates?.[0];
-  console.log("gate", gate);
-  if (gate) {
-    const { requirements } = gate;
-    if (requirements) {
-      const { conditions } = requirements;
-      if (conditions && conditions.length > 0) {
-        return gate;
-      }
-    }
-  }
-  return {};
-};
+const getGate = () => window.myAppGates?.[0] || {};
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],

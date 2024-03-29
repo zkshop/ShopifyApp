@@ -40,11 +40,8 @@ export function TokengatesList() {
     if (!gatesData?.response) return;
 
     return gatesData.response.map((gate, index) => {
-      console.log("gate", gate);
       const { id, name, requirements, reaction, subjectBindings } = gate;
 
-      console.log("Requirements value: ", requirements.value);
-      console.log("Reaction value: ", reaction.value);
       if (!requirements.value || !reaction.value) {
         return;
       }
