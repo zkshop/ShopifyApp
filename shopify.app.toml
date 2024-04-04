@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://kind-vendor-guild-abu.trycloudflare.com"
+application_url = "https://turtle-woman-amanda-theatre.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://kind-vendor-guild-abu.trycloudflare.com/auth/callback",
-  "https://kind-vendor-guild-abu.trycloudflare.com/auth/shopify/callback",
-  "https://kind-vendor-guild-abu.trycloudflare.com/api/auth/callback"
+  "https://turtle-woman-amanda-theatre.trycloudflare.com/auth/callback",
+  "https://turtle-woman-amanda-theatre.trycloudflare.com/auth/shopify/callback",
+  "https://turtle-woman-amanda-theatre.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
