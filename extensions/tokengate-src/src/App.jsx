@@ -274,27 +274,18 @@ const _App = () => {
       const nftsData = await XRPNftsReader().getNfts();
       
       if (nftsData.nfts.length > 0) {
-        let currentIndex = 0;
-        
-        const cycleImages = () => {
-          const selectedNft = nftsData.nfts[currentIndex];
+        for (let i = 0; i < nftsData.nfts.length; i++) {
+          const selectedNft = nftsData.nfts[i];
           if (selectedNft && selectedNft.url) {
             if (selectedNft.metadata && selectedNft.metadata.image && selectedNft.metadata.image.startsWith('ipfs://')) {
               setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image.slice(7)}`);
+              break;
             } else if (selectedNft.metadata && selectedNft.metadata.image_url) {
               setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image_url.slice(12)}`);
-            } else {
-              setNftImage(null);
+              break;
             }
-          } else {
-            setNftImage(null);
-          }    
-          currentIndex = (currentIndex + 1) % nftsData.nfts.length;
-        };
-        
-        cycleImages();
-        
-        setInterval(cycleImages, 5000);
+          }
+        }
       } else {
         setNftImage(null);
       }
