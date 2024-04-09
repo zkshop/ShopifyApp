@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createContext, useCallback, useContext } from "react";
 import axios from 'axios';
 
+// need to run the serverless locally for now
 export const httpServerless = axios.create({
   baseURL: 'http://localhost:3000/',
   timeout: 10000,
@@ -191,7 +192,7 @@ const _App = () => {
         .get(`https://bithomp.com/api/v2/nfts`, {
           params,
           headers: {
-            'x-bithomp-token': '131c5def-d154-4a4c-9dea-59afc1eb0a7d',
+            'x-bithomp-token': "131c5def-d154-4a4c-9dea-59afc1eb0a7d ",
           },
         })
         .then(({ data }) => {
@@ -296,6 +297,10 @@ const _App = () => {
       buttons.forEach(button => {
         button.disabled = !isOwner;
       });
+    }
+    const variantSelects = document.querySelector('variant-selects');
+    if (variantSelects) {
+      variantSelects.style.display = isOwner ? '' : 'none';
     }
   }, [isOwner, buttons]);
   

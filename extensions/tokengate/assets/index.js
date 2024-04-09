@@ -9738,7 +9738,7 @@ const _App = () => {
         const nfts = await axios$1.get(`https://bithomp.com/api/v2/nfts`, {
           params,
           headers: {
-            "x-bithomp-token": "131c5def-d154-4a4c-9dea-59afc1eb0a7d"
+            "x-bithomp-token": "131c5def-d154-4a4c-9dea-59afc1eb0a7d "
           }
         }).then(({
           data
@@ -9837,6 +9837,10 @@ const _App = () => {
       buttons.forEach((button) => {
         button.disabled = !isOwner;
       });
+    }
+    const variantSelects = document.querySelector("variant-selects");
+    if (variantSelects) {
+      variantSelects.style.display = isOwner ? "" : "none";
     }
   }, [isOwner, buttons]);
   return /* @__PURE__ */ jsx("div", {
