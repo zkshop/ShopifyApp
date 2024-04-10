@@ -1,58 +1,61 @@
-import { Page, Layout, Card, TextContainer, MediaCard } from "@shopify/polaris";
+import { Page, Layout, Card, TextContainer } from "@shopify/polaris";
 
 export default function HomePage() {
 
   return (
-    <Page
-      title="Welcome to the Sorcel App"
-    >
+    <Page>
       <Layout>
         <Layout.Section>
-          <Card title="Get Started" sectioned>
+          <Card title="Welcome to the Sorcel App" sectioned>
             <TextContainer>
-              <p>Welcome to your new Shopify app! This is your homepage, where you can guide new users through the onboarding process and explain the key features of your app.</p>
-              <p>Feel free to customize this template to suit your app's needs.</p>
+              <p>
+                This is your homepage, where we will guide you to make the most out of the app.
+                <br/>
+                You will find a detailed guide in the section below.
+              </p>
             </TextContainer>
           </Card>
         </Layout.Section>
         <Layout.Section>
-          <Card title="Next Steps" sectioned>
+          <Card title="Set up guide" sectioned>
             <TextContainer>
-              <p>Here are some suggestions on what to include in your onboarding process:</p>
-              <ul>
-                <li>Introduction to the app and its benefits</li>
-                <li>Step-by-step guide on how to set up and use the app</li>
-                <li>Support resources and how to get help</li>
-              </ul>
+              <p>
+                Follow these instructions to set up the app:
+                <ul>
+                  <li>Under "Online Store" select "Themes"</li>
+                  <li>Click on "Customize"</li>
+                  <li>Click on "Home page" on the top banner</li>
+                  <li>Select "Product"</li>
+                  <li>Then select "Default product"</li>
+                  <li>In the "Templates" section under "Products information" select "Add block"</li>
+                  <li>Then select "Apps"</li>
+                  <li>And select the Sorcel "Tokengate" block</li>
+                </ul>
+                Once it is done you can move the block freely in the "Products information" section.
+              </p>
+              <p>
+                You can now create tokengates in the "Tokengates" section of the app and they will appear in the selected products.
+                <br/>
+                To do so follow these instructions:
+                <ul>
+                  <li>Click on "Tokengates"</li>
+                  <li>Click on "Create tokengate" on the top-right button</li>
+                  <li>Fill in the form</li>
+                  <li>Save the tokengate</li>
+                </ul>
+                You are done! 
+              </p>
             </TextContainer>
           </Card>
         </Layout.Section>
         <Layout.Section>
-          <MediaCard
-            title="Introduction Video"
-            description="Watch this video to get a quick overview of the app."
-            // Placeholder for video URL
-            primaryAction={{
-              content: 'Watch video',
-              onAction: () => {}, // Placeholder for video action
-            }}
-            portrait={true}
-          >
-            {/* Placeholder for video component */}
-          </MediaCard>
-        </Layout.Section>
-        <Layout.Section>
-          <MediaCard
-            title="Gallery"
-            description="Explore the app through images."
-            // Placeholder for images
-            primaryAction={{
-              content: 'View gallery',
-              onAction: () => {}, // Placeholder for gallery action
-            }}
-          >
-            {/* Placeholder for image gallery component */}
-          </MediaCard>
+          <Card title="More later" sectioned>
+            <TextContainer>
+              <p>
+                New features will be coming soon.
+              </p>
+            </TextContainer>
+          </Card>
         </Layout.Section>
       </Layout>
     </Page>
