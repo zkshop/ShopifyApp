@@ -43,20 +43,12 @@ export default function HomePage() {
                   <li>Fill in the form</li>
                   <li>Save the tokengate</li>
                 </ul>
-                You are done! 
+                You are done!  
               </p>
             </TextContainer>
           </Card>
         </Layout.Section>
-        <Layout.Section>
-          <Card title="More later" sectioned>
-            <TextContainer>
-              <p>
-                New features will be coming soon.
-              </p>
-            </TextContainer>
-          </Card>
-        </Layout.Section>
+        
       </Layout>
     </Page>
   );

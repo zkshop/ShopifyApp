@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback } from "react";
 import {
     getGateContextClient,
   } from "@shopify/gate-context-client";
+require('dotenv').config();
 
   const gateContextClient =
   getGateContextClient({

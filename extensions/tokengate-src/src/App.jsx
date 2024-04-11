@@ -10,10 +10,6 @@ export const httpServerless = axios.create({
   },
 });
 
-function getShopDomain() {
-  return window.Shopify.shop;
-}
-
 import PropTypes from 'prop-types';
 
 export const XamanWalletContext = createContext(undefined);
@@ -58,14 +54,14 @@ const useSocketService = (websocketClient, websocket_status, onEvent) => {
 export const XamanWalletProvider = ({ children }) => {
   const [state, setState] = useState(stateInitialState);
   const [isCanceled, setIsCanceled] = useState(false);
-
+  
   const setStateByKey = useCallback((key, value) => {
     setState((prevState) => ({
       ...prevState,
       [key]: value,
     }));
   }, []);
-
+  
   useEffect(() => {
     setIsCanceled(false);
     if (state.auth.address !== undefined)
@@ -76,74 +72,74 @@ export const XamanWalletProvider = ({ children }) => {
         useSocketService(WebSocket, data.refs.websocket_status, (eventData) => {
           switch (true) {
             case eventData.devapp_fetched:
-            case eventData.pre_signed:
-            case eventData.dispatched:
-              break;
-            case 'expires_in_seconds' in eventData:
-              if (Number(eventData.expires_in_seconds) <= 0)
-                setStateByKey('currentStep', 'expired');
-              break;
-            case eventData.opened:
-              setStateByKey('currentStep', 'scanned');
-              break;
-            case 'signed' in eventData:
-              setStateByKey('currentStep', 'signed');
-              setStateByKey('xummPayload', eventData);
-              break;
-            case eventData.expired:
-              setStateByKey('currentStep', 'expired');
-              break;
-            default:
-              break;
-          }
-        });
-        setStateByKey('apiResponse', data);
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, [state.auth.address, isCanceled]);
-
-  useEffect(() => {
-    (async () => {
-      if (!state.xummPayload)
-        return;
-      try {
-        const response = await httpServerless.post("api/shop/xaman/payload", { payload_uuid: state.xummPayload['payload_uuidv4'] });
-        const address = response.data.response.signer;
-        if (!address) {
-          handlers.disconnect();
-        }
-        else {
-          setStateByKey('auth', { ...state.auth, address });
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, [state.xummPayload]);
-
-  const handlers = {
-    close: () => {
-      if (!state.auth.address)
-        setState(stateInitialState);
-      setIsCanceled(true);
-    },
-    disconnect: () => {
-      setState(stateInitialState);
-    }
-  }
-
-  return <>
+              case eventData.pre_signed:
+                case eventData.dispatched:
+                  break;
+                  case 'expires_in_seconds' in eventData:
+                    if (Number(eventData.expires_in_seconds) <= 0)
+                    setStateByKey('currentStep', 'expired');
+                  break;
+                  case eventData.opened:
+                    setStateByKey('currentStep', 'scanned');
+                    break;
+                    case 'signed' in eventData:
+                      setStateByKey('currentStep', 'signed');
+                      setStateByKey('xummPayload', eventData);
+                      break;
+                      case eventData.expired:
+                        setStateByKey('currentStep', 'expired');
+                        break;
+                        default:
+                          break;
+                        }
+                      });
+                      setStateByKey('apiResponse', data);
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  })();
+                }, [state.auth.address, isCanceled]);
+                
+                useEffect(() => {
+                  (async () => {
+                    if (!state.xummPayload)
+                    return;
+                  try {
+                    const response = await httpServerless.post("api/shop/xaman/payload", { payload_uuid: state.xummPayload['payload_uuidv4'] });
+                    const address = response.data.response.signer;
+                    if (!address) {
+                      handlers.disconnect();
+                    }
+                    else {
+                      setStateByKey('auth', { ...state.auth, address });
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  }
+                })();
+              }, [state.xummPayload]);
+              
+              const handlers = {
+                close: () => {
+                  if (!state.auth.address)
+                  setState(stateInitialState);
+                setIsCanceled(true);
+              },
+              disconnect: () => {
+                setState(stateInitialState);
+              }
+            }
+            
+            return <>
     <XamanWalletContext.Provider value={
       {state,
-      handlers,
-      auth: {
-        address: state.auth.address,
-        isConnected: (() => state.auth.address !== undefined)(),
-        isDisconnected: (() => state.auth.address === undefined)(),
-      },
-    }}>
+        handlers,
+        auth: {
+          address: state.auth.address,
+          isConnected: (() => state.auth.address !== undefined)(),
+          isDisconnected: (() => state.auth.address === undefined)(),
+        },
+      }}>
       {children}
     </XamanWalletContext.Provider>
   </>
@@ -151,11 +147,11 @@ export const XamanWalletProvider = ({ children }) => {
 
 const RenderQrCode = () => {
   const { state } = useContext(XamanWalletContext);
-
+  
   if (!state.apiResponse || !state.apiResponse.refs || ['expired', 'signed'].includes(state.currentStep)) {
     return null;
   }
-
+  
   return (
     <div style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
       <img src={state.apiResponse.refs.qr_png} alt="xaman-signin-qrcode" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
@@ -192,13 +188,13 @@ const _App = () => {
         .get(`https://bithomp.com/api/v2/nfts`, {
           params,
           headers: {
-            'x-bithomp-token': "131c5def-d154-4a4c-9dea-59afc1eb0a7d ",
+            'x-bithomp-token': import.meta.env.VITE_BITHOMP_TOKEN,
           },
         })
         .then(({ data }) => {
           return data.nfts;
         });
-          return nfts;
+        return nfts;
       },
     };
   };
@@ -213,31 +209,28 @@ const _App = () => {
     if (nfts.length <= 0)
       setIsOwner(false);
     else
-    {
-      console.log('nfts', nfts);
       setIsOwner(true);
-    }
-  }
+};
   
   useEffect(() => {
     handleNftSearchOwner();
   }, [wallet]);
-
+  
   useEffect(() => {
     if (auth.address !== undefined)
-      setWallet({ address: auth.address });
-    else
-      setWallet({ address: null });
-  }, [auth.address]);
-  
-  const handleConnectWallet = () => {
-    if (wallet.address === null) {
-      setShowQR(true);
-    }
-  };
+    setWallet({ address: auth.address });
+  else
+  setWallet({ address: null });
+}, [auth.address]);
 
-  const handleDisconnectWallet = () => {
-    if (showQR)
+const handleConnectWallet = () => {
+  if (wallet.address === null) {
+    setShowQR(true);
+  }
+};
+
+const handleDisconnectWallet = () => {
+  if (showQR)
       setShowQR(false);
     if (wallet.address !== null)
       handlers.disconnect();
@@ -256,7 +249,7 @@ const _App = () => {
         .get(`https://bithomp.com/api/v2/nfts`, {
           params,
           headers: {
-            'x-bithomp-token': '131c5def-d154-4a4c-9dea-59afc1eb0a7d',
+            'x-bithomp-token': import.meta.env.VITE_BITHOMP_TOKEN,
           },
           })
           .then(({ data }) => {
