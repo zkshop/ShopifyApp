@@ -53,8 +53,8 @@ export const TokengatesResourcePicker = ({ products }) => {
 
     const thumbnail = (
       <Thumbnail
-        source={images?.[0]?.src || ImageMajor}
-        alt={images?.[0]?.alt || title}
+        source={images?.[0]?.originalSrc || ImageMajor}
+        alt={images?.[0]?.altText || title}
         size="small"
       />
     );
