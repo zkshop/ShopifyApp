@@ -1,8 +1,6 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Button,
-  ButtonGroup,
   LegacyCard,
   Form,
   Heading,
@@ -28,15 +26,6 @@ export default function CreateTokengate() {
       value: undefined,
       validates: (name) => !name && "Name cannot be empty",
     }),
-    // discountType: useField("percentage"),
-    // discount: useField({
-    //   value: undefined,
-    //   validates: (discount) => !fields.exclusiveContent.value && !discount && "Discount cannot be empty",
-    // }),
-    // segment: useField({
-    //   value: undefined,
-    //   validates: (segment) => !segment && "Segment cannot be empty",
-    // }),
     issuer: useField({
       value: undefined,
       validates: (issuer) => !issuer && "Issuer cannot be empty",
@@ -59,16 +48,10 @@ export default function CreateTokengate() {
       const body = {
         name,
         productGids,
-        // segment: segment.split(","),
         issuer,
         taxon,
         exclusiveContent,
       };
-      
-      // if (!exclusiveContent) {
-      //   body.discountType = discountType;
-      //   body.discount = discount;
-      // }
 
       const response = await fetch("/api/gates", {
         method: "POST",
@@ -81,7 +64,7 @@ export default function CreateTokengate() {
       if (response.ok) {
         setToastProps({ content: "Tokengate created" });
         makeClean();
-        navigate("/");
+        navigate("/tokengates");
       } else {
         setToastProps({
           content: "There was an error creating a tokengate",
@@ -90,17 +73,6 @@ export default function CreateTokengate() {
       }
     },
   });
-
-  // const handleDiscountTypeButtonClick = useCallback((type) => {
-  //   if (type === "exclusiveContent") {
-  //     fields.exclusiveContent.onChange(true);
-  //     fields.discountType.onChange("");
-  //     fields.discount.onChange("");
-  //   } else {
-  //     fields.exclusiveContent.onChange(false);
-  //     fields.discountType.onChange(type);
-  //   }
-  // }, [fields.discountType, fields.exclusiveContent]);  
 
   const toastMarkup = toastProps.content && (
     <Toast {...toastProps} onDismiss={() => setToastProps({ content: null })} />
@@ -113,7 +85,7 @@ export default function CreateTokengate() {
         {
           content: "Go back",
           onAction: () => {
-            navigate("/");
+            navigate("/tokengates");
           },
         },
       ]}
@@ -150,13 +122,6 @@ export default function CreateTokengate() {
                     </TextContainer>
                   </LegacyCard.Section>
                   <LegacyCard.Section title="XRP SEGMENT">
-                    {/* <TextField
-                      name="segment"
-                      label="Segment"
-                      type="text"
-                      {...fields.segment}
-                      autoComplete="off"
-                    /> */}
                     <Stack distribution="fillEvenly">
                       <Stack.Item>
                         <TextField

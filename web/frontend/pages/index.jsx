@@ -1,6 +1,11 @@
 import { Page, Layout, Card, TextContainer } from "@shopify/polaris";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function HomePage() {
+  const navigate = useNavigate(); // Initialize navigate function
+
+  // Function to handle navigation
+  const goToTokengates = () => navigate('/tokengates');
 
   return (
     <Page>
@@ -34,7 +39,7 @@ export default function HomePage() {
                 Once it is done you can move the block freely in the "Products information" section.
               </p>
               <p>
-                You can now create tokengates in the "Tokengates" section of the app and they will appear in the selected products.
+                You can now create tokengates in the <span style={{color: 'blue', cursor: 'pointer'}} onClick={goToTokengates}>Tokengates</span> section of the app and they will appear in the selected products.
                 <br/>
                 To do so follow these instructions:
                 <ul>
@@ -48,7 +53,6 @@ export default function HomePage() {
             </TextContainer>
           </Card>
         </Layout.Section>
-        
       </Layout>
     </Page>
   );
