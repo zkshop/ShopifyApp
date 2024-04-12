@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://dom-mapping-damage-strategies.trycloudflare.com"
+application_url = "https://either-drama-electronic-protocol.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://dom-mapping-damage-strategies.trycloudflare.com/auth/callback",
-  "https://dom-mapping-damage-strategies.trycloudflare.com/auth/shopify/callback",
-  "https://dom-mapping-damage-strategies.trycloudflare.com/api/auth/callback"
+  "https://either-drama-electronic-protocol.trycloudflare.com/auth/callback",
+  "https://either-drama-electronic-protocol.trycloudflare.com/auth/shopify/callback",
+  "https://either-drama-electronic-protocol.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -3,10 +3,13 @@ import axios from 'axios';
 
 // need to run the serverless locally for now
 export const httpServerless = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: import.meta.env.VITE_PUBLIC_FUNCTIONS_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
+  },
+  params: {
+    key: import.meta.env.VITE_SERVERLESS_API_KEY,
   },
 });
 
@@ -261,6 +264,8 @@ const handleDisconnectWallet = () => {
     };
     
     useEffect(() => {
+      console.log("serverless", import.meta.env.VITE_PUBLIC_FUNCTIONS_URL);
+      console.log("serverless", import.meta.env.VITE_SERVERLESS_API_KEY);
       callGetNfts();
     }, []);
     

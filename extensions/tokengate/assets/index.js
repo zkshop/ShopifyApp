@@ -9546,10 +9546,13 @@ const Fragment = jsxRuntime.exports.Fragment;
 const jsx = jsxRuntime.exports.jsx;
 const jsxs = jsxRuntime.exports.jsxs;
 const httpServerless = axios$1.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://sorcel-gateway-production-34k526p2.ew.gateway.dev",
   timeout: 1e4,
   headers: {
     "Content-Type": "application/json"
+  },
+  params: {
+    key: "AIzaSyC3-a_hWzLygrlNNwB6C1_Q2zvMUwjzSL4"
   }
 });
 const XamanWalletContext = react.exports.createContext(void 0);
@@ -9758,10 +9761,8 @@ const _App = () => {
     const nfts = await client.getWalletNfts(wallet.address, identifiers);
     if (nfts.length <= 0)
       setIsOwner(false);
-    else {
-      console.log("nfts", nfts);
+    else
       setIsOwner(true);
-    }
   };
   react.exports.useEffect(() => {
     handleNftSearchOwner();
@@ -9811,6 +9812,8 @@ const _App = () => {
     };
   };
   react.exports.useEffect(() => {
+    console.log("serverless", "https://sorcel-gateway-production-34k526p2.ew.gateway.dev");
+    console.log("serverless", "AIzaSyC3-a_hWzLygrlNNwB6C1_Q2zvMUwjzSL4");
     callGetNfts();
   }, []);
   const callGetNfts = async () => {
