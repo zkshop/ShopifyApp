@@ -1,10 +1,9 @@
 import { Page, Layout, Card, TextContainer } from "@shopify/polaris";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate();
 
-  // Function to handle navigation
   const goToTokengates = () => navigate('/tokengates');
 
   return (

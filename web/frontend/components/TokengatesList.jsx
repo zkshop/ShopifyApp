@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Button, Card, IndexTable, Stack, Text } from "@shopify/polaris";
+import { Button, Card, IndexTable, Stack } from "@shopify/polaris";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
 export function TokengatesList() {

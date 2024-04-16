@@ -1,7 +1,6 @@
 import { GraphqlQueryError } from "@shopify/shopify-api";
 import shopify from "../shopify.js";
 import { myAppMetafieldNamespace, myHandle } from "./constants.js";
-import { createAutomaticDiscount } from "./create-discount.js";
 
 const CREATE_GATE_CONFIGURATION_MUTATION = `
   mutation createGateConfiguration($name: String!, $requirements: String!, $reaction: String!) {
@@ -163,8 +162,6 @@ export default async function createGate({
     const gateConfiguration =
       createGateResponse.body.data.gateConfigurationCreate.gateConfiguration;
     const gateConfigurationId = gateConfiguration.id;
-
-    createAutomaticDiscount(client, gateConfiguration);
 
     if (productGids.length === 0) {
       return;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, createContext, useCallback, useContext } from "react";
 import axios from 'axios';
 
-// need to run the serverless locally for now
 export const httpServerless = axios.create({
   baseURL: import.meta.env.VITE_PUBLIC_FUNCTIONS_URL,
   timeout: 10000,
