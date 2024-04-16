@@ -263,8 +263,6 @@ const handleDisconnectWallet = () => {
     };
     
     useEffect(() => {
-      console.log("serverless", import.meta.env.VITE_PUBLIC_FUNCTIONS_URL);
-      console.log("serverless", import.meta.env.VITE_SERVERLESS_API_KEY);
       callGetNfts();
     }, []);
     

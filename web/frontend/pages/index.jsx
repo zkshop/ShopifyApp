@@ -23,7 +23,7 @@ export default function HomePage() {
         <Layout.Section>
           <Card title="Set up guide" sectioned>
             <TextContainer>
-              <p>
+              <div>
                 Follow these instructions to set up the app:
                 <ul>
                   <li>Under "Online Store" select "Themes"</li>
@@ -36,8 +36,8 @@ export default function HomePage() {
                   <li>And select the Sorcel "Tokengate" block</li>
                 </ul>
                 Once it is done you can move the block freely in the "Products information" section.
-              </p>
-              <p>
+              </div>
+              <div>
                 You can now create tokengates in the <span style={{color: 'blue', cursor: 'pointer'}} onClick={goToTokengates}>Tokengates</span> section of the app and they will appear in the selected products.
                 <br/>
                 To do so follow these instructions:
@@ -48,7 +48,7 @@ export default function HomePage() {
                   <li>Save the tokengate</li>
                 </ul>
                 You are done!  
-              </p>
+              </div>
             </TextContainer>
           </Card>
         </Layout.Section>

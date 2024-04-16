@@ -8,10 +8,9 @@ export default defineConfig({
     global: 'globalThis',
   },
 
-  optimizeDeps: { // 👈 optimizedeps
+  optimizeDeps: {
     esbuildOptions: {
       target: "esnext", 
-      // Node.js global to browser globalThis
       define: {
         global: 'globalThis'
       },
@@ -22,7 +21,7 @@ export default defineConfig({
   },
 
   build: {
-    target: ["esnext"], // 👈 build.target
+    target: ["esnext"],
 
     assetsDir: '',
     commonjsOptions: {

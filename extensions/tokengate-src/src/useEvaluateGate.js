@@ -2,7 +2,6 @@ import { useMemo, useState, useCallback } from "react";
 import {
     getGateContextClient,
   } from "@shopify/gate-context-client";
-require('dotenv').config();
 
   const gateContextClient =
   getGateContextClient({
@@ -15,7 +14,6 @@ require('dotenv').config();
         return data;
       }
 
-      // merges existing gate context entries
       function mergeGateContext(existing, add) {
         const entriesById = existing.reduce((acc, item) => {
           acc[item.id] = item;

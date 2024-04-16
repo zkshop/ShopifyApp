@@ -8989,7 +8989,7 @@ function dispatchRequest(config) {
     return Promise.reject(reason);
   });
 }
-const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? thing.toJSON() : thing;
+const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? { ...thing } : thing;
 function mergeConfig(config1, config2) {
   config2 = config2 || {};
   const config = {};
@@ -9067,7 +9067,7 @@ function mergeConfig(config1, config2) {
   });
   return config;
 }
-const VERSION = "1.6.7";
+const VERSION = "1.6.8";
 const validators$1 = {};
 ["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
   validators$1[type] = function validator2(thing) {
@@ -9812,8 +9812,6 @@ const _App = () => {
     };
   };
   react.exports.useEffect(() => {
-    console.log("serverless", "https://sorcel-gateway-production-34k526p2.ew.gateway.dev");
-    console.log("serverless", "AIzaSyC3-a_hWzLygrlNNwB6C1_Q2zvMUwjzSL4");
     callGetNfts();
   }, []);
   const callGetNfts = async () => {
@@ -9943,11 +9941,9 @@ const App = () => {
     children: /* @__PURE__ */ jsx(_App, {})
   });
 };
-const styles$1 = "";
-const styles = "";
 const container = document.getElementById("tokengating-example-app");
 if (container.dataset.product_gated === "true") {
   ReactDOM.createRoot(container).render(/* @__PURE__ */ jsx(App, {}));
 } else {
-  container.innerHTML = "This product is not gated.";
+  container.innerHTML = "";
 }
