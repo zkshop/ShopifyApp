@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://antigua-analyst-pdt-university.trycloudflare.com"
+application_url = "https://manor-suit-screen-wound.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://antigua-analyst-pdt-university.trycloudflare.com/auth/callback",
-  "https://antigua-analyst-pdt-university.trycloudflare.com/auth/shopify/callback",
-  "https://antigua-analyst-pdt-university.trycloudflare.com/api/auth/callback"
+  "https://manor-suit-screen-wound.trycloudflare.com/auth/callback",
+  "https://manor-suit-screen-wound.trycloudflare.com/auth/shopify/callback",
+  "https://manor-suit-screen-wound.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
