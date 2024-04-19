@@ -12,6 +12,7 @@
     "deploy": "shopify app deploy"
   },
   "dependencies": {
+    "@formatjs/intl-locale": "^3.4.5",
     "@formatjs/intl-localematcher": "^0.5.4",
     "@shopify/app": "3.55.4",
     "@shopify/app-bridge": "^3.7.10",
