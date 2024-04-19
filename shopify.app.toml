@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://fellow-provider-president-tee.trycloudflare.com"
+application_url = "https://burst-regular-accompanying-windows.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
 
 [auth]
 redirect_urls = [
-  "https://fellow-provider-president-tee.trycloudflare.com/auth/callback",
-  "https://fellow-provider-president-tee.trycloudflare.com/auth/shopify/callback",
-  "https://fellow-provider-president-tee.trycloudflare.com/api/auth/callback"
+  "https://burst-regular-accompanying-windows.trycloudflare.com/auth/callback",
+  "https://burst-regular-accompanying-windows.trycloudflare.com/auth/shopify/callback",
+  "https://burst-regular-accompanying-windows.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
