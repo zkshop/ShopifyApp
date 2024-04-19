@@ -63,8 +63,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['react-i18next'],
-      external: ['@shopify/i18next-shopify'],
+      external: ['react-i18next', '@shopify/i18next-shopify'],
     },
   },
 });
