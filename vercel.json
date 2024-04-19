@@ -1,0 +1,5 @@
+{
+    "routes": [
+      { "src": "/api/gates", "dest": "/api/gates.js" }
+    ]
+}
