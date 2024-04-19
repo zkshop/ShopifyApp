@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import ShopifyFormat from "@shopify/i18next-shopify";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { match } from "@formatjs/intl-localematcher";

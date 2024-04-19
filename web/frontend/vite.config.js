@@ -61,4 +61,10 @@ export default defineConfig({
       "^/public(/|(\\?.*)?$)": proxyOptions,
     },    
   },
+  build: {
+    rollupOptions: {
+      external: ['react-i18next'],
+    },
+  },
 });
+
