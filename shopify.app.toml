@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://azerbaijan-academic-grateful-gig.trycloudflare.com"
+application_url = "https://organizations-charlotte-vermont-kennedy.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,13 +13,13 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products,read_gates,write_gates,read_discounts,write_discounts"
+scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://azerbaijan-academic-grateful-gig.trycloudflare.com/auth/callback",
-  "https://azerbaijan-academic-grateful-gig.trycloudflare.com/auth/shopify/callback",
-  "https://azerbaijan-academic-grateful-gig.trycloudflare.com/api/auth/callback"
+  "https://organizations-charlotte-vermont-kennedy.trycloudflare.com/auth/callback",
+  "https://organizations-charlotte-vermont-kennedy.trycloudflare.com/auth/shopify/callback",
+  "https://organizations-charlotte-vermont-kennedy.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

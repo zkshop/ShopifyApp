@@ -3,14 +3,12 @@ import { useNavigate } from "react-router-dom";
 import {
   LegacyCard,
   Form,
-  Heading,
   Layout,
   Page,
   PageActions,
-  Stack,
   TextContainer,
-  TextField,
 } from "@shopify/polaris";
+import { TextField } from '@shopify/polaris';
 import { ContextualSaveBar, Toast } from "@shopify/app-bridge-react";
 import { useField, useForm } from "@shopify/react-form";
 import { useAuthenticatedFetch } from "../hooks";
@@ -111,7 +109,6 @@ export default function CreateTokengate() {
                 <LegacyCard>
                   <LegacyCard.Section>
                     <TextContainer>
-                      <Heading>Configuration</Heading>
                       <TextField
                         name="name"
                         label="Name of the gate"
@@ -122,8 +119,8 @@ export default function CreateTokengate() {
                     </TextContainer>
                   </LegacyCard.Section>
                   <LegacyCard.Section title="XRP SEGMENT">
-                    <Stack distribution="fillEvenly">
-                      <Stack.Item>
+                    <Layout distribution="fillEvenly">
+                      <Layout.Item>
                         <TextField
                           name="issuer"
                           label="Issuer"
@@ -131,8 +128,8 @@ export default function CreateTokengate() {
                           {...fields.issuer}
                           autoComplete="off"
                         />
-                      </Stack.Item>
-                      <Stack.Item>
+                      </Layout.Item>
+                      <Layout.Item>
                         <TextField
                           name="taxon"
                           label="Taxon"
@@ -140,8 +137,8 @@ export default function CreateTokengate() {
                           {...fields.taxon}
                           autoComplete="off"
                         />
-                      </Stack.Item>
-                    </Stack>
+                      </Layout.Item>
+                    </Layout>
                   </LegacyCard.Section>
                 </LegacyCard>
               </Layout.Section>

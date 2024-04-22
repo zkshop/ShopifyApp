@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Button, Card, IndexTable, Stack } from "@shopify/polaris";
+import { Button, LegacyCard, IndexTable, Layout } from "@shopify/polaris";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
 export function TokengatesList() {
@@ -102,13 +102,13 @@ export function TokengatesList() {
   };
 
   const emptyState = (
-    <Stack distribution="center">
+    <Layout distribution="center">
       <p>No Tokengates found</p>
-    </Stack>
+    </Layout>
   );
 
   return (
-    <Card>
+    <LegacyCard>
       <IndexTable
         emptyState={emptyState}
         headings={tableHeadings}
@@ -121,6 +121,6 @@ export function TokengatesList() {
       >
         {indexTableRow()}
       </IndexTable>
-    </Card>
+    </LegacyCard>
   );
 }

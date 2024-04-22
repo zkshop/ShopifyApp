@@ -1,4 +1,4 @@
-import { Page, Layout, Card, TextContainer } from "@shopify/polaris";
+import { Page, Layout, LegacyCard, TextContainer } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
@@ -10,7 +10,7 @@ export default function HomePage() {
     <Page>
       <Layout>
         <Layout.Section>
-          <Card title="Welcome to the Sorcel App" sectioned>
+          <LegacyCard title="Welcome to the Sorcel App" sectioned>
             <TextContainer>
               <p>
                 This is your homepage, where we will guide you to make the most out of the app.
@@ -18,10 +18,10 @@ export default function HomePage() {
                 You will find a detailed guide in the section below.
               </p>
             </TextContainer>
-          </Card>
+          </LegacyCard>
         </Layout.Section>
         <Layout.Section>
-          <Card title="Set up guide" sectioned>
+          <LegacyCard title="Set up guide" sectioned>
             <TextContainer>
               <div>
                 Follow these instructions to set up the app:
@@ -50,7 +50,7 @@ export default function HomePage() {
                 You are done!  
               </div>
             </TextContainer>
-          </Card>
+          </LegacyCard>
         </Layout.Section>
       </Layout>
     </Page>

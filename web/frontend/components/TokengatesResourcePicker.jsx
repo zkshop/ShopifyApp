@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import {
   Button,
-  Card,
+  LegacyCard,
   Link,
   ResourceItem,
   ResourceList,
-  Stack,
+  Layout,
   Thumbnail,
 } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
@@ -66,21 +66,21 @@ export const TokengatesResourcePicker = ({ products }) => {
         onClick={() => {}}
         verticalAlignment="center"
       >
-        <Stack alignment="center">
-          <Stack.Item fill>
+        <Layout alignment="center">
+          <Layout.Item fill>
             <p>
               <Link removeUnderline onClick={() => handleNavigateToProduct(id)}>
                 {title}
               </Link>
             </p>
-          </Stack.Item>
+          </Layout.Item>
           <Button
             icon={CancelSmallMinor}
             plain
             accessibilityLabel="cancel"
             onClick={() => handleRemoveItem(id)}
           />
-        </Stack>
+        </Layout>
       </ResourceItem>
     );
   };
@@ -100,16 +100,16 @@ export const TokengatesResourcePicker = ({ products }) => {
     }
 
     return (
-      <Card.Section>
-        <Stack distribution="center">
+      <LegacyCard.Section>
+        <Layout distribution="center">
           <Button onClick={handleTogglePicker}>Choose products</Button>
-        </Stack>
-      </Card.Section>
+        </Layout>
+      </LegacyCard.Section>
     );
   };
 
   return (
-    <Card
+    <LegacyCard
       title="Applies to"
       actions={
         products.value.length > 0
@@ -122,7 +122,7 @@ export const TokengatesResourcePicker = ({ products }) => {
           : []
       }
     >
-      <Card.Section>{selectedResourcesMarkup()}</Card.Section>
+      <LegacyCard.Section>{selectedResourcesMarkup()}</LegacyCard.Section>
 
       <ResourcePicker
         resourceType="Product"
@@ -132,6 +132,6 @@ export const TokengatesResourcePicker = ({ products }) => {
         showVariants={false}
         selectMultiple={true}
       />
-    </Card>
+    </LegacyCard>
   );
 };
