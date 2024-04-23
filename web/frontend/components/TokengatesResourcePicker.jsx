@@ -5,7 +5,6 @@ import {
   Link,
   ResourceItem,
   ResourceList,
-  Layout,
   Thumbnail,
 } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
@@ -66,21 +65,19 @@ export const TokengatesResourcePicker = ({ products }) => {
         onClick={() => {}}
         verticalAlignment="center"
       >
-        <Layout alignment="center">
-          <Layout.Item fill>
+        <LegacyCard.Section>
             <p>
               <Link removeUnderline onClick={() => handleNavigateToProduct(id)}>
                 {title}
               </Link>
             </p>
-          </Layout.Item>
           <Button
             icon={CancelSmallMinor}
             plain
             accessibilityLabel="cancel"
             onClick={() => handleRemoveItem(id)}
           />
-        </Layout>
+        </LegacyCard.Section>
       </ResourceItem>
     );
   };
@@ -101,9 +98,7 @@ export const TokengatesResourcePicker = ({ products }) => {
 
     return (
       <LegacyCard.Section>
-        <Layout distribution="center">
-          <Button onClick={handleTogglePicker}>Choose products</Button>
-        </Layout>
+        <Button onClick={handleTogglePicker}>Choose products</Button>
       </LegacyCard.Section>
     );
   };

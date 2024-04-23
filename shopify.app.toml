@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://organizations-charlotte-vermont-kennedy.trycloudflare.com"
+application_url = "https://presentation-installation-medical-frost.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://organizations-charlotte-vermont-kennedy.trycloudflare.com/auth/callback",
-  "https://organizations-charlotte-vermont-kennedy.trycloudflare.com/auth/shopify/callback",
-  "https://organizations-charlotte-vermont-kennedy.trycloudflare.com/api/auth/callback"
+  "https://presentation-installation-medical-frost.trycloudflare.com/auth/callback",
+  "https://presentation-installation-medical-frost.trycloudflare.com/auth/shopify/callback",
+  "https://presentation-installation-medical-frost.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

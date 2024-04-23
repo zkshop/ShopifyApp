@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import {
   LegacyCard,
   Form,
-  Layout,
   Page,
   PageActions,
-  TextContainer,
+  Text,
 } from "@shopify/polaris";
 import { TextField } from '@shopify/polaris';
 import { ContextualSaveBar, Toast } from "@shopify/app-bridge-react";
@@ -79,18 +78,14 @@ export default function CreateTokengate() {
   return (
     <Page
       narrowWidth
-      breadcrumbs={[
-        {
-          content: "Go back",
-          onAction: () => {
-            navigate("/tokengates");
-          },
+      backAction={{
+        content: "Go back",
+        onAction: () => {
+          navigate("/tokengates");
         },
-      ]}
+      }}
       title="Create a new Tokengate"
     >
-      <Layout>
-        <Layout.Section>
           <Form onSubmit={submit}>
             <ContextualSaveBar
               saveAction={{
@@ -104,48 +99,43 @@ export default function CreateTokengate() {
               visible={dirty}
             />
             {toastMarkup}
-            <Layout>
-              <Layout.Section>
-                <LegacyCard>
-                  <LegacyCard.Section>
-                    <TextContainer>
-                      <TextField
-                        name="name"
-                        label="Name of the gate"
-                        type="text"
-                        {...fields.name}
-                        autoComplete="off"
+            <LegacyCard>
+              <LegacyCard.Section>
+                    <Text variant="headingXl" as="h4">
+                      Informations
+                    </Text>                   
+                    <TextField
+                      name="name"
+                      label="Name of the gate"
+                      type="text"
+                      {...fields.name}
+                      autoComplete="off"
                       />
-                    </TextContainer>
-                  </LegacyCard.Section>
-                  <LegacyCard.Section title="XRP SEGMENT">
-                    <Layout distribution="fillEvenly">
-                      <Layout.Item>
-                        <TextField
-                          name="issuer"
-                          label="Issuer"
-                          type="text"
-                          {...fields.issuer}
-                          autoComplete="off"
-                        />
-                      </Layout.Item>
-                      <Layout.Item>
-                        <TextField
-                          name="taxon"
-                          label="Taxon"
-                          type="text"
-                          {...fields.taxon}
-                          autoComplete="off"
-                        />
-                      </Layout.Item>
-                    </Layout>
-                  </LegacyCard.Section>
-                </LegacyCard>
-              </Layout.Section>
-              <Layout.Section>
+              </LegacyCard.Section>
+              <LegacyCard.Section>
+                    <Text variant="headingXl" as="h4">
+                      XRP SEGMENT
+                    </Text>
+                    <TextField
+                      name="issuer"
+                      label="Issuer"
+                      type="text"
+                      {...fields.issuer}
+                      autoComplete="off"
+                      />
+                    <TextField
+                      name="taxon"
+                      label="Taxon"
+                      type="text"
+                      {...fields.taxon}
+                      autoComplete="off"
+                      />
+              </LegacyCard.Section>
+            </LegacyCard>
+              <LegacyCard>
                 <TokengatesResourcePicker products={fields.products} />
-              </Layout.Section>
-              <Layout.Section>
+              </LegacyCard>
+              <LegacyCard.Section>
                 <PageActions
                   primaryAction={{
                     content: "Save",
@@ -154,13 +144,8 @@ export default function CreateTokengate() {
                     onAction: submit,
                   }}
                 />
-              </Layout.Section>
-            </Layout>
+              </LegacyCard.Section>
           </Form>
-        </Layout.Section>
-      </Layout>
     </Page>
   );
 }
-
-
