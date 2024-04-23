@@ -66,17 +66,17 @@ export const TokengatesResourcePicker = ({ products }) => {
         verticalAlignment="center"
       >
         <LegacyCard.Section>
-            <p>
-              <Link removeUnderline onClick={() => handleNavigateToProduct(id)}>
-                {title}
-              </Link>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <p style={{ margin: 0 }}>
+              {title}
             </p>
-          <Button
-            icon={CancelSmallMinor}
-            plain
-            accessibilityLabel="cancel"
-            onClick={() => handleRemoveItem(id)}
-          />
+            <Button
+              icon={CancelSmallMinor}
+              plain
+              accessibilityLabel="cancel"
+              onClick={() => handleRemoveItem(id)}
+            />
+          </div>
         </LegacyCard.Section>
       </ResourceItem>
     );
@@ -98,7 +98,9 @@ export const TokengatesResourcePicker = ({ products }) => {
 
     return (
       <LegacyCard.Section>
-        <Button onClick={handleTogglePicker}>Choose products</Button>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button onClick={handleTogglePicker}>Choose products</Button>
+        </div>
       </LegacyCard.Section>
     );
   };
