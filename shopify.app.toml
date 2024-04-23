@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://fifty-tradition-macromedia-norfolk.trycloudflare.com"
+application_url = "https://parental-oil-charity-deleted.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://fifty-tradition-macromedia-norfolk.trycloudflare.com/auth/callback",
-  "https://fifty-tradition-macromedia-norfolk.trycloudflare.com/auth/shopify/callback",
-  "https://fifty-tradition-macromedia-norfolk.trycloudflare.com/api/auth/callback"
+  "https://parental-oil-charity-deleted.trycloudflare.com/auth/callback",
+  "https://parental-oil-charity-deleted.trycloudflare.com/auth/shopify/callback",
+  "https://parental-oil-charity-deleted.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
