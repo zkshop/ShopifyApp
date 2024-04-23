@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://did-angels-sleeve-defines.trycloudflare.com"
+application_url = "https://establishing-thread-grow-threshold.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://did-angels-sleeve-defines.trycloudflare.com/auth/callback",
-  "https://did-angels-sleeve-defines.trycloudflare.com/auth/shopify/callback",
-  "https://did-angels-sleeve-defines.trycloudflare.com/api/auth/callback"
+  "https://establishing-thread-grow-threshold.trycloudflare.com/auth/callback",
+  "https://establishing-thread-grow-threshold.trycloudflare.com/auth/shopify/callback",
+  "https://establishing-thread-grow-threshold.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

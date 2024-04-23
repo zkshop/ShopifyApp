@@ -102,9 +102,9 @@ export function TokengatesList() {
   };
 
   const emptyState = (
-    <Layout distribution="center">
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
       <p>No Tokengates found</p>
-    </Layout>
+    </div>
   );
 
   return (
