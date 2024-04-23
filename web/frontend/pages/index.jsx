@@ -47,7 +47,7 @@ export default function HomePage() {
                   <li>Fill in the form</li>
                   <li>Save the tokengate</li>
                 </ul>
-                You are done! You can now see and delete your gates in the "Tokengates" section.
+                You are done!
               </div>
             </TextContainer>
           </LegacyCard>
