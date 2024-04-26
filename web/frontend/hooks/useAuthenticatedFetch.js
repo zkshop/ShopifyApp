@@ -25,6 +25,7 @@ export function useAuthenticatedFetch() {
     console.log("options", options);
 
     const response = await fetchFunction(expandedUri, options);
+    console.log("response", response);
     checkHeadersForReauthorization(response.headers, app);
     return response;
   };
