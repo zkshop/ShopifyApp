@@ -20,6 +20,10 @@ export function useAuthenticatedFetch() {
 
   return async (uri, options) => {
     const expandedUri = process.env.ENV == "PROD" ? `${process.env.BACKEND_URL}/${uri}` : uri;
+
+    console.log("expandedUri", expandedUri);
+    console.log("options", options);
+
     const response = await fetchFunction(expandedUri, options);
     checkHeadersForReauthorization(response.headers, app);
     return response;
