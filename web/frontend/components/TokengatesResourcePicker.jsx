@@ -2,18 +2,15 @@ import { useCallback, useState } from "react";
 import {
   Button,
   LegacyCard,
-  Link,
   ResourceItem,
   ResourceList,
   Thumbnail,
 } from "@shopify/polaris";
-import { useNavigate } from "react-router-dom";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 import { CancelSmallMinor, ImageMajor } from "@shopify/polaris-icons";
 
 export const TokengatesResourcePicker = ({ products }) => {
   const [isResourcePickerOpen, setIsResourcePickerOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleTogglePicker = () => {
     setIsResourcePickerOpen(!isResourcePickerOpen);
@@ -23,19 +20,6 @@ export const TokengatesResourcePicker = ({ products }) => {
     handleTogglePicker();
     products.onChange(selection);
   };
-
-  const handleNavigateToProduct = useCallback(
-    (id) => {
-      if (!id) return;
-      navigate({
-        name: "Product",
-        resource: {
-          id,
-        },
-      });
-    },
-    [navigate]
-  );
 
   const handleRemoveItem = useCallback(
     (id) => {
