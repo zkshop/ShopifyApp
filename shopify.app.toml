@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://establishing-thread-grow-threshold.trycloudflare.com"
+application_url = "https://donations-reprint-essays-sega.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://establishing-thread-grow-threshold.trycloudflare.com/auth/callback",
-  "https://establishing-thread-grow-threshold.trycloudflare.com/auth/shopify/callback",
-  "https://establishing-thread-grow-threshold.trycloudflare.com/api/auth/callback"
+  "https://donations-reprint-essays-sega.trycloudflare.com/auth/callback",
+  "https://donations-reprint-essays-sega.trycloudflare.com/auth/shopify/callback",
+  "https://donations-reprint-essays-sega.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
