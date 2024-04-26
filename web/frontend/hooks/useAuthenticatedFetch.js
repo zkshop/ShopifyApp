@@ -19,7 +19,7 @@ export function useAuthenticatedFetch() {
   const fetchFunction = authenticatedFetch(app);
 
   return async (uri, options) => {
-    const expandedUri = process.env.VITE_ENV == "PROD" ? `${process.env.VITE_BACKEND_URL}/${uri}` : uri;
+    const expandedUri = process.env.VITE_ENV == "PROD" ? `${process.env.VITE_BACKEND_URL}${uri}` : uri;
 
     console.log("expandedUri", expandedUri);
     console.log("options", options);
