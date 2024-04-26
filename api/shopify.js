@@ -2,8 +2,12 @@ import { BillingInterval, LATEST_API_VERSION } from "@shopify/shopify-api";
 import { shopifyApp } from "@shopify/shopify-app-express";
 import { SQLiteSessionStorage } from "@shopify/shopify-app-session-storage-sqlite";
 import { restResources } from "@shopify/shopify-api/rest/admin/2023-04";
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const path = require('path');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const DB_PATH = path.join(__dirname, 'database.sqlite');
 console.log("!DB_PATH", DB_PATH);
 

@@ -1,0 +1,12 @@
+[build]
+builder = "NIXPACKS"
+
+[build.nixpacksPlan.phases.install]
+dependsOn = ["setup"]
+cmds = ["npm install"]
+
+# [phases.build]
+# cmds = ["bun run build"]
+
+[deploy]
+startCommand = "node api/index.js"

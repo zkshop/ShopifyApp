@@ -12,7 +12,7 @@ import deleteGate from "./delete-gate.js";
 
 import PrivacyWebhookHandlers from "./privacy.js";
 
-const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
+const PORT = parseInt(String(process.env.BACKEND_PORT || process.env.PORT), 10);
 
 const STATIC_PATH =
   process.env.NODE_ENV === "production"
@@ -89,6 +89,6 @@ app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
     .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 
-app.listen(PORT);
+app.listen(PORT, '0.0.0.0');
 
 module.exports = app;
