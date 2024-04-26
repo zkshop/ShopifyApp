@@ -21,8 +21,8 @@ export function useAuthenticatedFetch() {
   return async (uri, options) => {
     const expandedUri = process.env.VITE_ENV == "PROD" ? `${process.env.VITE_BACKEND_URL}/${uri}` : uri;
 
-    console.log("process.env.VITE_ENV", process.env.VITE_ENV);
-    console.log("process.env.VITE_BACKEND_URL", process.env.VITE_BACKEND_URL);
+    //console.log("process.env.VITE_ENV", process.env.VITE_ENV);
+    //console.log("process.env.VITE_BACKEND_URL", process.env.VITE_BACKEND_URL);
     console.log("expandedUri", expandedUri);
     console.log("options", options);
 
