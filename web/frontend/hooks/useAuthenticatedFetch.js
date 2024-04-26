@@ -19,7 +19,8 @@ export function useAuthenticatedFetch() {
   const fetchFunction = authenticatedFetch(app);
 
   return async (uri, options) => {
-    const response = await fetchFunction(uri, options);
+    const expandedUri = process.env.ENV == "PROD" ? `${process.env.BACKEND_URL}/${uri}` : uri;
+    const response = await fetchFunction(expandedUri, options);
     checkHeadersForReauthorization(response.headers, app);
     return response;
   };
