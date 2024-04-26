@@ -4,6 +4,7 @@ import { readFileSync } from "fs";
 import { configurePublicApi } from "./public-api.js";
 import express from "express";
 import serveStatic from "serve-static";
+import cors from "cors";
 
 import shopify from "./shopify.js";
 import createGate from "./create-gate.js";
@@ -20,6 +21,13 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
+
+// CORS configuration
+const corsOptions = {
+  origin: "*", // Set specific domains or keep '*' for all
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
