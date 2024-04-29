@@ -37,7 +37,11 @@ function checkHeadersForReauthorization(headers, app) {
       headers.get("X-Shopify-API-Request-Failure-Reauthorize-Url") ||
       `/api/auth`;
 
+    console.log("authUrlHeader", authUrlHeader);
+
     const backendUrl = process.env.VITE_BACKEND_URL || `https://${window.location.host}`;
+
+    console.log("backendUrl", backendUrl);
 
     const redirect = Redirect.create(app);
     redirect.dispatch(
