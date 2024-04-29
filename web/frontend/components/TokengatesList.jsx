@@ -1,9 +1,11 @@
 import { useCallback } from "react";
-import { Button, LegacyCard, IndexTable, Layout } from "@shopify/polaris";
+import { Button, LegacyCard, IndexTable } from "@shopify/polaris";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 
 export function TokengatesList() {
   const fetch = useAuthenticatedFetch();
+
+  console.log("fetch", fetch);
 
   const { data: gatesData, refetch: refetchGates } = useAppQuery({
     url: "/api/gates",
