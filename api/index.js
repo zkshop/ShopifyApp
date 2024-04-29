@@ -38,11 +38,15 @@ const STATIC_PATH =
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
-app.get(
-  shopify.config.auth.callbackPath,
-  shopify.auth.callback(),
-  shopify.redirectToShopifyOrAppRoot()
-);
+app.get("/api/auth/callback", async (req, res) => {
+  console.log("!callback here");
+  res.status(401).send("I am a teapot");
+});
+// app.get(
+//   shopify.config.auth.callbackPath,
+//   shopify.auth.callback(),
+//   shopify.redirectToShopifyOrAppRoot()
+// );
 app.post(
   shopify.config.webhooks.path,
   shopify.processWebhooks({ webhookHandlers: PrivacyWebhookHandlers })
