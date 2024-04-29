@@ -20,15 +20,21 @@ const STATIC_PATH =
     ? `${process.cwd()}/frontend/dist`
     : `${process.cwd()}/frontend/`;
 
-const app = express();
+    const app = express()
+    .use(
+      cors({
+        origin: "*",
+        credentials: true,
+      })
+    );
 
 // CORS configuration
-const corsOptions = {
-  // origin: ["https://tokengating-app.vercel.app"],
-  origin: ["*"],
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   // origin: ["https://tokengating-app.vercel.app"],
+//   origin: ["*"],
+//   optionsSuccessStatus: 200
+// };
+// app.use(cors(corsOptions));
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
