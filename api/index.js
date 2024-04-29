@@ -24,7 +24,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: "*",
+  origin: ["https://admin.shopify.com/*"],
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
