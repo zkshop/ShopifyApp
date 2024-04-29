@@ -24,7 +24,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: ["https://admin.shopify.com/*"],
+  origin: ["https://admin.shopify.com/*", "https://tokengating-app.vercel.app"],
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
