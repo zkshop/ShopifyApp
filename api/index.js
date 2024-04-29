@@ -30,25 +30,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Set up Shopify authentication and webhook handling
-app.get(shopify.config.auth.path, (req, res, next) => {
-  console.log("Initiating Shopify authentication process.");
-  console.log("shopify.config.auth.path", shopify.config.auth.path);
-  console.log("shopify.config.auth.callbackPath", shopify.config.auth.callbackPath);
-  console.log("req", req);
-  console.log("res", res);
-  console.log("next", next);
-  return shopify.auth.begin()(req, res, next);
-});
+app.get(shopify.config.auth.path, shopify.auth.begin());
 app.get(
   shopify.config.auth.callbackPath,
-  (req, res, next) => {
-    console.log("Received callback from Shopify, processing authentication.");
-    return shopify.auth.callback()(req, res, next);
-  },
-  (req, res, next) => {
-    console.log("Redirecting to Shopify or application root.");
-    return shopify.redirectToShopifyOrAppRoot()(req, res, next);
-  }
+  shopify.auth.callback(),
+  shopify.redirectToShopifyOrAppRoot()
 );
 app.post(
   shopify.config.webhooks.path,
