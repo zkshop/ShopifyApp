@@ -17,19 +17,12 @@ import { useQuery } from "react-query";
 export const useAppQuery = ({ url, fetchInit = {}, reactQueryOptions }) => {
   const authenticatedFetch = useAuthenticatedFetch();
 
-  console.log("url in AppQuery", url);
-  console.log("fetchInit in AppQuery", fetchInit);
-  console.log("reactQueryOptions in AppQuery", reactQueryOptions);
-  console.log("authenticatedFetch in AppQuery", authenticatedFetch);
-
   const fetch = useMemo(() => {
     return async () => {
       const response = await authenticatedFetch(url, fetchInit);
       return response.json();
     };
   }, [url, JSON.stringify(fetchInit)]);
-
-  console.log("fetch in AppQuery", fetch);
 
   return useQuery(url, fetch, {
     ...reactQueryOptions,
