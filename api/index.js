@@ -48,8 +48,10 @@ configurePublicApi(app);
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.get("/api/gates", async (_req, res) => {
+  console.log("Processing GET request on /api/gates");
   try {
     const response = await retrieveGates(res.locals.shopify.session);
+    console.log("Successfully retrieved gates:", response);
     res.status(200).send({ success: true, response });
   } catch (e) {
     console.error("Failed to process gates/get:", e.message);
