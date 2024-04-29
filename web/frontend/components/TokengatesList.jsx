@@ -14,6 +14,9 @@ export function TokengatesList() {
     },
   });
 
+  console.log("gatesData", gatesData);
+  console.log("refetchGates", refetchGates);
+
   const deleteGate = useCallback(
     async (id) => {
       const response = await fetch(`/api/gates/${encodeURIComponent(id)}`, {
