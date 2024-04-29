@@ -24,7 +24,8 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: ["https://tokengating-app.vercel.app"],
+  // origin: ["https://tokengating-app.vercel.app"],
+  origin: ["*"],
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
