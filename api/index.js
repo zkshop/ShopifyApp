@@ -23,11 +23,11 @@ const STATIC_PATH =
 const app = express();
 
 // CORS configuration
-// const corsOptions = {
-//   origin: "*",
-//   optionsSuccessStatus: 200
-// };
-// app.use(cors(corsOptions));
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
