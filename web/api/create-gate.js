@@ -127,6 +127,8 @@ query retrieveProducts ($queryString: String!, $first: Int!){
 export default async function createGate({
   session,
   name,
+  network,
+  contractAddress,
   productGids,
   issuer,
   taxon,
@@ -135,6 +137,8 @@ export default async function createGate({
 
   const segmentConditions = {
     name: name,
+    network: network,
+    contractAddress: contractAddress,
     issuer: issuer,
     taxon: taxon,
   };

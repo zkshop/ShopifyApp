@@ -21,11 +21,7 @@ export function useAuthenticatedFetch() {
   return async (uri, options) => {
     const expandedUri = process.env.VITE_ENV == "PROD" ? `${process.env.VITE_BACKEND_URL}${uri}` : uri;
 
-    console.log("expandedUri", expandedUri);
-    console.log("options", options);
-
     const response = await fetchFunction(expandedUri, options);
-    console.log("response", response);
     checkHeadersForReauthorization(response.headers, app);
     return response;
   };
@@ -37,11 +33,7 @@ function checkHeadersForReauthorization(headers, app) {
       headers.get("X-Shopify-API-Request-Failure-Reauthorize-Url") ||
       `/api/auth`;
 
-    console.log("authUrlHeader", authUrlHeader);
-
     const backendUrl = process.env.VITE_BACKEND_URL || `https://${window.location.host}`;
-
-    console.log("backendUrl", backendUrl);
 
     const redirect = Redirect.create(app);
     redirect.dispatch(

@@ -50,12 +50,14 @@ app.get("/api/gates", async (_req, res) => {
 });
 
 app.post("/api/gates", async (req, res) => {
-  const { name, productGids, issuer, taxon } = req.body;
+  const { name, productGids, issuer, taxon, network, contractAddress } = req.body;
 
   try {
     await createGate({
       session: res.locals.shopify.session,
       name,
+      network,
+      contractAddress,
       productGids,
       issuer,
       taxon,
