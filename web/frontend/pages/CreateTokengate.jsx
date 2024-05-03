@@ -41,7 +41,7 @@ export default function CreateTokengate() {
     }),
     contractAddress: useField({
       value: undefined,
-      validates: (address) => selectedNetwork !== 'XRP' && !address && "Contract Address cannot be empty",
+      validates: (address) => (selectedNetwork === 'Ethereum' || selectedNetwork === 'Polygon' || selectedNetwork === 'Base') && !address && "Contract Address cannot be empty",
     }),
     products: useField([]),
     exclusiveContent: useField(false),
@@ -191,3 +191,4 @@ export default function CreateTokengate() {
     </Page>
   );
 }
+
