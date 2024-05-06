@@ -3,13 +3,11 @@
     "version": "0.0.0",
     "description": "",
     "scripts": {
-        "build": "vite build"
+        "build": "echo 'Starting build...' && vite build --force && echo 'Build completed successfully'"
     },
     "dependencies": {
-        "@rainbow-me/rainbowkit": "1.0.5",
         "@shopify/app-bridge": "^3.7.10",
         "@shopify/gate-context-client": "^1.0.1",
-        "@wagmi/chains": "^1.8.0",
         "axios": "^1.6.7",
         "dotenv": "^16.4.5",
         "prop-types": "^15.8.1",
