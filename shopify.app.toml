@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://dh-developing-displaying-duration.trycloudflare.com"
+application_url = "https://permit-kuwait-solved-steve.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://dh-developing-displaying-duration.trycloudflare.com/auth/callback",
-  "https://dh-developing-displaying-duration.trycloudflare.com/auth/shopify/callback",
-  "https://dh-developing-displaying-duration.trycloudflare.com/api/auth/callback"
+  "https://permit-kuwait-solved-steve.trycloudflare.com/auth/callback",
+  "https://permit-kuwait-solved-steve.trycloudflare.com/auth/shopify/callback",
+  "https://permit-kuwait-solved-steve.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

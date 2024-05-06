@@ -1,21 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from 'axios';
-import { XamanWalletProvider } from './XamanWalletProvider';
 
-const RenderQrCode = () => {
-  const { state } = useContext(XamanWalletContext);
-  
-  if (!state.apiResponse || !state.apiResponse.refs || ['expired', 'signed'].includes(state.currentStep)) {
-    return null;
-  }
-  
-  return (
-    <div style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
-      <img src={state.apiResponse.refs.qr_png} alt="xaman-signin-qrcode" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-      <p>{stepToDescription.get(state.currentStep) || ''}</p>
-    </div>
-  );
-};
+// XRP
+import { XamanWalletProvider, RenderQrCode } from './XamanWalletProvider';
+import { XRPNftReaderClient, XRPNftsReader } from './BithompClient';
+
+// EVM
+import { chains, walletConfig } from './walletClient';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { WagmiConfig } from 'wagmi';
 
 const _App = () => {
   const [wallet, setWallet] = useState({ address: null });
@@ -30,30 +23,6 @@ const _App = () => {
   const identifiers = {
     issuer: requirements?.conditions?.issuer,
     nftokenTaxon: requirements?.conditions?.taxon,
-  };
-  
-  const XRPNftReaderClient = () => {
-    return {
-      getWalletNfts: async (walletAddress, identifiers) => {
-        const params = {
-          owner: walletAddress,
-          list: 'nfts',
-          issuer: identifiers.issuer,
-          taxon: identifiers.nftokenTaxon,
-        };
-        const nfts = await axios
-        .get(`https://bithomp.com/api/v2/nfts`, {
-          params,
-          headers: {
-            'x-bithomp-token': import.meta.env.VITE_BITHOMP_TOKEN,
-          },
-        })
-        .then(({ data }) => {
-          return data.nfts;
-        });
-        return nfts;
-      },
-    };
   };
   
   const handleNftSearchOwner = async () => {
@@ -94,28 +63,6 @@ const handleDisconnectWallet = () => {
     else
       handlers.close();
   };
-  
-  const XRPNftsReader = () => {
-    return {
-      getNfts: async () => {
-        const params = {
-          issuer: identifiers.issuer,
-          taxon: identifiers.nftokenTaxon,
-        };
-        const nft = await axios
-        .get(`https://bithomp.com/api/v2/nfts`, {
-          params,
-          headers: {
-            'x-bithomp-token': import.meta.env.VITE_BITHOMP_TOKEN,
-          },
-          })
-          .then(({ data }) => {
-            return data;
-          });
-          return nft;
-        },
-      };
-    };
     
     useEffect(() => {
       callGetNfts();
@@ -181,9 +128,12 @@ const getGate = () => window.myAppGates?.[0] || {};
 
 export const App = () => {
   return (
-    <XamanWalletProvider>
-      <_App />
-    </XamanWalletProvider>
+    <WagmiConfig config={walletConfig}>
+      <RainbowKitProvider chains={chains}>
+        <XamanWalletProvider>
+          <_App />
+        </XamanWalletProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 };
-
