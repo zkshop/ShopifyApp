@@ -9921,5 +9921,6 @@ if (container.dataset.product_gated === "true") {
   console.log("---log to console---");
   ReactDOM.createRoot(container).render(/* @__PURE__ */ jsx(App, {}));
 } else {
+  console.log("---log to console---");
   container.innerHTML = "";
 }

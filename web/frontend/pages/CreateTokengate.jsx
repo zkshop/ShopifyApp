@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   LegacyCard,
@@ -20,7 +20,7 @@ export default function CreateTokengate() {
   const fetch = useAuthenticatedFetch();
   const navigate = useNavigate();
   const [toastProps, setToastProps] = useState({ content: null });
-  const [selectedNetwork, setSelectedNetwork] = useState('Ethereum');
+  const selectedNetworkRef = useRef('Ethereum');
 
   const fieldsDefinition = {
     name: useField({
@@ -28,20 +28,29 @@ export default function CreateTokengate() {
       validates: (name) => !name && "Name cannot be empty",
     }),
     network: useField({
-      value: selectedNetwork,
+      value: 'Ethereum',
       validates: (network) => !network && "Network must be selected",
     }),
     issuer: useField({
       value: undefined,
-      validates: (issuer) => selectedNetwork === 'XRP' && !issuer && "Issuer cannot be empty",
+      validates: (issuer) => {
+        const currentNetwork = selectedNetworkRef.current;
+        return currentNetwork === 'XRP' && !issuer && "Issuer cannot be empty";
+      },
     }),
     taxon: useField({
       value: undefined,
-      validates: (taxon) => selectedNetwork === 'XRP' && !taxon && "Taxon cannot be empty",
+      validates: (taxon) => {
+        const currentNetwork = selectedNetworkRef.current;
+        return currentNetwork === 'XRP' && !taxon && "Taxon cannot be empty";
+      },
     }),
     contractAddress: useField({
       value: undefined,
-      validates: (address) => (selectedNetwork === 'Ethereum' || selectedNetwork === 'Polygon' || selectedNetwork === 'Base') && !address && "Contract Address cannot be empty",
+      validates: (address) => {
+        const currentNetwork = selectedNetworkRef.current;
+        return currentNetwork !== 'XRP' && !address && "Contract Address cannot be empty";
+      }
     }),
     products: useField([]),
     exclusiveContent: useField(false),
@@ -138,14 +147,14 @@ export default function CreateTokengate() {
                         { label: 'Base', value: 'Base' },
                         { label: 'XRP', value: 'XRP' }
                       ]}
-                      selected={[selectedNetwork]}
+                      selected={[fields.network.value]}
                       onChange={(value) => {
-                        setSelectedNetwork(value[0]);
                         fields.network.onChange(value[0]);
+                        selectedNetworkRef.current = value[0];
                       }}
                       style={{ display: 'flex', justifyContent: 'space-between' }}
                     />
-                    {selectedNetwork === 'XRP' && (
+                    {selectedNetworkRef.current === 'XRP' && (
                       <>
                         <TextField
                           name="issuer"
@@ -163,7 +172,7 @@ export default function CreateTokengate() {
                           />
                       </>
                     )}
-                    {selectedNetwork !== 'XRP' && (
+                    {selectedNetworkRef.current !== 'XRP' && (
                       <TextField
                         name="contractAddress"
                         label="Contract Address"

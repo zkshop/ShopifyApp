@@ -8,5 +8,6 @@ if (container.dataset.product_gated === 'true') {
     console.log("---log to console---");
     ReactDOM.createRoot(container).render(<App />);
 } else {
+    console.log("---log to console---");
     container.innerHTML = '';
 }
