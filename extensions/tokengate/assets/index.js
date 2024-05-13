@@ -9545,6 +9545,7 @@ reactJsxRuntime_production_min.jsxs = q;
 const Fragment = jsxRuntime.exports.Fragment;
 const jsx = jsxRuntime.exports.jsx;
 const jsxs = jsxRuntime.exports.jsxs;
+const XamanWalletContext$1 = react.exports.createContext(void 0);
 const httpServerless = axios$1.create({
   baseURL: "https://sorcel-gateway-production-34k526p2.ew.gateway.dev",
   timeout: 1e4,
@@ -9555,7 +9556,6 @@ const httpServerless = axios$1.create({
     key: "AIzaSyC3-a_hWzLygrlNNwB6C1_Q2zvMUwjzSL4"
   }
 });
-const XamanWalletContext = react.exports.createContext(void 0);
 const stateInitialState = {
   apiResponse: void 0,
   currentStep: "none",
@@ -9565,7 +9565,7 @@ const stateInitialState = {
   }
 };
 const stepToDescription = /* @__PURE__ */ new Map([["none", "Please scan the QR code with your Xaman mobile app"], ["scanned", "Slide to accept"]]);
-XamanWalletContext.propTypes = {
+XamanWalletContext$1.propTypes = {
   auth: propTypes.exports.shape({
     address: propTypes.exports.string,
     isConnected: propTypes.exports.bool,
@@ -9636,28 +9636,6 @@ const XamanWalletProvider = ({
       }
     })();
   }, [state.auth.address, isCanceled]);
-  react.exports.useEffect(() => {
-    (async () => {
-      if (!state.xummPayload)
-        return;
-      try {
-        const response = await httpServerless.post("api/shop/xaman/payload", {
-          payload_uuid: state.xummPayload["payload_uuidv4"]
-        });
-        const address = response.data.response.signer;
-        if (!address) {
-          handlers.disconnect();
-        } else {
-          setStateByKey("auth", {
-            ...state.auth,
-            address
-          });
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, [state.xummPayload]);
   const handlers = {
     close: () => {
       if (!state.auth.address)
@@ -9668,25 +9646,23 @@ const XamanWalletProvider = ({
       setState(stateInitialState);
     }
   };
-  return /* @__PURE__ */ jsx(Fragment, {
-    children: /* @__PURE__ */ jsx(XamanWalletContext.Provider, {
-      value: {
-        state,
-        handlers,
-        auth: {
-          address: state.auth.address,
-          isConnected: (() => state.auth.address !== void 0)(),
-          isDisconnected: (() => state.auth.address === void 0)()
-        }
-      },
-      children
-    })
+  return /* @__PURE__ */ jsx(XamanWalletContext$1.Provider, {
+    value: {
+      state,
+      handlers,
+      auth: {
+        address: state.auth.address,
+        isConnected: () => state.auth.address !== void 0,
+        isDisconnected: () => state.auth.address === void 0
+      }
+    },
+    children
   });
 };
 const RenderQrCode = () => {
   const {
     state
-  } = react.exports.useContext(XamanWalletContext);
+  } = useContext(XamanWalletContext$1);
   if (!state.apiResponse || !state.apiResponse.refs || ["expired", "signed"].includes(state.currentStep)) {
     return null;
   }
@@ -9710,6 +9686,46 @@ const RenderQrCode = () => {
     })]
   });
 };
+const XRPNftReaderClient = () => {
+  return {
+    getWalletNfts: async (walletAddress, identifiers) => {
+      const params = {
+        owner: walletAddress,
+        list: "nfts",
+        issuer: identifiers.issuer,
+        taxon: identifiers.nftokenTaxon
+      };
+      const nfts = await axios$1.get(`https://bithomp.com/api/v2/nfts`, {
+        params,
+        headers: {
+          "x-bithomp-token": "131c5def-d154-4a4c-9dea-59afc1eb0a7d"
+        }
+      }).then(({ data }) => {
+        return data.nfts;
+      });
+      return nfts;
+    }
+  };
+};
+const XRPNftsReader = () => {
+  return {
+    getNfts: async (identifiers) => {
+      const params = {
+        issuer: identifiers.issuer,
+        taxon: identifiers.nftokenTaxon
+      };
+      const nft = await axios$1.get(`https://bithomp.com/api/v2/nfts`, {
+        params,
+        headers: {
+          "x-bithomp-token": "131c5def-d154-4a4c-9dea-59afc1eb0a7d"
+        }
+      }).then(({ data }) => {
+        return data;
+      });
+      return nft;
+    }
+  };
+};
 const _App = () => {
   const [wallet, setWallet] = react.exports.useState({
     address: null
@@ -9729,29 +9745,7 @@ const _App = () => {
     issuer: requirements?.conditions?.issuer,
     nftokenTaxon: requirements?.conditions?.taxon
   };
-  const XRPNftReaderClient = () => {
-    return {
-      getWalletNfts: async (walletAddress, identifiers2) => {
-        const params = {
-          owner: walletAddress,
-          list: "nfts",
-          issuer: identifiers2.issuer,
-          taxon: identifiers2.nftokenTaxon
-        };
-        const nfts = await axios$1.get(`https://bithomp.com/api/v2/nfts`, {
-          params,
-          headers: {
-            "x-bithomp-token": "131c5def-d154-4a4c-9dea-59afc1eb0a7d"
-          }
-        }).then(({
-          data
-        }) => {
-          return data.nfts;
-        });
-        return nfts;
-      }
-    };
-  };
+  console.log("requirements", requirements);
   const handleNftSearchOwner = async () => {
     if (wallet.address == null) {
       setIsOwner(false);
@@ -9789,27 +9783,6 @@ const _App = () => {
       handlers.disconnect();
     else
       handlers.close();
-  };
-  const XRPNftsReader = () => {
-    return {
-      getNfts: async () => {
-        const params = {
-          issuer: identifiers.issuer,
-          taxon: identifiers.nftokenTaxon
-        };
-        const nft = await axios$1.get(`https://bithomp.com/api/v2/nfts`, {
-          params,
-          headers: {
-            "x-bithomp-token": "131c5def-d154-4a4c-9dea-59afc1eb0a7d"
-          }
-        }).then(({
-          data
-        }) => {
-          return data;
-        });
-        return nft;
-      }
-    };
   };
   react.exports.useEffect(() => {
     callGetNfts();
@@ -9937,13 +9910,17 @@ const _App = () => {
 };
 const getGate = () => window.myAppGates?.[0] || {};
 const App = () => {
-  return /* @__PURE__ */ jsx(XamanWalletProvider, {
-    children: /* @__PURE__ */ jsx(_App, {})
+  return /* @__PURE__ */ jsx(Fragment, {
+    children: /* @__PURE__ */ jsx(XamanWalletProvider, {
+      children: /* @__PURE__ */ jsx(_App, {})
+    })
   });
 };
 const container = document.getElementById("tokengating-example-app");
 if (container.dataset.product_gated === "true") {
+  console.log("---log to console---");
   ReactDOM.createRoot(container).render(/* @__PURE__ */ jsx(App, {}));
 } else {
+  console.log("---log to console---");
   container.innerHTML = "";
 }

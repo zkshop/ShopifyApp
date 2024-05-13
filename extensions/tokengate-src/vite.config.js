@@ -33,7 +33,7 @@ export default defineConfig({
       input: './src/index.jsx',
       output: {
         inlineDynamicImports: true,
-        dir: 'dist',
+        dir: '../tokengate/assets',
         entryFileNames: 'index.js',
         assetFileNames: 'index.[ext]',
       },
