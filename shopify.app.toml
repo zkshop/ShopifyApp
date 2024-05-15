@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://texts-ant-parents-ks.trycloudflare.com"
+application_url = "https://harrison-cornell-kind-thinks.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://texts-ant-parents-ks.trycloudflare.com/auth/callback",
-  "https://texts-ant-parents-ks.trycloudflare.com/auth/shopify/callback",
-  "https://texts-ant-parents-ks.trycloudflare.com/api/auth/callback"
+  "https://harrison-cornell-kind-thinks.trycloudflare.com/auth/callback",
+  "https://harrison-cornell-kind-thinks.trycloudflare.com/auth/shopify/callback",
+  "https://harrison-cornell-kind-thinks.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
