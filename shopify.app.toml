@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "sorcel"
 handle = "sorcel"
-application_url = "https://crash-experiments-issn-moment.trycloudflare.com"
+application_url = "https://simulations-sat-aug-boc.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://crash-experiments-issn-moment.trycloudflare.com/auth/callback",
-  "https://crash-experiments-issn-moment.trycloudflare.com/auth/shopify/callback",
-  "https://crash-experiments-issn-moment.trycloudflare.com/api/auth/callback"
+  "https://simulations-sat-aug-boc.trycloudflare.com/auth/callback",
+  "https://simulations-sat-aug-boc.trycloudflare.com/auth/shopify/callback",
+  "https://simulations-sat-aug-boc.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
