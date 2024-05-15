@@ -5,23 +5,21 @@ import { XamanWalletProvider, RenderQrCode } from './XamanWalletProvider';
 import { XRPNftReaderClient, XRPNftsReader } from './BithompClient';
 
 // EVM
-// import { chains, walletConfig } from './walletClient';
-// import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
-// import { WagmiConfig } from 'wagmi';
-
-// const _App = () => {
-//   const { requirements } = getGate();
-
-//   console.log(requirements);
-
-//   return (
-//     <div>
-//       <h1>No requirements found</h1>
-//     </div>
-//   );
-// };
+import { chains, walletConfig } from './walletClient';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { WagmiConfig } from 'wagmi';
 
 const _App = () => {
+  const { requirements } = getGate();
+
+  console.log(requirements);
+
+  return (
+    <XamanApp />
+  );
+};
+
+const XamanApp = () => {
   const [wallet, setWallet] = useState({ address: null });
   const [nftImage, setNftImage] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
@@ -142,13 +140,13 @@ const getGate = () => window.myAppGates?.[0] || {};
 export const App = () => {
   return (
     <>
-      {/* <WagmiConfig config={walletConfig}>
-        <RainbowKitProvider chains={chains}> */}
+      <WagmiConfig config={walletConfig}>
+        <RainbowKitProvider chains={chains}>
           <XamanWalletProvider>
             <_App />
           </XamanWalletProvider>
-        {/* </RainbowKitProvider>
-      </WagmiConfig> */}
+        </RainbowKitProvider>
+      </WagmiConfig>
     </>
   );
 };
