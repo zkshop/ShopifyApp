@@ -37,7 +37,6 @@ export default defineConfig({
         entryFileNames: 'index.js',
         assetFileNames: 'index.[ext]',
       },
-      external: ['@rainbow-me/rainbowkit', '@safe-globalThis/safe-apps-provider', '@safe-globalThis/safe-apps-sdk']
     },
   },
 });
