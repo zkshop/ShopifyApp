@@ -1,9 +1,9 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
-name = "oui-app"
-handle = "oui-app"
-application_url = "https://ultimate-appraisal-earned-examine.trycloudflare.com"
+name = "sorcel"
+handle = "sorcel"
+application_url = "https://crash-experiments-issn-moment.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://ultimate-appraisal-earned-examine.trycloudflare.com/auth/callback",
-  "https://ultimate-appraisal-earned-examine.trycloudflare.com/auth/shopify/callback",
-  "https://ultimate-appraisal-earned-examine.trycloudflare.com/api/auth/callback"
+  "https://crash-experiments-issn-moment.trycloudflare.com/auth/callback",
+  "https://crash-experiments-issn-moment.trycloudflare.com/auth/shopify/callback",
+  "https://crash-experiments-issn-moment.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
