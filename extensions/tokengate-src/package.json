@@ -7,12 +7,15 @@
     },
     "dependencies": {
         "@shopify/app-bridge": "^3.7.10",
+        "@shopify/connect-wallet": "^3.0.1",
         "@shopify/gate-context-client": "^1.0.1",
         "axios": "^1.6.7",
         "dotenv": "^16.4.5",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "viem": "^1.21.4",
+        "wagmi": "^1.4.13"
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^2.2.0",

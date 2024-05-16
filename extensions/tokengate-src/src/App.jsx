@@ -1,5 +1,10 @@
 import React, { useEffect, useState, createContext, useCallback, useContext } from "react";
 import axios from 'axios';
+import {ConnectWalletProvider} from '@shopify/connect-wallet';
+import '@shopify/connect-wallet/styles.css';
+import {WagmiConfig} from 'wagmi';
+import {chains, config, connectors} from './wagmi';
+import {ConnectButton} from '@shopify/connect-wallet';
 
 export const httpServerless = axios.create({
   baseURL: import.meta.env.VITE_PUBLIC_FUNCTIONS_URL,
@@ -67,30 +72,30 @@ export const XamanWalletProvider = ({ children }) => {
   useEffect(() => {
     setIsCanceled(false);
     if (state.auth.address !== undefined)
-      return;
-    (async () => {
-      try {
-        const { data } = await httpServerless.post("api/shop/xaman/signin");
-        useSocketService(WebSocket, data.refs.websocket_status, (eventData) => {
-          switch (true) {
-            case eventData.devapp_fetched:
-              case eventData.pre_signed:
-                case eventData.dispatched:
+    return;
+  (async () => {
+    try {
+      const { data } = await httpServerless.post("api/shop/xaman/signin");
+      useSocketService(WebSocket, data.refs.websocket_status, (eventData) => {
+        switch (true) {
+          case eventData.devapp_fetched:
+            case eventData.pre_signed:
+              case eventData.dispatched:
+                break;
+                case 'expires_in_seconds' in eventData:
+                  if (Number(eventData.expires_in_seconds) <= 0)
+                  setStateByKey('currentStep', 'expired');
+                break;
+                case eventData.opened:
+                  setStateByKey('currentStep', 'scanned');
                   break;
-                  case 'expires_in_seconds' in eventData:
-                    if (Number(eventData.expires_in_seconds) <= 0)
-                    setStateByKey('currentStep', 'expired');
-                  break;
-                  case eventData.opened:
-                    setStateByKey('currentStep', 'scanned');
+                  case 'signed' in eventData:
+                    setStateByKey('currentStep', 'signed');
+                    setStateByKey('xummPayload', eventData);
                     break;
-                    case 'signed' in eventData:
-                      setStateByKey('currentStep', 'signed');
-                      setStateByKey('xummPayload', eventData);
+                    case eventData.expired:
+                      setStateByKey('currentStep', 'expired');
                       break;
-                      case eventData.expired:
-                        setStateByKey('currentStep', 'expired');
-                        break;
                         default:
                           break;
                         }
@@ -211,44 +216,44 @@ const _App = () => {
     if (nfts.length <= 0)
       setIsOwner(false);
     else
-      setIsOwner(true);
-  };
-  
-  useEffect(() => {
-    handleNftSearchOwner();
-  }, [wallet]);
-  
-  useEffect(() => {
-    if (auth.address !== undefined)
-      setWallet({ address: auth.address });
-    else
-      setWallet({ address: null });
-  }, [auth.address]);
+    setIsOwner(true);
+};
 
-  const handleConnectWallet = () => {
-    if (requirements.conditions.type === 'XRP') {
-      if (wallet.address === null) {
-        setShowQR(true);
-      }
-    } else {
-      console.log("connect with wagmi");
+useEffect(() => {
+  handleNftSearchOwner();
+}, [wallet]);
+
+useEffect(() => {
+  if (auth.address !== undefined)
+  setWallet({ address: auth.address });
+else
+setWallet({ address: null });
+}, [auth.address]);
+
+const handleConnectWallet = () => {
+  if (requirements?.conditions?.network === 'XRP') {
+    if (wallet.address === null) {
+      setShowQR(true);
     }
-  };
+  } else {
+    console.log("connect with wagmi");
+  }
+};
 
-  const handleDisconnectWallet = () => {
-    if (showQR)
-      setShowQR(false);
-    if (wallet.address !== null)
-      handlers.disconnect();
-    else
-      handlers.close();
-  };
-  
-  const XRPNftsReader = () => {
-    return {
-      getNfts: async () => {
-        const params = {
-          issuer: identifiers.issuer,
+const handleDisconnectWallet = () => {
+  if (showQR)
+  setShowQR(false);
+if (wallet.address !== null)
+handlers.disconnect();
+else
+handlers.close();
+};
+
+const XRPNftsReader = () => {
+  return {
+    getNfts: async () => {
+      const params = {
+        issuer: identifiers.issuer,
           taxon: identifiers.nftokenTaxon,
         };
         const nft = await axios
@@ -265,14 +270,14 @@ const _App = () => {
       },
     };
   };
-    
+  
   useEffect(() => {
     callGetNfts();
   }, []);
-    
+  
   const callGetNfts = async () => {
     const nftsData = await XRPNftsReader().getNfts();
-      
+    
     if (nftsData.nfts.length > 0) {
       for (let i = 0; i < nftsData.nfts.length; i++) {
         const selectedNft = nftsData.nfts[i];
@@ -320,6 +325,7 @@ const _App = () => {
               <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: 'red', color: '#fff', border: 'none', width: '100%', cursor: 'pointer', transition: 'background-color 0.3s ease-in-out'}} onClick={handleDisconnectWallet}>{wallet.address === null ? 'Cancel' : `Disconnect ${wallet.address.slice(0, 4)}...${wallet.address.slice(-4)}`}</button>
             }
           </div>
+          <ConnectButton />
           {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%', position: 'absolute', top: '-10px', right: '-10px' }} />}
         </div>
       </div>
@@ -330,8 +336,12 @@ const getGate = () => window.myAppGates?.[0] || {};
 
 export const App = () => {
   return (
-    <XamanWalletProvider>
-      <_App />
-    </XamanWalletProvider>
+    <WagmiConfig config={config}>
+      <ConnectWalletProvider chains={chains} connectors={connectors}>
+        <XamanWalletProvider>
+          <_App />
+        </XamanWalletProvider>
+      </ConnectWalletProvider>
+    </WagmiConfig>
   );
 };

@@ -9721,7 +9721,9 @@ const _App = () => {
     auth,
     handlers
   } = react.exports.useContext(XamanWalletContext);
-  const requirements = getGate().requirements;
+  const {
+    requirements
+  } = getGate();
   const buttons = document.querySelectorAll(".shopify-payment-button__button--unbranded, .product-form__submit");
   const identifiers = {
     issuer: requirements?.conditions?.issuer,
@@ -9776,7 +9778,7 @@ const _App = () => {
       });
   }, [auth.address]);
   const handleConnectWallet = () => {
-    if (requirements.conditions.type === "XRP") {
+    if (requirements?.conditions?.network === "XRP") {
       if (wallet.address === null) {
         setShowQR(true);
       }
