@@ -55,10 +55,10 @@ export const EVMApp = () => {
     }, [address]);
       
     useEffect(() => {
-      callGetNfts();
+      callGetNftsImage();
     }, []);
       
-    const callGetNfts = async () => {
+    const callGetNftsImage = async () => {
       const options = {method: 'GET', headers: {accept: 'application/json'}};
 
       const network = requirements?.conditions?.network;
@@ -71,18 +71,21 @@ export const EVMApp = () => {
         networkPath = "base-mainnet";
       }
 
-      const alchemyUrl = `https://${networkPath}.g.alchemy.com/nft/v3/${import.meta.env.VITE_SECRET_ALCHEMY}/getNFTMetadata?contractAddress=${requirements?.conditions?.contractAddress}&tokenId=231&refreshCache=false`;
+      const alchemyUrl = `https://${networkPath}.g.alchemy.com/nft/v3/${import.meta.env.VITE_SECRET_ALCHEMY}/getContractMetadata?contractAddress=${requirements?.conditions?.contractAddress}`;
 
       fetch(alchemyUrl, options)
         .then(response => response.json())
         .then(response => {
-          console.log(response);
+          if (response.openSeaMetadata.imageUrl !== null) {
+            setNftImage(response.openSeaMetadata.imageUrl);
+          }
+          else {
+            setNftImage(null);
+          }
         })
         .catch(err => {
           console.error(err);
-        });  
-        
-      setNftImage(null);
+        }); 
     };
   
     useEffect(() => {
