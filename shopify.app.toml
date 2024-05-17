@@ -3,7 +3,7 @@
 client_id = "82f3b9571b20a8b77db30e030ce7d536"
 name = "oui-app"
 handle = "oui-app"
-application_url = "https://northern-hunter-tells-registration.trycloudflare.com"
+application_url = "https://challenges-re-programming-costume.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_discounts,read_gates,write_discounts,write_gates,write_products"
 
 [auth]
 redirect_urls = [
-  "https://northern-hunter-tells-registration.trycloudflare.com/auth/callback",
-  "https://northern-hunter-tells-registration.trycloudflare.com/auth/shopify/callback",
-  "https://northern-hunter-tells-registration.trycloudflare.com/api/auth/callback"
+  "https://challenges-re-programming-costume.trycloudflare.com/auth/callback",
+  "https://challenges-re-programming-costume.trycloudflare.com/auth/shopify/callback",
+  "https://challenges-re-programming-costume.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

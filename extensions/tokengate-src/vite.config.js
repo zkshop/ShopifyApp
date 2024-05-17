@@ -37,6 +37,10 @@ export default defineConfig({
         entryFileNames: 'index.js',
         assetFileNames: 'index.[ext]',
       },
+      external: [
+        '@safe-globalThis/safe-apps-provider',
+        '@safe-globalThis/safe-apps-sdk',
+      ],
     },
   },
 });
