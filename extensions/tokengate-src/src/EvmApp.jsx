@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
-import axios from 'axios';
 
 export const EVMApp = () => {
     const { address, isConnected } = useAccount();
 
-    const [wallet, setWallet] = useState({ address: null });
     const [nftImage, setNftImage] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
     
     const { requirements } = getGate();
     const buttons = document.querySelectorAll('.shopify-payment-button__button--unbranded, .product-form__submit');
-    
-    // remove with bithomp
-    const identifiers = {
-      issuer: requirements?.conditions?.issuer,
-      nftokenTaxon: requirements?.conditions?.taxon,
-    };
     
     const handleNftSearchOwner = async () => {
       if (address === null) {
@@ -61,54 +53,36 @@ export const EVMApp = () => {
     useEffect(() => {
       handleNftSearchOwner();
     }, [address]);
-    
-    // alchemy to get nfts then get img
-    const XRPNftsReader = () => {
-      return {
-        getNfts: async () => {
-          const params = {
-            issuer: identifiers.issuer,
-            taxon: identifiers.nftokenTaxon,
-          };
-          const nft = await axios
-          .get(`https://bithomp.com/api/v2/nfts`, {
-            params,
-            headers: {
-              'x-bithomp-token': import.meta.env.VITE_BITHOMP_TOKEN,
-            },
-          })
-          .then(({ data }) => {
-            return data;
-          });
-          return nft;
-        },
-      };
-    };
       
     useEffect(() => {
       callGetNfts();
     }, []);
       
-    // alchemy to get img
     const callGetNfts = async () => {
-      const nftsData = await XRPNftsReader().getNfts();
-        
-      if (nftsData.nfts.length > 0) {
-        for (let i = 0; i < nftsData.nfts.length; i++) {
-          const selectedNft = nftsData.nfts[i];
-          if (selectedNft && selectedNft.url) {
-            if (selectedNft.metadata && selectedNft.metadata.image && selectedNft.metadata.image.startsWith('ipfs://')) {
-              setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image.slice(7)}`);
-              break;
-            } else if (selectedNft.metadata && selectedNft.metadata.image_url) {
-              setNftImage(`https://cloudflare-ipfs.com/ipfs/${selectedNft.metadata.image_url.slice(12)}`);
-              break;
-            }
-          }
-        }
-      } else {
-        setNftImage(null);
+      const options = {method: 'GET', headers: {accept: 'application/json'}};
+
+      const network = requirements?.conditions?.network;
+      let networkPath;
+      if (network === "Ethereum") {
+        networkPath = "eth-mainnet";
+      } else if (network === "Polygon") {
+        networkPath = "polygon-mainnet";
+      } else if (network === "Base") {
+        networkPath = "base-mainnet";
       }
+
+      const alchemyUrl = `https://${networkPath}.g.alchemy.com/nft/v3/${import.meta.env.VITE_SECRET_ALCHEMY}/getNFTMetadata?contractAddress=${requirements?.conditions?.contractAddress}&tokenId=231&refreshCache=false`;
+
+      fetch(alchemyUrl, options)
+        .then(response => response.json())
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.error(err);
+        });  
+        
+      setNftImage(null);
     };
   
     useEffect(() => {
