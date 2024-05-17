@@ -10,3 +10,11 @@ coverage
 logs
 *.log
 .vercel
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
+
+shopify.app.toml
+

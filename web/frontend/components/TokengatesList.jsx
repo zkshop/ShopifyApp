@@ -5,17 +5,12 @@ import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 export function TokengatesList() {
   const fetch = useAuthenticatedFetch();
 
-  console.log("fetch", fetch);
-
   const { data: gatesData, refetch: refetchGates } = useAppQuery({
     url: "/api/gates",
     reactQueryOptions: {
       onSuccess: () => {},
     },
   });
-
-  console.log("gatesData", gatesData);
-  console.log("refetchGates", refetchGates);
 
   const deleteGate = useCallback(
     async (id) => {
@@ -35,8 +30,8 @@ export function TokengatesList() {
 
   const tableHeadings = [
     { title: "Gate" },
-    { title: "Issuer" },
-    { title: "Taxon" },
+    { title: "Network" },
+    { title: "Details" },
     { title: "Products" },
     { title: "" },
   ];
@@ -45,57 +40,37 @@ export function TokengatesList() {
     if (!gatesData?.response) return;
 
     return gatesData.response.map((gate, index) => {
-      const { id, name, requirements, reaction, subjectBindings } = gate;
-
-      if (!requirements.value || !reaction.value) {
-        return;
-      }
-      
+      const { id, name, requirements, subjectBindings } = gate;
       const requirementsValue = JSON.parse(requirements.value);
 
-      const issuer = requirementsValue.conditions.issuer;
-      const taxon = requirementsValue.conditions.taxon;
-
+      const { network, issuer, taxon, contractAddress } = requirementsValue.conditions;
       const numProducts = subjectBindings?.nodes?.length ?? "—";
 
       return (
         <IndexTable.Row id={id} key={id} position={index}>
           <IndexTable.Cell>{name}</IndexTable.Cell>
+          <IndexTable.Cell>{network}</IndexTable.Cell>
           <IndexTable.Cell>
-            <div>
-              <span
-                title="copy the issuer"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  navigator.clipboard.writeText(issuer);
-                }}
-                >
-                📋
-              </span>
-              <span
-                title={issuer}
-                style={{ cursor: "default" }}
-                > {issuer}
-              </span>
-            </div>
-          </IndexTable.Cell>
-          <IndexTable.Cell>
-            <div>
-              <span
-                title="copy the taxon"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  navigator.clipboard.writeText(taxon);
-                }}
-                >
-                📋
-              </span>
-              <span
-                title={taxon}
-                style={{ cursor: "default" }}
-                > {taxon}
-              </span>
-            </div>
+            {network === 'XRP' ? (
+              <>
+                <div>
+                  <span title="copy the issuer" style={{ cursor: "pointer" }}
+                    onClick={() => navigator.clipboard.writeText(issuer)}>📋</span>
+                  <span title={issuer} style={{ cursor: "default" }}> {issuer}</span>
+                </div>
+                <div>
+                  <span title="copy the taxon" style={{ cursor: "pointer" }}
+                    onClick={() => navigator.clipboard.writeText(taxon)}>📋</span>
+                  <span title={taxon} style={{ cursor: "default" }}> {taxon}</span>
+                </div>
+              </>
+            ) : (
+              <div>
+                <span title="copy the contract address" style={{ cursor: "pointer" }}
+                  onClick={() => navigator.clipboard.writeText(contractAddress)}>📋</span>
+                <span title={contractAddress} style={{ cursor: "default" }}> {contractAddress}</span>
+              </div>
+            )}
           </IndexTable.Cell>
           <IndexTable.Cell>{numProducts}</IndexTable.Cell>
           <IndexTable.Cell>
