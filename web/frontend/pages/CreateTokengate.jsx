@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   LegacyCard,
@@ -7,7 +7,6 @@ import {
   PageActions,
   Text,
   ChoiceList,
-  ButtonGroup,
   Button
 } from "@shopify/polaris";
 import { TextField } from '@shopify/polaris';
@@ -15,6 +14,8 @@ import { ContextualSaveBar, Toast } from "@shopify/app-bridge-react";
 import { useField, useForm } from "@shopify/react-form";
 import { useAuthenticatedFetch } from "../hooks";
 import { TokengatesResourcePicker } from "../components/TokengatesResourcePicker";
+
+// import shopify from "../../shopify.js";
 
 export default function CreateTokengate() {
   const fetch = useAuthenticatedFetch();
@@ -93,6 +94,33 @@ export default function CreateTokengate() {
       }
     },
   });
+
+  // async function createRule() {
+  //   const price_rule = new shopify.rest.PriceRule({session: session});
+
+  //   price_rule.title = "Test Rule";
+  //   price_rule.value_type = "percentage";
+  //   price_rule.value = "-1.0";
+  //   price_rule.customer_selection = "all";
+  //   price_rule.target_type = "line_item";
+  //   price_rule.target_selection = "entitled";
+  //   price_rule.allocation_method = "each";
+  //   price_rule.entitled_product_ids = [
+  //     921728736
+  //   ];
+  //   const response = await price_rule.save({
+  //     update: true,
+  //   });
+    
+  //   console.log(response);
+
+  //   if (response.price_rule && response.price_rule.id) {
+  //     await shopify.rest.PriceRule.delete({
+  //       session: session,
+  //       id: response.price_rule.id,
+  //     });
+  //   }
+  // }
 
   const toastMarkup = toastProps.content && (
     <Toast {...toastProps} onDismiss={() => setToastProps({ content: null })} />
@@ -186,6 +214,11 @@ export default function CreateTokengate() {
               <LegacyCard>
                 <TokengatesResourcePicker products={fields.products} />
               </LegacyCard>
+              {/* <LegacyCard>
+                <LegacyCard.Section>
+                <Button onClick={createRule}>Create Rule</Button>
+                </LegacyCard.Section>
+              </LegacyCard> */}
               <LegacyCard.Section>
                 <PageActions
                   primaryAction={{
