@@ -57,6 +57,7 @@ const queryClient = new QueryClient();
 export const App = () => {
   const { requirements } = getGate();
 
+  // App depends on the network
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>

@@ -6,9 +6,7 @@ import {
   Page,
   PageActions,
   Text,
-  ChoiceList,
-  ButtonGroup,
-  Button
+  ChoiceList
 } from "@shopify/polaris";
 import { TextField } from '@shopify/polaris';
 import { ContextualSaveBar, Toast } from "@shopify/app-bridge-react";
@@ -22,38 +20,40 @@ export default function CreateTokengate() {
   const [toastProps, setToastProps] = useState({ content: null });
   const selectedNetworkRef = useRef('Ethereum');
 
+  // fields definition for the form then sent to the backend via the endpoint /api/gates
   const fieldsDefinition = {
     name: useField({
       value: undefined,
-      validates: (name) => !name && "Name cannot be empty",
+      validates: (name) => !name && "Name cannot be empty", // validation for the name field
     }),
     network: useField({
       value: 'Ethereum',
-      validates: (network) => !network && "Network must be selected",
+      validates: (network) => !network && "Network must be selected", // validation for the network field
     }),
     issuer: useField({
       value: undefined,
       validates: (issuer) => {
         const currentNetwork = selectedNetworkRef.current;
-        return currentNetwork === 'XRP' && !issuer && "Issuer cannot be empty";
+        return currentNetwork === 'XRP' && !issuer && "Issuer cannot be empty"; // validation for the issuer field only if the network is XRP
       },
     }),
     taxon: useField({
       value: undefined,
       validates: (taxon) => {
         const currentNetwork = selectedNetworkRef.current;
-        return currentNetwork === 'XRP' && !taxon && "Taxon cannot be empty";
+        return currentNetwork === 'XRP' && !taxon && "Taxon cannot be empty"; // validation for the taxon field only if the network is XRP
       },
     }),
     contractAddress: useField({
       value: undefined,
       validates: (address) => {
         const currentNetwork = selectedNetworkRef.current;
-        return currentNetwork !== 'XRP' && !address && "Contract Address cannot be empty";
+        return currentNetwork !== 'XRP' && !address && "Contract Address cannot be empty"; // validation for the contract address field only if the network is EVM
       }
     }),
-    products: useField([]),
-    exclusiveContent: useField(false),
+    products: useField([]), // field for the products to be selected
+    // change here to add discounts imo
+    exclusiveContent: useField(false), // field for the exclusive content
   };
 
   const { fields, submit, submitting, dirty, reset, makeClean } = useForm({
@@ -63,6 +63,7 @@ export default function CreateTokengate() {
 
       const productGids = products.map((product) => product.id);
       
+      // body of the form sent to the backend via the endpoint /api/gates
       const body = {
         name,
         network,
@@ -73,6 +74,7 @@ export default function CreateTokengate() {
         exclusiveContent,
       };
 
+      // form sent to the backend via the endpoint /api/gates
       const response = await fetch("/api/gates", {
         method: "POST",
         headers: {

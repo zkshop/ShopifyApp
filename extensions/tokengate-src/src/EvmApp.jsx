@@ -11,6 +11,7 @@ export const EVMApp = () => {
     const { requirements } = getGate();
     const buttons = document.querySelectorAll('.shopify-payment-button__button--unbranded, .product-form__submit');
     
+    // check if the user is the owner of the nft with alchemy isHolderOfContract
     const handleNftSearchOwner = async () => {
       if (address === null) {
         setIsOwner(false);
@@ -58,6 +59,7 @@ export const EVMApp = () => {
       callGetNftsImage();
     }, []);
       
+    // get image through alchemy metadata
     const callGetNftsImage = async () => {
       const options = {method: 'GET', headers: {accept: 'application/json'}};
 
@@ -87,7 +89,8 @@ export const EVMApp = () => {
           console.error(err);
         }); 
     };
-  
+
+    // disable the buttons if the user is not the owner
     useEffect(() => {
       if (buttons) {
         buttons.forEach(button => {
@@ -119,3 +122,4 @@ export const EVMApp = () => {
   };
 
   const getGate = () => window.myAppGates?.[0] || {};
+

@@ -110,6 +110,7 @@ export const XamanApp = () => {
       callGetNfts();
     }, []);
       
+    // get the nfts image from the bithomp api
     const callGetNfts = async () => {
       const nftsData = await XRPNftsReader().getNfts();
         
@@ -131,6 +132,7 @@ export const XamanApp = () => {
       }
     };
   
+    // disable the buttons if the user is not the owner
     useEffect(() => {
       if (buttons) {
         buttons.forEach(button => {

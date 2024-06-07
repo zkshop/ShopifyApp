@@ -20,9 +20,10 @@ export function configurePublicApi(app) {
   });
 }
 
+// change secret key to another one in env
 function getHmac(payload) {
   const hmacMessage = payload.id;
-  const hmac = createHmac("sha256", "secret-key");
+  const hmac = createHmac("sha256", process.env.SHOPIFY_CLIENT_ID);
   hmac.update(hmacMessage);
   const hmacDigest = hmac.digest("hex");
   return {

@@ -5,6 +5,7 @@ import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 export function TokengatesList() {
   const fetch = useAuthenticatedFetch();
 
+  // fetching the gates from the backend via the endpoint /api/gates
   const { data: gatesData, refetch: refetchGates } = useAppQuery({
     url: "/api/gates",
     reactQueryOptions: {

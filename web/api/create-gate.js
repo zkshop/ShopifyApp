@@ -124,6 +124,8 @@ query retrieveProducts ($queryString: String!, $first: Int!){
 
 `;
 
+// here to update the gate content
+// retrieving the datas from the create tokengate form in the frontend
 export default async function createGate({
   session,
   name,
@@ -183,6 +185,7 @@ export default async function createGate({
 
     const products = retrieveProductsResponse.body.data.products.nodes;
 
+    // updating products to have only one gate per product
     for (const product of products) {
       if (product.gates.length > 0) {
         const activeGateSubjectId = product.gates[0].id;

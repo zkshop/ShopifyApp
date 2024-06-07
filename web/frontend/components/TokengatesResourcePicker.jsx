@@ -89,6 +89,7 @@ export const TokengatesResourcePicker = ({ products }) => {
     );
   };
 
+  // change resource type to collection if needed
   return (
     <LegacyCard
       title="Applies to"

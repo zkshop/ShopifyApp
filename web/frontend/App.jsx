@@ -13,6 +13,7 @@ export default function App() {
   const pages = import.meta.globEager("./pages/**/!(*.test.[jt]sx)*.([jt]sx)");
   const { t } = useTranslation();
 
+  // here to add new pages to the navigation menu, create the .js in the pages folder and the route will be added automatically
   return (
     <PolarisProvider>
       <BrowserRouter>

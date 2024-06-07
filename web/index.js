@@ -49,6 +49,7 @@ app.get("/api/gates", async (_req, res) => {
   }
 });
 
+// here to update the gate content
 app.post("/api/gates", async (req, res) => {
   const { name, productGids, issuer, taxon, network, contractAddress } = req.body;
 
