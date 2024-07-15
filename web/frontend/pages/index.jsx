@@ -2,10 +2,7 @@ import { Page, Layout, LegacyCard, TextContainer } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 import { useAppBridge } from '@shopify/app-bridge-react';
 import { Redirect } from '@shopify/app-bridge/actions';
-import { useAuthenticatedFetch } from "../hooks";
-
-
-import axios from 'axios';
+import { useAuthenticatedFetch, useAppQuery } from "../hooks";
 
 
 
@@ -28,13 +25,17 @@ export default function HomePage() {
           "Content-Type": "application/json",
         },
       });
+      
+      const jsonResponse = await response.json();
 
-      const { confirmationUrl } = response.data;
-      redirect.dispatch(Redirect.Action.REMOTE, confirmationUrl);
+      console.log('response.confirmationUrl: ', jsonResponse)
+      redirect.dispatch(Redirect.Action.REMOTE, jsonResponse.data);
     } catch (error) {
       console.error('Error creating billing:', error);
     }
   };
+
+  
   return (
     <Page>
       <Layout>

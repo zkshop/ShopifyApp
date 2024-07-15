@@ -88,7 +88,8 @@ app.post('/api/subscription/create', async(req, res) =>{
   try{
     const result = await createAppSubscription(res.locals.shopify.session);
     const confirmationUrl = result?.body?.data?.appSubscriptionCreate?.confirmationUrl;
-    res.status(200).json({ confirmationUrl });
+    console.log('----> confirmationUrl: ', confirmationUrl)
+    res.status(200).json({ data: confirmationUrl });
   }catch(err){
     console.log(`Failed to process usage/create: ${err}`);
   }
