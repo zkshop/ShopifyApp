@@ -1,11 +1,40 @@
 import { Page, Layout, LegacyCard, TextContainer } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
+import { useAppBridge } from '@shopify/app-bridge-react';
+import { Redirect } from '@shopify/app-bridge/actions';
+import { useAuthenticatedFetch } from "../hooks";
+
+
+import axios from 'axios';
+
+
+
+
 
 export default function HomePage() {
   const navigate = useNavigate();
-
+  const fetch = useAuthenticatedFetch();
+  const app = useAppBridge();
+  const redirect = Redirect.create(app);
+  console.log('shopify app: ', app)
   const goToTokengates = () => navigate('/tokengates');
+  const options = {method: 'POST', headers: {accept: 'application/json'}};
 
+  const handleBilling = async () => {
+    try {
+      const response = await fetch("/api/subscription/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const { confirmationUrl } = response.data;
+      redirect.dispatch(Redirect.Action.REMOTE, confirmationUrl);
+    } catch (error) {
+      console.error('Error creating billing:', error);
+    }
+  };
   return (
     <Page>
       <Layout>
@@ -48,6 +77,9 @@ export default function HomePage() {
                   <li>Save the tokengate</li>
                 </ul>
                 You are done!
+              </div>
+              <div>
+              Subscription test: <span style={{color: 'blue', cursor: 'pointer'}} onClick={handleBilling}>Basic plan create</span>
               </div>
             </TextContainer>
           </LegacyCard>

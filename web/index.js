@@ -11,6 +11,7 @@ import retrieveGates from "./api/retrieve-gates.js";
 import deleteGate from "./api/delete-gate.js";
 
 import PrivacyWebhookHandlers from "./privacy.js";
+import { createAppSubscription } from "./api/billing/billing.js"
 
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 
@@ -82,6 +83,16 @@ app.delete("/api/gates/:id", async (req, res) => {
     res.status(500).send({ success: false, error: e.message });
   }
 });
+
+app.post('/api/subscription/create', async(req, res) =>{
+  try{
+    const result = await createAppSubscription(res.locals.shopify.session);
+    const confirmationUrl = result?.body?.data?.appSubscriptionCreate?.confirmationUrl;
+    res.status(200).json({ confirmationUrl });
+  }catch(err){
+    console.log(`Failed to process usage/create: ${err}`);
+  }
+})
 
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
