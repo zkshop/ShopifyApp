@@ -67,6 +67,18 @@ export async function cancelSubscription(id){
     });
 }
 
-export async function getSubscription(){
-    const client = new shopify.api.clients.Graphql({ session });
+export async function getAppInfo(session){
+    console.log('----> getAppInfo')
+    const client = new shopify.clients.Graphql({session});
+    const data = await client.query({
+    data: `query {
+        appInstallation(id: "gid://shopify/AppInstallation/1002334195") {
+        app {
+            id
+        }
+        }
+    }`,
+    });
+    console.log('data: ', data)
+    return data;
 }

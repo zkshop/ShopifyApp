@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useAppBridge } from '@shopify/app-bridge-react';
 import { Redirect } from '@shopify/app-bridge/actions';
 import { useAuthenticatedFetch, useAppQuery } from "../hooks";
+import { getAppInfo } from '../services/AppInfo'
 
 
 
 
 
 export default function HomePage() {
+
+  const appInfo = getAppInfo();
+  console.log('appInfo', appInfo)
+
   const navigate = useNavigate();
   const fetch = useAuthenticatedFetch();
   const app = useAppBridge();

@@ -11,7 +11,7 @@ import retrieveGates from "./api/retrieve-gates.js";
 import deleteGate from "./api/delete-gate.js";
 
 import PrivacyWebhookHandlers from "./privacy.js";
-import { createAppSubscription } from "./api/billing/billing.js"
+import { createAppSubscription, getAppInfo} from "./api/billing/billing.js"
 
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 
@@ -92,6 +92,17 @@ app.post('/api/subscription/create', async(req, res) =>{
     res.status(200).json({ data: confirmationUrl });
   }catch(err){
     console.log(`Failed to process usage/create: ${err}`);
+  }
+})
+
+app.get('/api/info', async(req, res) =>{
+  try{
+    const result = await getAppInfo(res.locals.shopify.session);
+    const appInfo = result?.body?.data;
+    console.log('----> appInfo: ', appInfo)
+    res.status(200).json({ data: appInfo });
+  }catch(err){
+    console.log(`Failed to get the info about app: ${err}`);
   }
 })
 
