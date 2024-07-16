@@ -8,8 +8,8 @@ export async function createAppSubscription(session){
     console.log('host: ', process.env.HOST)
     const data = await client.query({
     data: {
-        "query": `mutation AppSubscriptionCreate($name: String!, $lineItems: [AppSubscriptionLineItemInput!]!, $returnUrl: URL!) {
-        appSubscriptionCreate(name: $name, returnUrl: $returnUrl, lineItems: $lineItems) {
+        "query": `mutation AppSubscriptionCreate($name: String!, $lineItems: [AppSubscriptionLineItemInput!]!, $returnUrl: URL!, $test: Boolean!) {
+        appSubscriptionCreate(name: $name, returnUrl: $returnUrl, lineItems: $lineItems, test: $test) {
             userErrors {
             field
             message
@@ -23,6 +23,7 @@ export async function createAppSubscription(session){
         "variables": {
         "name": "Basic Plan",
         "returnUrl": `${process.env.HOST}`,
+        "test": true,
         "lineItems": [
             {
             "plan": {
@@ -45,7 +46,7 @@ export async function createAppSubscription(session){
 
 export async function cancelSubscription(id){
     console.log('---> cancel subscription')
-    const client = new shopify.clients.Graphql({session});
+    const client = new shopify.api.clients.Graphql({session});
     const data = await client.query({
     data: {
         "query": `mutation AppSubscriptionCancel($id: ID!) {
@@ -67,18 +68,30 @@ export async function cancelSubscription(id){
     });
 }
 
+
 export async function getAppInfo(session){
-    console.log('----> getAppInfo')
-    const client = new shopify.clients.Graphql({session});
+    console.log('----> getAppInfo subscription ')
+    console.log('session: ', session)
+    const client = new shopify.api.clients.Graphql({ session });
+    console.log('client: ', client)
+    console.log('host: ', process.env.HOST)
     const data = await client.query({
-    data: `query {
-        appInstallation(id: "gid://shopify/AppInstallation/1002334195") {
-        app {
-            id
-        }
-        }
-    }`,
+        data: {
+            query: `
+                query {
+                    currentAppInstallation {
+                        activeSubscriptions{
+                            createdAt
+                            currentPeriodEnd
+                            id
+                            status
+                            test
+                        }
+                    }
+                }
+            `,
+        },
     });
-    console.log('data: ', data)
+    console.log('data: ', data.json)
     return data;
 }
