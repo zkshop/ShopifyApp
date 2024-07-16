@@ -1,26 +1,46 @@
+import React, { useEffect, useState } from "react";
 import { Page, Layout, LegacyCard, TextContainer } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 import { useAppBridge } from '@shopify/app-bridge-react';
 import { Redirect } from '@shopify/app-bridge/actions';
-import { useAuthenticatedFetch, useAppQuery } from "../hooks";
-import { getAppInfo } from '../services/AppInfo'
+import { useAuthenticatedFetch } from "../hooks";
+import { getSubStatus } from "../services/AppInfo"
 
 
 
 
 
 export default function HomePage() {
-
-  const appInfo = getAppInfo();
-  console.log('appInfo', appInfo)
-
   const navigate = useNavigate();
   const fetch = useAuthenticatedFetch();
   const app = useAppBridge();
   const redirect = Redirect.create(app);
-  console.log('shopify app: ', app)
+
+
   const goToTokengates = () => navigate('/tokengates');
   const options = {method: 'POST', headers: {accept: 'application/json'}};
+
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+
+
+
+  const checkSubscriptionStatus = async () => {
+    try {
+      const subStatus = await getSubStatus();
+      console.log('subStatus: ', subStatus);
+      if (subStatus.toLowerCase() !== 'active') {
+        console.log('Navigate to pricing plans');
+        navigate('/pricing');
+      } else {
+        console.log('Subscription is active');
+      }
+      setSubscriptionStatus(subStatus);
+    } catch (error) {
+      console.error('Error checking subscription status:', error);
+    }
+  };
+
+  checkSubscriptionStatus();
 
   const handleBilling = async () => {
     try {

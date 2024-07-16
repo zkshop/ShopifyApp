@@ -20,6 +20,30 @@ export default function CreateTokengate() {
   const [toastProps, setToastProps] = useState({ content: null });
   const selectedNetworkRef = useRef('Ethereum');
 
+
+
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+
+
+
+  const checkSubscriptionStatus = async () => {
+    try {
+      const subStatus = await getSubStatus();
+      console.log('subStatus: ', subStatus);
+      if (subStatus.toLowerCase() !== 'active') {
+        console.log('Navigate to pricing plans');
+        navigate('/pricing');
+      } else {
+        console.log('Subscription is active');
+      }
+      setSubscriptionStatus(subStatus);
+    } catch (error) {
+      console.error('Error checking subscription status:', error);
+    }
+  };
+
+  checkSubscriptionStatus();
+
   // fields definition for the form then sent to the backend via the endpoint /api/gates
   const fieldsDefinition = {
     name: useField({

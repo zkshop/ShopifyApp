@@ -23,7 +23,7 @@ export async function createAppSubscription(session){
         "variables": {
         "name": "Basic Plan",
         "returnUrl": `${process.env.HOST}`,
-        "test": true,
+        "test": false,
         "lineItems": [
             {
             "plan": {
