@@ -104,9 +104,6 @@ export default function HomePage() {
                 </ul>
                 You are done!
               </div>
-              <div>
-              Subscription test: <span style={{color: 'blue', cursor: 'pointer'}} onClick={handleBilling}>Basic plan create</span>
-              </div>
             </TextContainer>
           </LegacyCard>
         </Layout.Section>
