@@ -4,18 +4,17 @@
   data-product_gated="{{ product.metafields.custom.gated | default: false }}">
 </div>
 <script>
+  console.log("Product object:", {{ product.metafields.tokengating-example-app | json }});
   window.myAppGates = [
-    {%- assign gates_metafield = product.metafields.custom.gates | default: '[]' -%}
+    {%- assign gates_metafield = product.metafields.tokengating-example-app | default: '[]' -%}
     {%- assign gates = gates_metafield | parse_json -%}
     {%- for gate in gates -%}
-      {%- if gate.configuration.handle == 'tokengating-example-app' -%}
         {
-          id: "{{ gate.configuration.id }}",
-          name: "{{ gate.configuration.name | escape }}",
-          requirements: {{ gate.configuration.requirements | json }},
-          reaction: {{ gate.configuration.reaction | json }}
+          id: "{{ gate.gateConfigurationId }}",
+          name: "{{ gate.name | escape }}",
+          requirements: {{ gate.requirements | json }},
+          reaction: {{ gate.reaction | json }}
         },
-      {%- endif -%}
     {%- endfor -%}
   ];
 </script>

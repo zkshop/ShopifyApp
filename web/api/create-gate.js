@@ -142,6 +142,7 @@ const UPDATE_PRODUCT_METAFIELD_MUTATION = `
 `;
 
 
+
 const PRODUCTS_QUERY = `
 query retrieveProducts ($queryString: String!, $first: Int!){
   products(query: $queryString, first: $first) {
@@ -226,6 +227,16 @@ export default async function createGate({
         reaction: gateConfigurationReaction,
       });
 
+      await client.query({
+        data: {
+          query: CREATE_GATE_SUBJECT_MUTATION,
+          variables: {
+            gateConfigurationId,
+            subject: product.id,
+          },
+        },
+      });
+
       const updateMetafieldResponse = await client.query({
         data: {
           query: UPDATE_PRODUCT_METAFIELD_MUTATION,
@@ -235,9 +246,10 @@ export default async function createGate({
           },
         },
       });
-
-      console.log('Updated product metafield: ', updateMetafieldResponse);
+      
+      console.log('Updated product metafield: ', updateMetafieldResponse.body?.data.productUpdate.product.metafields);
     }
+    
     return createGateResponse;
   } catch (error) {
     if (error instanceof GraphqlQueryError) {
