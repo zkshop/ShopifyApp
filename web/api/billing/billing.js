@@ -70,11 +70,7 @@ export async function cancelSubscription(id){
 
 
 export async function getAppInfo(session){
-    console.log('----> getAppInfo subscription ')
-    console.log('session: ', session)
     const client = new shopify.api.clients.Graphql({ session });
-    console.log('client: ', client)
-    console.log('host: ', process.env.HOST)
     const data = await client.query({
         data: {
             query: `
@@ -92,6 +88,5 @@ export async function getAppInfo(session){
             `,
         },
     });
-    console.log('data: ', data.json)
     return data;
 }

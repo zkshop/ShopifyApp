@@ -109,6 +109,39 @@ const UPDATE_GATE_SUBJECT_MUTATION = `
   }
 `;
 
+const UPDATE_PRODUCT_METAFIELD_MUTATION = `
+  mutation updateProductMetafield($productId: ID!, $metafieldValue: String!) {
+    productUpdate(input: {
+      id: $productId,
+      metafields: [
+        {
+          namespace: "${myAppMetafieldNamespace}",
+          key: "gate",
+          type: "json",
+          value: $metafieldValue
+        }
+      ]
+    }) {
+      product {
+        id
+        metafields(namespace: "${myAppMetafieldNamespace}", first: 10) {
+          nodes {
+            key
+            value
+            namespace
+            type
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+
 const PRODUCTS_QUERY = `
 query retrieveProducts ($queryString: String!, $first: Int!){
   products(query: $queryString, first: $first) {
@@ -121,8 +154,8 @@ query retrieveProducts ($queryString: String!, $first: Int!){
     }
   }
 }
-
 `;
+
 
 // here to update the gate content
 // retrieving the datas from the create tokengate form in the frontend
@@ -182,33 +215,28 @@ export default async function createGate({
         },
       },
     });
-
     const products = retrieveProductsResponse.body.data.products.nodes;
 
     // updating products to have only one gate per product
     for (const product of products) {
-      if (product.gates.length > 0) {
-        const activeGateSubjectId = product.gates[0].id;
-        await client.query({
-          data: {
-            query: UPDATE_GATE_SUBJECT_MUTATION,
-            variables: {
-              gateConfigurationId,
-              id: activeGateSubjectId,
-            },
+      const metafieldValue = JSON.stringify({
+        gateConfigurationId,
+        name,
+        requirements: gateConfigurationRequirements,
+        reaction: gateConfigurationReaction,
+      });
+
+      const updateMetafieldResponse = await client.query({
+        data: {
+          query: UPDATE_PRODUCT_METAFIELD_MUTATION,
+          variables: {
+            productId: product.id,
+            metafieldValue: metafieldValue,
           },
-        });
-      } else {
-        await client.query({
-          data: {
-            query: CREATE_GATE_SUBJECT_MUTATION,
-            variables: {
-              gateConfigurationId,
-              subject: product.id,
-            },
-          },
-        });
-      }
+        },
+      });
+
+      console.log('Updated product metafield: ', updateMetafieldResponse);
     }
     return createGateResponse;
   } catch (error) {
