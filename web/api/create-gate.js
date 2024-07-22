@@ -225,6 +225,7 @@ export default async function createGate({
         name,
         requirements: gateConfigurationRequirements,
         reaction: gateConfigurationReaction,
+        gated: true,
       });
 
       await client.query({
