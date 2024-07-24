@@ -124,7 +124,7 @@ const UPDATE_PRODUCT_METAFIELD_MUTATION = `
     }) {
       product {
         id
-        metafields(namespace: "${myAppMetafieldNamespace}", first: 10) {
+        metafields(namespace: "${myAppMetafieldNamespace}", first: 100) {
           nodes {
             key
             value
@@ -221,12 +221,15 @@ export default async function createGate({
     // updating products to have only one gate per product
     for (const product of products) {
       const metafieldValue = JSON.stringify({
+        gated: true,
         gateConfigurationId,
         name,
         requirements: gateConfigurationRequirements,
         reaction: gateConfigurationReaction,
-        gated: true,
       });
+
+
+      console.log('----> metafieldValue: ', metafieldValue)
 
       await client.query({
         data: {

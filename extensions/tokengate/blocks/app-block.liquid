@@ -1,18 +1,27 @@
 <div
   id="tokengating-example-app"
   data-product_id="{{ product.id }}"
-  data-product_gated="{{ product.metafields.metafields.tokengating-example-app.gated | default: false }}">
+  data-product_gated="{{ product.metafields.tokengating-example-app.gate.gated | default: false }}">
 </div>
+{% assign productMetafields = product.metafields.tokengating-example-app %}
 <script>
-  console.log("Product object:", {{ product.metafields.tokengating-example-app | json }});
+  var metafields = {{ productMetafields | json }}
+  console.log('metafields: ', metafields)
   window.myAppGates = [
       {
-        id: "{{ product.metafields.tokengating-example-app.gate.gateConfigurationId }}",
-        name: "{{ product.metafields.tokengating-example-appgate.name | escape }}",
-        requirements: {{ product.metafields.tokengating-example-appgate.requirements | json }},
-        reaction: {{ product.metafields.tokengating-example-appgate.reaction | json }}
+        id: metafields.gate.gateConfigurationId,
+        name: metafields.gate.name,
+        requirements: metafields.gate.requirements,
+        reaction: metafields.gate.reaction
       },
   ];
+  document.addEventListener("DOMContentLoaded", function() {
+    var tokengatingDiv = document.getElementById("tokengating-example-app");
+    if (tokengatingDiv) {
+      tokengatingDiv.setAttribute("data-product_gated", metafields.gate.gated);
+    }
+  });
+  console.log('window.myAppGates: ',  window.myAppGates)
 </script>
 
 <script async type="module" src="{{ "index.js" | asset_url }}"></script>
