@@ -3,7 +3,7 @@ import shopify from "../shopify.js";
 import { myAppMetafieldNamespace, myHandle } from "./constants.js";
 
 const CREATE_GATE_CONFIGURATION_MUTATION = `
-  mutation createGateConfiguration($name: String!, $requirements: String!, $reaction: String!) {
+  mutation createGateConfiguration($name: String!, $requirements: String!, $reaction: String!, $productGids: String!) {
     gateConfigurationCreate(input: {
         name: $name,
         metafields: [{
@@ -17,6 +17,12 @@ const CREATE_GATE_CONFIGURATION_MUTATION = `
           key: "reaction",
           type: "json",
           value: $reaction
+        },
+        {
+          namespace: "${myAppMetafieldNamespace}",
+          key: "productGids",
+          type: "json",
+          value: $productGids,
         }],
         handle: "${myHandle}"
       }) {
@@ -61,6 +67,9 @@ const CREATE_GATE_SUBJECT_MUTATION = `
           reaction: metafield(namespace: "${myAppMetafieldNamespace}",
             key: "reaction") {
               value
+          }
+          productGids: metafield(namespace: "${myAppMetafieldNamespace}", key: "productGids"){
+            value
           }
           createdAt
           updatedAt
@@ -196,6 +205,7 @@ export default async function createGate({
           name,
           requirements: JSON.stringify(gateConfigurationRequirements),
           reaction: JSON.stringify(gateConfigurationReaction),
+          productGids: JSON.stringify(productGids),
         },
       },
     });
@@ -253,7 +263,7 @@ export default async function createGate({
       
       console.log('Updated product metafield: ', updateMetafieldResponse.body?.data.productUpdate.product.metafields);
     }
-    
+    console.log('createGateResponse: ', createGateResponse)
     return createGateResponse;
   } catch (error) {
     if (error instanceof GraphqlQueryError) {

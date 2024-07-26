@@ -14,8 +14,8 @@ export function TokengatesList() {
   });
 
   const deleteGate = useCallback(
-    async (id) => {
-      const response = await fetch(`/api/gates/${encodeURIComponent(id)}`, {
+    async (id, test) => {
+      const response = await fetch(`/api/gates/${encodeURIComponent(id)}?test=${encodeURIComponent(JSON.stringify(test))}`, {
         method: "DELETE",
       });
 
@@ -39,14 +39,15 @@ export function TokengatesList() {
 
   const indexTableRow = () => {
     if (!gatesData?.response) return;
-
+    console.log('---> gatesData: ', gatesData)
     return gatesData.response.map((gate, index) => {
       const { id, name, requirements, subjectBindings } = gate;
       const requirementsValue = JSON.parse(requirements.value);
 
       const { network, issuer, taxon, contractAddress } = requirementsValue.conditions;
       const numProducts = subjectBindings?.nodes?.length ?? "—";
-
+      const test = subjectBindings?.nodes
+      console.log('test products: ', test)
       return (
         <IndexTable.Row id={id} key={id} position={index}>
           <IndexTable.Cell>{name}</IndexTable.Cell>
@@ -75,7 +76,7 @@ export function TokengatesList() {
           </IndexTable.Cell>
           <IndexTable.Cell>{numProducts}</IndexTable.Cell>
           <IndexTable.Cell>
-            <Button onClick={() => deleteGate(id)}>Delete</Button>
+            <Button onClick={() => deleteGate(id, test)}>Delete</Button>
           </IndexTable.Cell>
         </IndexTable.Row>
       );

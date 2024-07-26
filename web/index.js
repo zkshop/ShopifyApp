@@ -42,6 +42,7 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.get("/api/gates", async (_req, res) => {
   try {
+    console.log('-----> api/gates')
     const response = await retrieveGates(res.locals.shopify.session);
     res.status(200).send({ success: true, response });
   } catch (e) {
@@ -73,9 +74,11 @@ app.post("/api/gates", async (req, res) => {
 
 app.delete("/api/gates/:id", async (req, res) => {
   try {
+    console.log('req.query: ', req.query)
     await deleteGate({
       session: res.locals.shopify.session,
       gateConfigurationGid: decodeURIComponent(req.params.id),
+      products: req?.query?.test
     });
     res.status(200).send({ success: true });
   } catch (e) {

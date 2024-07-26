@@ -53,6 +53,10 @@ export async function getGatesByShopDomain({ shopDomain, productGid }) {
   }
 }
 
+export async function getProductsByGateId(gateId){
+  // requete sql
+}
+
 const query = `
   query FetchProductGates($productGid: ID!) {
     product(id: $productGid) {
