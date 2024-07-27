@@ -118,16 +118,48 @@ const UPDATE_GATE_SUBJECT_MUTATION = `
   }
 `;
 
-const UPDATE_PRODUCT_METAFIELD_MUTATION = `
+const CREATE_PRODUCT_METAFIELD_MUTATION = `
   mutation updateProductMetafield($productId: ID!, $metafieldValue: String!) {
     productUpdate(input: {
       id: $productId,
-      metafields: [
+      metafields:[
         {
           namespace: "${myAppMetafieldNamespace}",
           key: "gate",
           type: "json",
           value: $metafieldValue
+        }
+      ]
+      
+    }) {
+      product {
+        id
+        metafields(namespace: "${myAppMetafieldNamespace}", first: 100) {
+          nodes {
+            key
+            value
+            namespace
+            type
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const UPDATE_PRODUCT_METAFIELD_MUTATION = `
+  mutation updateProductMetafield($metafieldId: ID! $productId: ID! $metafieldValue: String!) {
+    productUpdate(input: {
+      id: $productId,
+      metafields:[
+        {
+          id: $metafieldId,
+          type: "json",
+          value: $metafieldValue,
         }
       ]
     }) {
@@ -157,6 +189,11 @@ query retrieveProducts ($queryString: String!, $first: Int!){
   products(query: $queryString, first: $first) {
     nodes {
       id
+      metafield(key: "gate"){
+        id
+        key
+        namespace
+      }
       gates {
         id
         active
@@ -164,6 +201,17 @@ query retrieveProducts ($queryString: String!, $first: Int!){
     }
   }
 }
+`;
+
+const GET_PRODUCT_METAFIELD_QUERY = `
+  query getProductMetafield($productId: ID!) {
+    product(id: $productId) {
+      metafield(namespace: "${myAppMetafieldNamespace}", key: "gate") {
+        id
+        value
+      }
+    }
+  }
 `;
 
 
@@ -217,6 +265,7 @@ export default async function createGate({
       return;
     }
 
+    console.log('createGateResponse')
     const retrieveProductsResponse = await client.query({
       data: {
         query: PRODUCTS_QUERY,
@@ -226,7 +275,9 @@ export default async function createGate({
         },
       },
     });
+    console.log('retrieveProductsResponse')
     const products = retrieveProductsResponse.body.data.products.nodes;
+
 
     // updating products to have only one gate per product
     for (const product of products) {
@@ -240,31 +291,104 @@ export default async function createGate({
 
 
       console.log('----> metafieldValue: ', metafieldValue)
+      const testflag = true
 
-      await client.query({
-        data: {
-          query: CREATE_GATE_SUBJECT_MUTATION,
-          variables: {
-            gateConfigurationId,
-            subject: product.id,
-          },
-        },
-      });
+      for (const product of products) {
+        console.log('retrieve metafield of product: ', product.id)
+        const productMetafield = await getProductMetafield({ session, productId: product.id });
+        console.log('productMetafield', product.id, ':', productMetafield);
+        //product.gates.length > 0 
+        if (productMetafield?.metafield?.id && product.gates.length > 0 ) {
+          console.log('update gate')
+          const activeGateSubjectId = product.gates[0].id;
+          await client.query({
+            data: {
+              query: UPDATE_GATE_SUBJECT_MUTATION,
+              variables: {
+                gateConfigurationId,
+                id: activeGateSubjectId,
+              },
+            },
+          });
+          console.log(' metafieldId: product?.metafield.id: ',  productMetafield?.metafield?.id)
+          const updateMetafieldResponse = await client.query({
+            data: {
+              query: UPDATE_PRODUCT_METAFIELD_MUTATION,
+              variables: {
+                productId: product.id,
+                metafieldValue: metafieldValue,
+                metafieldId: productMetafield?.metafield?.id
+              },
+            },
+          });
+          console.log('Updated product metafield: ', updateMetafieldResponse.body?.data.productUpdate.product);
+        } else {
+          console.log('create gate')
+          await client.query({
+            data: {
+              query: CREATE_GATE_SUBJECT_MUTATION,
+              variables: {
+                gateConfigurationId,
+                subject: product.id,
+              },
+            },
+          });
 
-      const updateMetafieldResponse = await client.query({
-        data: {
-          query: UPDATE_PRODUCT_METAFIELD_MUTATION,
-          variables: {
-            productId: product.id,
-            metafieldValue: metafieldValue,
-          },
-        },
-      });
+          const updateMetafieldResponse = await client.query({
+            data: {
+              query: CREATE_PRODUCT_METAFIELD_MUTATION,
+              variables: {
+                productId: product.id,
+                metafieldValue: metafieldValue,
+              },
+            },
+          });
+          console.log('Updated product metafield: ', updateMetafieldResponse.body?.data.productUpdate.product.metafields);
+          const retrieveProductsResponse = await client.query({
+            data: {
+              query: PRODUCTS_QUERY,
+              variables: {
+                queryString: generateProductsQueryString(productGids),
+                first: 100,
+              },
+            },
+          });
+          const testProducts = retrieveProductsResponse.body.data.products.nodes;
+          console.log('testProducts: ', testProducts)
+        }
+      }
+
       
-      console.log('Updated product metafield: ', updateMetafieldResponse.body?.data.productUpdate.product.metafields);
     }
     console.log('createGateResponse: ', createGateResponse)
     return createGateResponse;
+  } catch (error) {
+    if (error instanceof GraphqlQueryError) {
+      throw new Error(
+        `${error.message}\n${JSON.stringify(error.response, null, 2)}`
+      );
+    } else {
+      throw error;
+    }
+  }
+}
+
+export async function getProductMetafield({ session, productId }) {
+  const client = new shopify.api.clients.Graphql({ session });
+
+  try {
+    const response = await client.query({
+      data: {
+        query: GET_PRODUCT_METAFIELD_QUERY,
+        variables: {
+          productId,
+        },
+      },
+    });
+
+    const metafield = response.body.data.product;
+    console.log('Metafield value:', metafield);
+    return metafield;
   } catch (error) {
     if (error instanceof GraphqlQueryError) {
       throw new Error(

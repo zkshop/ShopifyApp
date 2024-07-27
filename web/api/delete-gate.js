@@ -2,6 +2,8 @@ import { GraphqlQueryError } from "@shopify/shopify-api";
 import shopify from "../shopify.js";
 import { myAppMetafieldNamespace } from "./constants.js";
 import retrieveGates from './retrieve-gates.js'
+import { getProductMetafield } from './create-gate.js'
+
 const DELETE_GATE_CONFIGURATION_MUTATION = `
   mutation deleteGateConfiguration($id: ID!) {
     gateConfigurationDelete(input: {
@@ -12,36 +14,6 @@ const DELETE_GATE_CONFIGURATION_MUTATION = `
   }
 `;
 
-const UPDATE_PRODUCT_METAFIELD_MUTATION = `
-  mutation updateProductMetafield($metafieldId: ID! $productId: ID! $metafieldValue: String!) {
-    productUpdate(input: {
-      id: $productId,
-      metafields: [
-        {
-          id: $metafieldId,
-          type: "json",
-          value: $metafieldValue,
-        }
-      ]
-    }) {
-      product {
-        id
-        metafields(namespace: "${myAppMetafieldNamespace}", first: 100) {
-          nodes {
-            key
-            value
-            namespace
-            type
-          }
-        }
-      }
-      userErrors {
-        field
-        message
-      }
-    }
-  }
-`;
 
 const generateProductsQueryString = (productGids) => {
   return productGids
@@ -83,6 +55,38 @@ const DELETE_METAFIELD_MUTATION = `
   }
 `;
 
+const UPDATE_PRODUCT_METAFIELD_MUTATION = `
+  mutation updateProductMetafield($metafieldId: ID! $productId: ID! $metafieldValue: String!) {
+    productUpdate(input: {
+      id: $productId,
+      metafields:[
+        {
+          id: $metafieldId,
+          type: "json",
+          value: $metafieldValue,
+        }
+      ]
+    }) {
+      product {
+        id
+        metafields(namespace: "${myAppMetafieldNamespace}", first: 100) {
+          nodes {
+            key
+            value
+            namespace
+            type
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+
 
 
 export default async function deleteGate({ session, gateConfigurationGid, products }) {
@@ -105,28 +109,31 @@ export default async function deleteGate({ session, gateConfigurationGid, produc
         },
       },
     });
+    console.log('retrieveProductsResponse: ', retrieveProductsResponse)
     
     const products = retrieveProductsResponse.body.data.products.nodes;
-    console.log('retrieveProductsResponse:  ', products)
+    console.log('products:  ', products)
     for (const product of products) {
-      console.log('product metafield', product)
-      if(product.metafield){
+      const productMetafield = await getProductMetafield({ session, productId: product.id });
+      console.log("productMetafield, ", productMetafield)
+      if(productMetafield){
         const deleteMetafieldResponse = await client.query({
           data: {
             query: DELETE_METAFIELD_MUTATION,
             variables: {
               input: {
-                id: product?.metafield?.id
+                id: productMetafield?.metafield?.id
               }
             },
           },
         });
         console.log('deleteMetafieldResponse: ', deleteMetafieldResponse)
-      } 
-      
-      
-
+      }
+      else{
+        return
+      }
     }
+    //return
     const response = await client.query({
       data: {
         query: DELETE_GATE_CONFIGURATION_MUTATION,
