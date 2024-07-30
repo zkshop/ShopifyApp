@@ -385,11 +385,13 @@ export async function getProductMetafield({ session, productId }) {
         },
       },
     });
+    console.log('GET_PRODUCT_METAFIELD_QUERY: ', response)
 
     const metafield = response.body.data.product;
     console.log('Metafield value:', metafield);
     return metafield;
   } catch (error) {
+    console.log(error)
     if (error instanceof GraphqlQueryError) {
       throw new Error(
         `${error.message}\n${JSON.stringify(error.response, null, 2)}`
