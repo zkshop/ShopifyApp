@@ -36,7 +36,6 @@ const GATES_QUERY = `
 
 export default async function retrieveGates(session) {
   const client = new shopify.api.clients.Graphql({ session });
-  console.log('----> retrieveGates')
   try {
     const gates = await client.query({
       data: {

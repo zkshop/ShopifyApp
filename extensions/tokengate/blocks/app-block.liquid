@@ -3,8 +3,10 @@
   data-product_id="{{ product.id }}"
   data-product_gated="{{ product.metafields.tokengating-example-app.gate.gated | default: false }}">
 </div>
+
 {% assign productMetafields = product.metafields.tokengating-example-app %}
 <script>
+  console.log("Product object:", {{ product.metafields.tokengating-example-app | json }});
   var metafields = {{ productMetafields | json }}
   console.log('metafields: ', metafields)
   window.myAppGates = [
