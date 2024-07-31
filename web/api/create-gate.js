@@ -89,7 +89,7 @@ const UPDATE_GATE_SUBJECT_MUTATION = `
   mutation updateGateSubject ($gateConfigurationId: ID!, $id: ID!){
     gateSubjectUpdate(input: {
       gateConfigurationId: $gateConfigurationId,
-      id: $id
+      id: $id,
     }) {
       gateSubject {
         id
@@ -102,6 +102,10 @@ const UPDATE_GATE_SUBJECT_MUTATION = `
           }
           reaction: metafield(namespace: "${myAppMetafieldNamespace}",
             key: "reaction") {
+              value
+          }
+          productGids: metafield(namespace: "${myAppMetafieldNamespace}",
+            key: "productGids"){
               value
           }
           createdAt
@@ -182,7 +186,62 @@ const UPDATE_PRODUCT_METAFIELD_MUTATION = `
   }
 `;
 
+const UPDATE_GATE_CONFIGURATION_MUTATION = `
+  mutation gateConfigurationUpdate($input: GateConfigurationUpdateInput!) {
+    gateConfigurationUpdate(input: $input) {
+      userErrors {
+        field
+        message
+      }
+      gateConfiguration {
+        id
+        name
+        metafields(namespace: "${myAppMetafieldNamespace}", first: 10) {
+          nodes {
+            key
+            value
+            namespace
+            type
+          }
+        }
+      }
+    }
+  }
+`;
 
+// const UPDATE_GATE_CONFIGURATION_MUTATION = `
+//   mutation UpdateGateConfiguration($name: String!, $requirements: String!, $reaction: String!, $productGids: String!) {
+//     gateConfigurationUpdate(input: {
+//         name: $name,
+//         metafields: [{
+//           namespace: "${myAppMetafieldNamespace}",
+//           key: "productGids",
+//           type: "json",
+//           value: $productGids,
+//         }],
+//         handle: "${myHandle}"
+//       }) {
+//       gateConfiguration {
+//         id
+//         name
+//         createdAt
+//         updatedAt
+//         metafields(namespace: "${myAppMetafieldNamespace}", first: 10) {
+//           nodes {
+//             key
+//             value
+//             namespace
+//             type
+//           }
+//         }
+//       }
+//       userErrors {
+//         field
+//         message
+//       }
+//     }
+//   }
+// `;
 
 const PRODUCTS_QUERY = `
 query retrieveProducts ($queryString: String!, $first: Int!){
@@ -197,6 +256,15 @@ query retrieveProducts ($queryString: String!, $first: Int!){
       gates {
         id
         active
+        configuration{
+          id
+          name
+          productGids: metafield(namespace: "${myAppMetafieldNamespace}",
+            key: "productGids"){
+              id
+              value
+          }
+        }
       }
     }
   }
@@ -206,6 +274,7 @@ query retrieveProducts ($queryString: String!, $first: Int!){
 const GET_PRODUCT_METAFIELD_QUERY = `
   query getProductMetafield($productId: ID!) {
     product(id: $productId) {
+      title
       metafield(namespace: "${myAppMetafieldNamespace}", key: "gate") {
         id
         value
@@ -246,6 +315,7 @@ export default async function createGate({
   };
 
   try {
+    console.log('PRODUCT GIDS: ', productGids)
     const createGateResponse = await client.query({
       data: {
         query: CREATE_GATE_CONFIGURATION_MUTATION,
@@ -289,8 +359,6 @@ export default async function createGate({
         reaction: gateConfigurationReaction,
       });
 
-
-      console.log('----> metafieldValue: ', metafieldValue)
       const testflag = true
 
       for (const product of products) {
@@ -298,9 +366,72 @@ export default async function createGate({
         const productMetafield = await getProductMetafield({ session, productId: product.id });
         console.log('productMetafield', product.id, ':', productMetafield);
         //product.gates.length > 0 
+        
         if (productMetafield?.metafield?.id && product.gates.length > 0 ) {
           console.log('update gate')
+          console.log('product.gates[0]?.configuration?.productGids: ', product.gates[0]?.configuration)
+          const gateProductGids = JSON.parse(product.gates[0]?.configuration?.productGids.value);
+          const gateProductGidsMetafieldID = product.gates[0]?.configuration?.productGids.id
+          console.log('-----> gateProductGids <-----: ', gateProductGids)
+          console.log('product gids to update ', productGids) // list. of product choosed by user
+          const updateProductGid = null;
           const activeGateSubjectId = product.gates[0].id;
+          const gateProductUpdate = gateProductGids.filter(gateProduct => gateProduct !== product.id)
+          console.log('======> testProductUpdate: ', gateProductUpdate)
+
+          
+          const currentGateConfigurationId = product.gates[0]?.configuration.id;
+          const currentGateConfigurationName = product.gates[0]?.configuration.name 
+          console.log('currentGateConfigurationId: ', currentGateConfigurationId)
+
+          const input = {
+            id: currentGateConfigurationId,
+            name: currentGateConfigurationName,
+            metafields: [
+              {
+                namespace: myAppMetafieldNamespace,
+                key: "productGids",
+                type: "json",
+                value: JSON.stringify(gateProductUpdate),
+              }
+            ]
+          };
+          console.log('input: ', input)
+
+          console.log('gateProductGidsMetafieldID: ', gateProductGidsMetafieldID)
+
+          const productGidsUpdateQuery = await client.query({
+            data: {
+              "query": `mutation gateConfigurationUpdate($input: GateConfigurationUpdateInput!) {
+                gateConfigurationUpdate(input: $input) {
+                  userErrors {
+                    field
+                    message
+                  }
+                  gateConfiguration {
+                    id
+                    name
+                  }
+                }
+              }`,
+              "variables": {
+                "input": {
+                  "id": `${currentGateConfigurationId}`,
+                  "name": `${currentGateConfigurationName}`,
+                  "metafields": {
+                    "id": `${gateProductGidsMetafieldID}`,
+                    "key": "productGids",
+                    "namespace": `${myAppMetafieldNamespace}`,
+                    "type": "json",
+                    "value": JSON.stringify(gateProductUpdate)
+                  }
+                }
+              },
+            },
+          });
+
+          console.log('productGidsUpdateQuery: ', productGidsUpdateQuery.body.data)
+
           await client.query({
             data: {
               query: UPDATE_GATE_SUBJECT_MUTATION,
@@ -309,7 +440,7 @@ export default async function createGate({
                 id: activeGateSubjectId,
               },
             },
-          });
+          }); 
           console.log(' metafieldId: product?.metafield.id: ',  productMetafield?.metafield?.id)
           const updateMetafieldResponse = await client.query({
             data: {
@@ -360,7 +491,6 @@ export default async function createGate({
 
       
     }
-    console.log('createGateResponse: ', createGateResponse)
     return createGateResponse;
   } catch (error) {
     if (error instanceof GraphqlQueryError) {
@@ -377,6 +507,7 @@ export async function getProductMetafield({ session, productId }) {
   const client = new shopify.api.clients.Graphql({ session });
 
   try {
+    console.log('product ID metafield query delete: ', productId)
     const response = await client.query({
       data: {
         query: GET_PRODUCT_METAFIELD_QUERY,
@@ -385,7 +516,7 @@ export async function getProductMetafield({ session, productId }) {
         },
       },
     });
-    console.log('GET_PRODUCT_METAFIELD_QUERY: ', response)
+    console.log('GET_PRODUCT_METAFIELD_QUERY: ', response.body.data)
 
     const metafield = response.body.data.product;
     console.log('Metafield value:', metafield);

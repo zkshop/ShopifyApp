@@ -46,6 +46,7 @@ export default async function retrieveGates(session) {
         },
       },
     });
+    console.log('gates.body.data.gateConfigurations.nodes: ', gates.body.data.gateConfigurations.nodes)
     return gates.body.data.gateConfigurations.nodes;
   } catch (error) {
     if (error instanceof GraphqlQueryError) {

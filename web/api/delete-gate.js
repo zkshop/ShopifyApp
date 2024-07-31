@@ -94,23 +94,24 @@ export default async function deleteGate({ session, gateConfigurationGid, produc
   try {
     console.log('delete gate')
     const productsResponse = await retrieveGates(session);
-    console.log('productsResponse: ', productsResponse[0]?.productGids.value)
-    const parsedProducts = JSON.parse(productsResponse[0]?.productGids.value)
-    console.log('parsedProducts: ', parsedProducts)
-    const newProductGids = generateProductsQueryString(parsedProducts)
+    console.log('gateConfigurationGid: ', gateConfigurationGid)
+    const currentGate = productsResponse.filter(item => item.id === gateConfigurationGid)
+    console.log('currentGate: ', currentGate)
+    // console.log('productsResponse: ', productsResponse[0]?.productGids.value)
+    // const parsedProducts = JSON.parse(productsResponse[0]?.productGids.value)
+    // console.log('parsedProducts: ', parsedProducts)
+    const newProductGids = generateProductsQueryString(JSON.parse(currentGate[0]?.productGids?.value))
     console.log('newProductGids: ', newProductGids)
 
     const retrieveProductsResponse = await client.query({
       data: {
         query: PRODUCTS_QUERY,
         variables: {
-          queryString: generateProductsQueryString(parsedProducts),
+          queryString: generateProductsQueryString(JSON.parse(currentGate[0]?.productGids?.value)),
           first: 100,
         },
       },
     });
-    console.log('retrieveProductsResponse: ', retrieveProductsResponse)
-    
     const products = retrieveProductsResponse.body.data.products.nodes;
     console.log('products:  ', products)
     for (const product of products) {
@@ -127,7 +128,6 @@ export default async function deleteGate({ session, gateConfigurationGid, produc
             },
           },
         });
-        console.log('deleteMetafieldResponse: ', deleteMetafieldResponse)
       }
       else{
         return
