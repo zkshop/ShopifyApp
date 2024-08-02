@@ -151,7 +151,7 @@ export const XamanApp = () => {
             <div style={{display: 'flex', alignItems: 'center', marginBottom: '5px', marginLeft: '10px', flexDirection: 'column'}}>
               <h2 style={{marginBottom: '5px', marginTop: '0'}}>{requirements?.conditions?.[0]?.name}</h2>
               <div>
-                {isOwner ? <h3 style={{ color: 'green', marginTop: '5px' }}>content unlocked</h3> : <h3 style={{ color: 'red', marginTop: '5px' }}>content locked</h3>}
+                {isOwner ? <h3 style={{ color: 'green', marginTop: '5px' }}>content unlocked</h3> : <h3 style={{ color: 'black', marginTop: '5px' }}>content locked</h3>}
               </div>
             </div>
             {showQR && <RenderQrCode />}
