@@ -24483,7 +24483,7 @@ ${prettyStateOverride(stateOverride)}`;
                 children: "content unlocked"
               }) : /* @__PURE__ */ jsx("h3", {
                 style: {
-                  color: "red",
+                  color: "black",
                   marginTop: "5px"
                 },
                 children: "content locked"
@@ -103357,7 +103357,7 @@ function print() { __p += __j.call(arguments, '') }
                 children: "content unlocked"
               }) : /* @__PURE__ */ jsx("h3", {
                 style: {
-                  color: "red",
+                  color: "black",
                   marginTop: "5px"
                 },
                 children: "content locked"

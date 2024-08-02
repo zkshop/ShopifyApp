@@ -157,9 +157,9 @@ export const XamanApp = () => {
             {showQR && <RenderQrCode />}
               <div style={{display: 'flex', justifyContent: 'center', marginTop: '5px', width: '90%'}}>
                 {showQR === false ?
-                  <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: '#007bff', color: '#fff', border: 'none', width: '100%', cursor: 'pointer', transition: 'background-color 0.3s ease-in-out'}} onClick={handleConnectWallet}>Connect your Wallet</button>
+                  <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: 'black', color: '#fff', border: 'none', width: '100%', cursor: 'pointer', transition: 'background-color 0.3s ease-in-out'}} onClick={handleConnectWallet}>Connect your Wallet</button>
                   :
-                  <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: 'red', color: '#fff', border: 'none', width: '100%', cursor: 'pointer', transition: 'background-color 0.3s ease-in-out'}} onClick={handleDisconnectWallet}>{wallet.address === null ? 'Cancel' : `Disconnect ${wallet.address.slice(0, 4)}...${wallet.address.slice(-4)}`}</button>
+                  <button style={{padding: '5px 10px', borderRadius: '5px', backgroundColor: 'black', color: '#fff', border: 'none', width: '100%', cursor: 'pointer', transition: 'background-color 0.3s ease-in-out'}} onClick={handleDisconnectWallet}>{wallet.address === null ? 'Cancel' : `Disconnect ${wallet.address.slice(0, 4)}...${wallet.address.slice(-4)}`}</button>
                 }
               </div>
             {nftImage && <img src={nftImage} alt="NFT" style={{ maxWidth: '50px', maxHeight: '50px', borderRadius: '50%', position: 'absolute', top: '-10px', right: '-10px' }} />}
