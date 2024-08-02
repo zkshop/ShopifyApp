@@ -2,10 +2,18 @@ import shopify from "../../shopify.js";
 
 export async function createAppSubscription(session){
     console.log('----> create subscription ')
-    console.log('session: ', session)
     const client = new shopify.api.clients.Graphql({ session });
-    console.log('client: ', client)
     console.log('host: ', process.env.HOST)
+    const shop = await client.query({
+        data: `query {
+          shop {
+            name
+          }
+        }`,
+    });
+    console.log('shop: ', shop);
+    const shopName = shop?.body?.data?.shop?.name
+    console.log('-----> shop name: ', shopName)
     const data = await client.query({
     data: {
         "query": `mutation AppSubscriptionCreate($name: String!, $lineItems: [AppSubscriptionLineItemInput!]!, $returnUrl: URL!, $test: Boolean!) {
@@ -22,8 +30,8 @@ export async function createAppSubscription(session){
         }`,
         "variables": {
         "name": "Basic Plan",
-        "returnUrl": `${process.env.HOST}`,
-        "test": false,
+        "returnUrl": `https://admin.shopify.com/store/${shopName}/apps/sorcelapp`,
+        "test": true,
         "lineItems": [
             {
             "plan": {
